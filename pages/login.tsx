@@ -2,17 +2,17 @@ import Head from "next/head";
 import React from "react";
 import Layout from "../components/Layout";
 
-const Home = () => {
+const LogIn = () => {
   return (
     <>
       <Head>
         <meta charSet="UTF-8" />
-        <title>Social Service</title>
+        <title>로그인| Social Service</title>
       </Head>
       <Layout>
-        <div>Hello, Next!</div>
+        <div>LogIn</div>
       </Layout>
     </>
   );
 };
-export default Home;
+export default LogIn;
