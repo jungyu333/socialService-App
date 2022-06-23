@@ -40,7 +40,7 @@ const SearchInput = tw.input`
   sm:flex
   p-1
   bg-transparent
-  placeholder:text-gray-300
+  placeholder:text-gray-400
   focus:outline-indigo-700
   rounded-md
 `;
@@ -80,7 +80,7 @@ interface LogInProps {
   $isLogIn: boolean;
 }
 const Layout = ({ children }) => {
-  const [isLogIn, setIsLogIn] = useState(true);
+  const [isLogIn, setIsLogIn] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
   const onClickMenu = () => {
     setIsToggled(!isToggled);
@@ -103,7 +103,7 @@ const Layout = ({ children }) => {
           </MenuItem>
           {!isLogIn ? (
             <MenuItem>
-              <Link href="/login">
+              <Link href="/signin">
                 <LogIn $isLogIn={isLogIn}>로그인</LogIn>
               </Link>
             </MenuItem>
@@ -161,7 +161,7 @@ const Layout = ({ children }) => {
         </MobileMenuItem>
         {!isLogIn ? (
           <MobileMenuItem>
-            <Link href="/login">
+            <Link href="/signin">
               <LogIn $isLogIn={isLogIn}>로그인</LogIn>
             </Link>
           </MobileMenuItem>
