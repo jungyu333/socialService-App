@@ -5,26 +5,7 @@ import { useForm } from "react-hook-form";
 import tw from "tailwind-styled-components";
 import Input from "../components/Input";
 import { useRouter } from "next/router";
-
-const LoginWrapper = tw.div`
-  max-w-sm
-  mx-auto
-  bg-gray-100
-  h-96
-  mt-24
-  space-y-10
-  flex-col
-  text-center
-  rounded-md
-  shadow-md
-  sm:max-w-lg
-`;
-
-const LogInHead = tw.div`
-  text-2xl
-  font-bold
-  pt-10
-`;
+import LogInForm from "../components/LogInForm";
 
 const LoginForm = tw.form`
   space-y-4
@@ -47,7 +28,6 @@ const SubmitButton = tw.button`
   border
   p-2
   px-4
-  
   rounded-md
   bg-indigo-400
 `;
@@ -74,6 +54,9 @@ const SignIn = () => {
     console.log(validForm);
     router.replace("/");
   };
+  const onClickNewUser = () => {
+    router.push("createuser");
+  };
   return (
     <>
       <Head>
@@ -81,8 +64,7 @@ const SignIn = () => {
         <title>로그인| Social Service</title>
       </Head>
       <Layout>
-        <LoginWrapper>
-          <LogInHead>로그인</LogInHead>
+        <LogInForm headTitle="로그인">
           <LoginForm onSubmit={handleSubmit(onValid)}>
             <div>
               <Input
@@ -105,11 +87,11 @@ const SignIn = () => {
               />
             </div>
             <Error>{errors.password?.message}</Error>
-            <Sign>계정이 없으신가요?</Sign>
+            <Sign onClick={onClickNewUser}>계정이 없으신가요?</Sign>
 
             <SubmitButton>로그인</SubmitButton>
           </LoginForm>
-        </LoginWrapper>
+        </LogInForm>
       </Layout>
     </>
   );

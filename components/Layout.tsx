@@ -56,7 +56,7 @@ const MobileSearchInput = tw.input`
 const MobileNavContainer = tw.nav<IsToggeldProps>`
   ${(p) =>
     p.$isToggled
-      ? "py-4 absolute w-full flex-col z-10 justify-center bg-gray-100 text-gray-500 space-y-2 px-2 "
+      ? "py-4 shadow-md absolute w-full flex-col z-10 justify-center bg-gray-100 text-gray-500 space-y-2 px-2 "
       : "hidden"}
   sm:hidden
   

@@ -11,7 +11,7 @@ const InputItem = tw.input`
 `;
 
 interface InputProps {
-  type: "email" | "password";
+  type: "email" | "password" | "text";
   placeholder: String;
   register: UseFormRegisterReturn;
   required?: boolean;
@@ -30,6 +30,15 @@ function Input({ type, placeholder, register, required }: InputProps) {
         />
       ) : null}
       {type === "password" ? (
+        <InputItem
+          autoComplete="off"
+          {...register}
+          type={type}
+          placeholder={placeholder}
+          required={required}
+        />
+      ) : null}
+      {type === "text" ? (
         <InputItem
           autoComplete="off"
           {...register}
