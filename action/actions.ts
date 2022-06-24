@@ -1,4 +1,4 @@
-import { LOG_IN, LOG_OUT } from "./types";
+import { ADD_POST, LOG_IN, LOG_OUT } from "./types";
 
 export const logInAction = (data: LogInData) => {
   return {
@@ -13,6 +13,12 @@ export const logOutAction = () => {
   };
 };
 
+export const addPostAction = () => {
+  return {
+    type: ADD_POST,
+  };
+};
+
 interface LogInData {
   email: string;
   password: string;
@@ -20,4 +26,5 @@ interface LogInData {
 
 export type ActionType =
   | ReturnType<typeof logInAction>
-  | ReturnType<typeof logOutAction>;
+  | ReturnType<typeof logOutAction>
+  | ReturnType<typeof addPostAction>;
