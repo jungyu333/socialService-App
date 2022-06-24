@@ -1,3 +1,4 @@
+import wrapper from "../store/configureStore";
 import "../styles/globals.css";
 
 const App = ({ Component }) => {
@@ -8,4 +9,4 @@ const App = ({ Component }) => {
   );
 };
 
-export default App;
+export default wrapper.withRedux(App);

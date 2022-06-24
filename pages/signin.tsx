@@ -6,6 +6,8 @@ import tw from "tailwind-styled-components";
 import Input from "../components/Input";
 import { useRouter } from "next/router";
 import LogInForm from "../components/LogInForm";
+import { useDispatch } from "react-redux";
+import { logInAction } from "../action/actions";
 
 const LoginForm = tw.form`
   space-y-4
@@ -44,19 +46,21 @@ interface ValidForm {
 }
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ValidForm>();
-  const onValid = (validForm: ValidForm) => {
-    console.log(validForm);
+  const onValid = ({ email, password }: ValidForm) => {
+    dispatch(logInAction({ email, password }));
     router.replace("/");
   };
   const onClickNewUser = () => {
     router.push("createuser");
   };
+
   return (
     <>
       <Head>

@@ -1,8 +1,11 @@
 import { TwitterOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
+import { logOutAction } from "../action/actions";
+import { RootState } from "../reducers";
 
 const Wrapper = tw.div`
 `;
@@ -80,10 +83,14 @@ interface LogInProps {
   $isLogIn: boolean;
 }
 const Layout = ({ children }) => {
-  const [isLogIn, setIsLogIn] = useState(false);
+  const dispatch = useDispatch();
+  const isLogIn = useSelector((state: RootState) => state.userReducer.isLogIn);
   const [isToggled, setIsToggled] = useState(false);
   const onClickMenu = () => {
     setIsToggled(!isToggled);
+  };
+  const onClickLogOut = () => {
+    dispatch(logOutAction());
   };
 
   return (
@@ -109,7 +116,7 @@ const Layout = ({ children }) => {
             </MenuItem>
           ) : (
             <MenuItem>
-              <button>로그아웃</button>
+              <button onClick={onClickLogOut}>로그아웃</button>
             </MenuItem>
           )}
         </MenuContainer>
@@ -167,7 +174,7 @@ const Layout = ({ children }) => {
           </MobileMenuItem>
         ) : (
           <MobileMenuItem>
-            <button>로그아웃</button>
+            <button onClick={onClickLogOut}>로그아웃</button>
           </MobileMenuItem>
         )}
 
