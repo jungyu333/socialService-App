@@ -1,6 +1,15 @@
 import Head from "next/head";
 import React from "react";
 import Layout from "../components/Layout";
+import PostCard from "../components/PostCard";
+import UserProfile from "../components/UserProfile";
+import tw from "tailwind-styled-components";
+
+const Wrapper = tw.div`
+  flex
+  
+  relative
+`;
 
 const Home = () => {
   return (
@@ -10,7 +19,10 @@ const Home = () => {
         <title>Social Service</title>
       </Head>
       <Layout>
-        <div>Hello, Next!</div>
+        <Wrapper>
+          <UserProfile />
+          <PostCard />
+        </Wrapper>
       </Layout>
     </>
   );
