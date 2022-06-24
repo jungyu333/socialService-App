@@ -83,14 +83,10 @@ interface LogInProps {
   $isLogIn: boolean;
 }
 const Layout = ({ children }) => {
-  const dispatch = useDispatch();
   const isLogIn = useSelector((state: RootState) => state.userReducer.isLogIn);
   const [isToggled, setIsToggled] = useState(false);
   const onClickMenu = () => {
     setIsToggled(!isToggled);
-  };
-  const onClickLogOut = () => {
-    dispatch(logOutAction());
   };
 
   return (
@@ -114,11 +110,7 @@ const Layout = ({ children }) => {
                 <LogIn $isLogIn={isLogIn}>로그인</LogIn>
               </Link>
             </MenuItem>
-          ) : (
-            <MenuItem>
-              <button onClick={onClickLogOut}>로그아웃</button>
-            </MenuItem>
-          )}
+          ) : null}
         </MenuContainer>
         <MobileButton onClick={onClickMenu}>
           {!isToggled ? (
@@ -172,11 +164,7 @@ const Layout = ({ children }) => {
               <LogIn $isLogIn={isLogIn}>로그인</LogIn>
             </Link>
           </MobileMenuItem>
-        ) : (
-          <MobileMenuItem>
-            <button onClick={onClickLogOut}>로그아웃</button>
-          </MobileMenuItem>
-        )}
+        ) : null}
 
         <MobileSearchInput placeholder="search" />
       </MobileNavContainer>

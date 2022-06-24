@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import tw from "tailwind-styled-components";
 
 const LoginWrapper = tw.div<WrapperProps>`
@@ -6,7 +6,6 @@ const LoginWrapper = tw.div<WrapperProps>`
   mx-auto
   bg-gray-100
   mt-24
-  
   space-y-10
   flex-col
   text-center
@@ -21,11 +20,6 @@ const LogInHead = tw.div`
   font-bold
   pt-10
 `;
-
-interface FormProps {
-  headTitle: string;
-  isLogIn?: boolean;
-}
 
 interface WrapperProps {
   $isLogIn: boolean;
