@@ -1,7 +1,9 @@
 import { PlusSquareOutlined } from "@ant-design/icons";
 import React, { useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import tw from "tailwind-styled-components";
+import { addPostAction } from "../action/actions";
 
 const Wrapper = tw.div`
   max-w-sm
@@ -56,12 +58,14 @@ interface ValidForm {
   content: string;
 }
 function PostForm() {
+  const dispatch = useDispatch();
   const photoInput = useRef<HTMLInputElement>();
   const { register, handleSubmit, reset } = useForm<ValidForm>();
   const onClickPhoto = useCallback(() => {
     photoInput.current.click();
   }, [photoInput.current]);
   const onValid = (ValidForm: ValidForm) => {
+    dispatch(addPostAction());
     console.log(ValidForm);
     reset();
   };

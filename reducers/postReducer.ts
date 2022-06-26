@@ -1,19 +1,19 @@
 import { ActionType } from "../action/actions";
 import { ADD_POST } from "../action/types";
 
-const initialState = {
+const initialState: PostState = {
   mainPosts: [
     {
-      id: null,
-      User: { id: null, name: null },
-      content: null,
+      id: 1,
+      User: { id: 1, name: "jun" },
+      content: "post1",
       Images: [{}],
     },
   ],
   Comments: [
     {
-      User: { name: null },
-      content: null,
+      User: { name: "jun" },
+      content: "comment1",
     },
   ],
   imagePaths: [],
@@ -21,14 +21,10 @@ const initialState = {
 };
 
 const dummyData = {
-  mainPosts: [
-    {
-      id: 2,
-      User: { id: 1, name: "jungyu" },
-      content: "안녕",
-      Images: [{}],
-    },
-  ],
+  id: 2,
+  User: { id: 21, name: "jungyu" },
+  content: "안녕",
+  Images: [{}],
 };
 
 export interface PostState {
@@ -46,7 +42,7 @@ export interface PostState {
       content: string;
     }
   ];
-  imagePaths: [];
+  imagePaths: {}[];
   postAdded: boolean;
 }
 
@@ -55,7 +51,7 @@ const postReducer = (state = initialState, action: ActionType) => {
     case ADD_POST:
       return {
         ...state,
-        mainPost: [dummyData, ...state.mainPosts],
+        mainPosts: [dummyData, ...state.mainPosts],
         postAdded: true,
       };
     default:

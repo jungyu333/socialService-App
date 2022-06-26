@@ -5,6 +5,8 @@ import PostCard from "../components/PostCard";
 import UserProfile from "../components/UserProfile";
 import tw from "tailwind-styled-components";
 import PostForm from "../components/PostForm";
+import { useSelector } from "react-redux";
+import { RootState } from "../reducers";
 
 const Wrapper = tw.div`
   flex-col
@@ -12,6 +14,7 @@ const Wrapper = tw.div`
 `;
 
 const Home = () => {
+  const { mainPosts } = useSelector((state: RootState) => state.postReducer);
   return (
     <>
       <Head>
@@ -22,7 +25,9 @@ const Home = () => {
         <Wrapper>
           <UserProfile />
           <PostForm />
-          <PostCard />
+          {mainPosts.map((post) => (
+            <PostCard key={post.id} {...post} />
+          ))}
         </Wrapper>
       </Layout>
     </>
