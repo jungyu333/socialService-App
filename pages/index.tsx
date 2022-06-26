@@ -4,10 +4,10 @@ import Layout from "../components/Layout";
 import PostCard from "../components/PostCard";
 import UserProfile from "../components/UserProfile";
 import tw from "tailwind-styled-components";
+import PostForm from "../components/PostForm";
 
 const Wrapper = tw.div`
-  flex
-  
+  flex-col
   relative
 `;
 
@@ -21,6 +21,7 @@ const Home = () => {
       <Layout>
         <Wrapper>
           <UserProfile />
+          <PostForm />
           <PostCard />
         </Wrapper>
       </Layout>

@@ -8,7 +8,7 @@ const Wrapper = tw.div`
 `;
 
 function PostCard() {
-  return <Wrapper>PostCard</Wrapper>;
+  return <Wrapper>포스트카드</Wrapper>;
 }
 
 export default PostCard;
