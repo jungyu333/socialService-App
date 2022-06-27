@@ -12,6 +12,7 @@ const ButtonWrapper = tw.div`
   border-gray-400
   h-9
   pt-2
+  mt-2
 `;
 
 const IconBox = tw.div`

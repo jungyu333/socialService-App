@@ -4,6 +4,7 @@ import Comment from "./Comment";
 
 import CommentForm from "./CommentForm";
 import PostButtons from "./PostButtons";
+import PostContent from "./PostContent";
 
 const Wrapper = tw.div`
   max-w-sm
@@ -80,6 +81,7 @@ export interface PostProps {
 
 function PostCard(post: PostProps) {
   const [commentOpened, setCommentOpened] = useState(false);
+
   return (
     <Wrapper>
       {post.Images[0] && post.Images.length > 0 ? <Image /> : null}
@@ -90,7 +92,7 @@ function PostCard(post: PostProps) {
           </div>
           <ContentInfo>
             <Name>{post.User.name}</Name>
-            <Content>{post.content}</Content>
+            <PostContent postData={post.content} />
           </ContentInfo>
         </ContentContainer>
         <PostButtons setCommentOpened={setCommentOpened} />
@@ -98,8 +100,8 @@ function PostCard(post: PostProps) {
           <>
             <CommentForm {...post} />
             <CommentCount>{post.Comments.length}개의 댓글</CommentCount>
-            {post.Comments.map((comment) => (
-              <Comment {...comment} />
+            {post.Comments.map((comment, idx) => (
+              <Comment key={idx} {...comment} />
             ))}
           </>
         ) : null}

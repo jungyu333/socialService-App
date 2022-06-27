@@ -66,7 +66,7 @@ function PostForm() {
   }, [photoInput.current]);
   const onValid = (ValidForm: ValidForm) => {
     dispatch(addPostAction());
-    console.log(ValidForm);
+
     reset();
   };
   return (
