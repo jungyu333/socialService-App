@@ -29,7 +29,7 @@ const TextArea = tw.textarea`
 const SubmitButton = tw.button`
   hover:text-indigo-600
   text-lg
-  pl-2
+  pl-1
   -mt-2
 `;
 

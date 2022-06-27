@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
-import { RootState } from "../reducers";
+import Comment from "./Comment";
+
 import CommentForm from "./CommentForm";
 import PostButtons from "./PostButtons";
 
@@ -64,6 +64,12 @@ const Content = tw.div`
   scrollbar-hide
 `;
 
+const CommentCount = tw.div`
+  text-sm
+  text-gray-500
+  mt-2
+`;
+
 export interface PostProps {
   id: number;
   User: { id: number; name: string };
@@ -91,9 +97,10 @@ function PostCard(post: PostProps) {
         {commentOpened ? (
           <>
             <CommentForm {...post} />
-            <div>
-              <div>{post.Comments[0].content}</div>
-            </div>
+            <CommentCount>{post.Comments.length}개의 댓글</CommentCount>
+            {post.Comments.map((comment) => (
+              <Comment {...comment} />
+            ))}
           </>
         ) : null}
       </ContentWrapper>
