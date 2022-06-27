@@ -3,7 +3,6 @@ import {
   DeleteOutlined,
   HeartOutlined,
 } from "@ant-design/icons";
-import React from "react";
 import tw from "tailwind-styled-components";
 
 const ButtonWrapper = tw.div`
@@ -29,16 +28,20 @@ const IconBox = tw.div`
   
 `;
 
-function PostButtons() {
+function PostButtons({ setCommentOpened }) {
+  const onClickComment = () => {
+    setCommentOpened((prev) => !prev);
+  };
   return (
     <ButtonWrapper>
       <IconBox>
         <DeleteOutlined />
       </IconBox>
+
       <IconBox>
         <HeartOutlined />
       </IconBox>
-      <IconBox>
+      <IconBox onClick={onClickComment}>
         <CommentOutlined />
       </IconBox>
     </ButtonWrapper>

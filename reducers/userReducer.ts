@@ -9,17 +9,24 @@ const initialState: LogInState = {
 export interface LogInState {
   isLogIn: boolean;
   user: {
+    id: number;
     email: string;
     password: string;
   };
 }
+
+const dummyUser = {
+  id: 1,
+  email: "jungyu@naver.com",
+  password: "123456",
+};
 
 const userReducer = (state = initialState, aciton: ActionType) => {
   switch (aciton.type) {
     case LOG_IN:
       return {
         isLogIn: true,
-        user: aciton.payload,
+        user: { id: dummyUser.id, ...aciton.payload },
       };
 
     case LOG_OUT:

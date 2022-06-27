@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
+import { RootState } from "../reducers";
+import CommentForm from "./CommentForm";
 import PostButtons from "./PostButtons";
 
 const Wrapper = tw.div`
@@ -61,15 +64,16 @@ const Content = tw.div`
   scrollbar-hide
 `;
 
-interface PostProps {
+export interface PostProps {
   id: number;
   User: { id: number; name: string };
   content: string;
+  Comments: { User: { name: string }; content: string }[];
   Images: {}[];
 }
 
 function PostCard(post: PostProps) {
-  console.log(post.Images[1]);
+  const [commentOpened, setCommentOpened] = useState(false);
   return (
     <Wrapper>
       {post.Images[0] && post.Images.length > 0 ? <Image /> : null}
@@ -83,7 +87,15 @@ function PostCard(post: PostProps) {
             <Content>{post.content}</Content>
           </ContentInfo>
         </ContentContainer>
-        <PostButtons />
+        <PostButtons setCommentOpened={setCommentOpened} />
+        {commentOpened ? (
+          <>
+            <CommentForm {...post} />
+            <div>
+              <div>{post.Comments[0].content}</div>
+            </div>
+          </>
+        ) : null}
       </ContentWrapper>
     </Wrapper>
   );
