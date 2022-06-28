@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import CircleItem from "../components/CircleItem";
 import { useDispatch } from "react-redux";
-import { logOutRequestAction } from "../action/actions";
+import { logOutRequestAction } from "../action/logInOutActions";
 import { useRouter } from "next/router";
 
 const ProfileWrapper = tw.div`
