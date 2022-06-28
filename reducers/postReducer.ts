@@ -1,4 +1,4 @@
-import { PostActionType } from "../action/PostActions";
+import { PostActionType } from "../action/postActions";
 import { ADD_POST_REQUEST, ADD_POST_SUCCESS } from "../action/types";
 
 const initialState: PostState = {

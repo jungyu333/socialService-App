@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 4000",
     "build": "next build"
   },
   "author": "jungyu",
@@ -13,6 +13,7 @@
     "@ant-design/icons": "^4.7.0",
     "@types/react-redux": "^7.1.24",
     "axios": "^0.27.2",
+    "immer": "^9.0.15",
     "next": "^12.1.6",
     "next-redux-wrapper": "^7.0.5",
     "react": "^18.2.0",

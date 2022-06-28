@@ -11,10 +11,8 @@ import {
 const initialState: LogInState = {
   logInDone: false,
   logInLoading: false,
-
   logOutDone: false,
   logOutLoading: false,
-
   user: null,
 };
 

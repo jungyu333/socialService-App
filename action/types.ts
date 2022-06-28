@@ -7,3 +7,6 @@ export const LOG_OUT_FAILURE = "LOG_OUT_FAILURE" as const;
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST" as const;
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS" as const;
 export const ADD_POST_FAILURE = "ADD_POST_FAILURE" as const;
+export const SIGN_UP_REQUEST = "SIGN_UP_REQUEST" as const;
+export const SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS" as const;
+export const SIGN_UP_FAILURE = "SIGN_UP_FAILURE" as const;
