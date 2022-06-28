@@ -8,5 +8,5 @@ const App = ({ Component }) => {
     </>
   );
 };
-
+//app
 export default wrapper.withRedux(App);
