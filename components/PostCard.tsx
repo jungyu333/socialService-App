@@ -84,14 +84,14 @@ function PostCard(post: PostProps) {
 
   return (
     <Wrapper>
-      {post.Images[0] && post.Images.length > 0 ? <Image /> : null}
+      <Image />
       <ContentWrapper>
         <ContentContainer>
           <div>
             <Avatar />
           </div>
           <ContentInfo>
-            <Name>{post.User.name}</Name>
+            <Name>{post.User?.name}</Name>
             <PostContent postData={post.content} />
           </ContentInfo>
         </ContentContainer>

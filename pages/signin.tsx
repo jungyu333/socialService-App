@@ -7,7 +7,7 @@ import Input from "../components/Input";
 import { useRouter } from "next/router";
 import LogInForm from "../components/LogInForm";
 import { useDispatch } from "react-redux";
-import { logInAction } from "../action/actions";
+import { logInRequestAction } from "../action/logInOutActions";
 
 const LoginForm = tw.form`
   space-y-4
@@ -53,8 +53,8 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ValidForm>();
-  const onValid = ({ email, password }: ValidForm) => {
-    dispatch(logInAction({ email, password }));
+  const onValid = (validForm: ValidForm) => {
+    dispatch(logInRequestAction(validForm));
     router.replace("/");
   };
   const onClickNewUser = () => {

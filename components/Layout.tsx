@@ -1,10 +1,9 @@
 import { TwitterOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
-import { logOutAction } from "../action/actions";
+
 import { RootState } from "../reducers";
 
 const Wrapper = tw.div`
@@ -83,7 +82,9 @@ interface LogInProps {
   $isLogIn: boolean;
 }
 const Layout = ({ children }) => {
-  const isLogIn = useSelector((state: RootState) => state.userReducer.isLogIn);
+  const isLogIn = useSelector(
+    (state: RootState) => state.userReducer.logInDone
+  );
   const [isToggled, setIsToggled] = useState(false);
   const onClickMenu = () => {
     setIsToggled(!isToggled);

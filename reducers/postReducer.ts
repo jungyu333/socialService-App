@@ -1,7 +1,9 @@
-import { ActionType } from "../action/actions";
-import { ADD_POST } from "../action/types";
+import { PostActionType } from "../action/PostActions";
+import { ADD_POST_REQUEST, ADD_POST_SUCCESS } from "../action/types";
 
 const initialState: PostState = {
+  addPostLoading: false,
+  addPostDond: false,
   mainPosts: [
     {
       id: 1,
@@ -29,21 +31,22 @@ const initialState: PostState = {
   ],
 
   imagePaths: [],
-  postAdded: false,
 };
 
-const dummyData = {
+const dummyData = (data) => ({
   id: 2,
   User: { id: 21, name: "jungyu" },
-  content: "안녕",
+  content: data,
   Images: [{}],
   Comments: [
     { User: { name: "jun1" }, content: "comment11" },
     { User: { name: "jun2" }, content: "comment22" },
   ],
-};
+});
 
 export interface PostState {
+  addPostLoading: boolean;
+  addPostDond: boolean;
   mainPosts: [
     {
       id: number;
@@ -54,16 +57,22 @@ export interface PostState {
     }
   ];
   imagePaths: {}[];
-  postAdded: boolean;
 }
 
-const postReducer = (state = initialState, action: ActionType) => {
+const postReducer = (state = initialState, action: PostActionType) => {
   switch (action.type) {
-    case ADD_POST:
+    case ADD_POST_REQUEST:
       return {
         ...state,
-        mainPosts: [dummyData, ...state.mainPosts],
-        postAdded: true,
+        addPostLoading: true,
+        addPostDone: false,
+      };
+    case ADD_POST_SUCCESS:
+      return {
+        ...state,
+        addPostLoading: false,
+        addPostDone: true,
+        mainPosts: [dummyData(action.data), ...state.mainPosts],
       };
     default:
       return state;

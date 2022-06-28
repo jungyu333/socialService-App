@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import CircleItem from "../components/CircleItem";
 import { useDispatch } from "react-redux";
-import { logOutAction } from "../action/actions";
+import { logOutRequestAction } from "../action/actions";
 import { useRouter } from "next/router";
 
 const ProfileWrapper = tw.div`
@@ -78,7 +78,7 @@ const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const onClickLogOut = () => {
-    dispatch(logOutAction());
+    dispatch(logOutRequestAction());
     router.replace("/signin");
   };
   return (

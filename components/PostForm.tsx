@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import tw from "tailwind-styled-components";
-import { addPostAction } from "../action/actions";
+import { addPostRequestAction } from "../action/PostActions";
 
 const Wrapper = tw.div`
   max-w-sm
@@ -64,8 +64,8 @@ function PostForm() {
   const onClickPhoto = useCallback(() => {
     photoInput.current.click();
   }, [photoInput.current]);
-  const onValid = (ValidForm: ValidForm) => {
-    dispatch(addPostAction());
+  const onValid = ({ content }: ValidForm) => {
+    dispatch(addPostRequestAction(content));
 
     reset();
   };
