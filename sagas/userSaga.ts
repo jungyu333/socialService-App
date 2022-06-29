@@ -1,7 +1,9 @@
 import axios from "axios";
-import { all, delay, fork, put, takeLatest } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
+import { LogInOutAction } from "../action/logInOutActions";
 
 import {
+  LOG_IN_ERROR_INIT,
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
@@ -11,16 +13,16 @@ import {
 } from "../action/types";
 
 function logInAPI(data) {
-  return axios.post("/api/login", data);
+  return axios.post("/login", data);
 }
 
-function* logIn(action) {
+function* logIn(action: LogInOutAction) {
   try {
-    // const result = yield call(logInAPI, action.data);
-    yield delay(1000);
+    const result = yield call(logInAPI, action.data);
+
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -31,13 +33,13 @@ function* logIn(action) {
 }
 
 function logOutAPI(data) {
-  return axios.post("/api/logout", data);
+  return axios.post("/logout", data);
 }
 
-function* logOut(action) {
+function* logOut(action: LogInOutAction) {
   try {
     // const result = yield call(logInAPI, action.data);
-    yield delay(1000);
+
     yield put({
       type: LOG_OUT_SUCCESS,
       // data: result.data,

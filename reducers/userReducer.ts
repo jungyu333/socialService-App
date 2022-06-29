@@ -1,5 +1,7 @@
-import { LogInOutActionType } from "../action/logInOutActions";
+import produce from "immer";
+import { LogInOutAction } from "../action/logInOutActions";
 import {
+  LOG_IN_ERROR_INIT,
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
@@ -11,75 +13,71 @@ import {
 const initialState: LogInState = {
   logInDone: false,
   logInLoading: false,
+  logInError: null,
   logOutDone: false,
   logOutLoading: false,
-  user: null,
+  logOutError: null,
+  me: null,
 };
 
 export interface LogInState {
   logInDone: boolean;
   logInLoading: boolean;
-
+  logInError: string;
   logOutDone: boolean;
   logOutLoading: boolean;
+  logOutError: string;
 
-  user: {
+  me: {
     id: number;
+    nickname: string;
     email: string;
-    password: string;
   };
 }
 
-const dummyUser = (data) => ({
-  ...data,
-  id: 1,
-  Posts: [],
-  Followings: [],
-  Followers: [],
-});
+const userReducer = (state = initialState, action: LogInOutAction) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case LOG_IN_REQUEST:
+        draft.logInLoading = true;
+        draft.logInDone = false;
+        draft.logInError = null;
+        break;
+      case LOG_IN_SUCCESS:
+        draft.logInLoading = false;
+        draft.logInDone = true;
+        draft.logInError = null;
+        draft.me = action.data;
+        break;
+      case LOG_IN_FAILURE:
+        draft.logInDone = false;
+        draft.logInLoading = false;
+        draft.logInError = action.data;
+        break;
 
-const userReducer = (state = initialState, aciton: LogInOutActionType) => {
-  switch (aciton.type) {
-    case LOG_IN_REQUEST:
-      return {
-        ...state,
-        logInLoading: true,
-      };
-    case LOG_IN_SUCCESS:
-      return {
-        ...state,
-        logInLoading: false,
-        logInDone: true,
-        logOutDone: false,
-        user: dummyUser(aciton.data),
-      };
-    case LOG_IN_FAILURE:
-      return {
-        ...state,
-        logInLoading: false,
-      };
-    case LOG_OUT_REQUEST:
-      return {
-        ...state,
-        logOutLoading: true,
-      };
-    case LOG_OUT_SUCCESS:
-      return {
-        ...state,
-        logOutLoading: false,
-        logOutDone: true,
-        logInDone: false,
-        user: null,
-      };
-    case LOG_OUT_FAILURE:
-      return {
-        ...state,
-        logOutLoading: false,
-      };
+      case LOG_OUT_REQUEST:
+        draft.logOutLoading = true;
+        draft.logOutDone = false;
+        draft.logOutError = null;
+        break;
 
-    default:
-      return state;
-  }
-};
+      case LOG_OUT_SUCCESS:
+        draft.logOutLoading = false;
+        draft.logOutDone = true;
+        draft.logOutError = null;
+        draft.me = null;
+        break;
+      case LOG_OUT_FAILURE:
+        draft.logOutLoading = false;
+        draft.logOutDone = false;
+        draft.logOutError = action.data;
+        break;
+      case LOG_IN_ERROR_INIT:
+        draft.logInError = null;
+        break;
+      default:
+        break;
+    }
+  });
 
 export default userReducer;

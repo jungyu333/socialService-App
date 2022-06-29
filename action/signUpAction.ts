@@ -14,13 +14,13 @@ export const signUpSuccessAction = (data: SignUpData) => {
   };
 };
 
-interface SignUpData {
+export interface SignUpData {
   email: string;
   name: string;
   password: string;
 }
 
-export const signUpFailureAction = (data) => {
+export const signUpFailureAction = (data: string) => {
   return {
     type: SIGN_UP_FAILURE,
     data,

@@ -8,7 +8,7 @@ import {
 } from "../action/types";
 
 function signUpAPI(data) {
-  return axios.post("http://localhost:4000/signup", data);
+  return axios.post("/signup", data);
 }
 
 function* signUp(action: SignUpAction) {

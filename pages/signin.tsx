@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../components/Layout";
 import { useForm } from "react-hook-form";
 import tw from "tailwind-styled-components";
@@ -7,7 +7,12 @@ import Input from "../components/Input";
 import { useRouter } from "next/router";
 import LogInForm from "../components/LogInForm";
 import { useDispatch } from "react-redux";
-import { logInRequestAction } from "../action/logInOutActions";
+import {
+  logInErrorInitAction,
+  logInRequestAction,
+} from "../action/logInOutActions";
+import { useSelector } from "react-redux";
+import { RootState } from "../reducers";
 
 const LoginForm = tw.form`
   space-y-4
@@ -46,6 +51,9 @@ interface ValidForm {
 }
 
 const SignIn = () => {
+  const { me, logInLoading, logInError } = useSelector(
+    (state: RootState) => state.userReducer
+  );
   const dispatch = useDispatch();
   const router = useRouter();
   const {
@@ -53,13 +61,21 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ValidForm>();
-  const onValid = (validForm: ValidForm) => {
-    dispatch(logInRequestAction(validForm));
-    router.replace("/");
+  const onValid = ({ email, password }: ValidForm) => {
+    dispatch(logInRequestAction({ email, password }));
   };
   const onClickNewUser = () => {
     router.push("createuser");
   };
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+    if (me) {
+      router.replace("/");
+    }
+    dispatch(logInErrorInitAction());
+  }, [logInErrorInitAction, logInError, me]);
 
   return (
     <>
@@ -93,7 +109,9 @@ const SignIn = () => {
             <Error>{errors.password?.message}</Error>
             <Sign onClick={onClickNewUser}>계정이 없으신가요?</Sign>
 
-            <SubmitButton>로그인</SubmitButton>
+            <SubmitButton>
+              {logInLoading ? "Loading..." : "로그인"}
+            </SubmitButton>
           </LoginForm>
         </LogInForm>
       </Layout>
