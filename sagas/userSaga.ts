@@ -32,19 +32,19 @@ function* logIn(action: LogInOutAction) {
   }
 }
 
-function logOutAPI(data) {
-  return axios.post("/logout", data);
+function logOutAPI() {
+  return axios.post("/logout");
 }
 
-function* logOut(action: LogInOutAction) {
+function* logOut() {
   try {
-    // const result = yield call(logInAPI, action.data);
+    yield call(logOutAPI);
 
     yield put({
       type: LOG_OUT_SUCCESS,
-      // data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOG_OUT_FAILURE,
       data: err.response.data,

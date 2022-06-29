@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../components/Layout";
 import tw from "tailwind-styled-components";
 import {
@@ -11,6 +11,8 @@ import CircleItem from "../components/CircleItem";
 import { useDispatch } from "react-redux";
 import { logOutRequestAction } from "../action/logInOutActions";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { RootState } from "../reducers";
 
 const ProfileWrapper = tw.div`
   max-w-sm
@@ -75,12 +77,20 @@ const CommunicateWrapper = tw.div`
 `;
 
 const Profile = () => {
+  const { logOutLoading, logOutDone } = useSelector(
+    (state: RootState) => state.userReducer
+  );
   const router = useRouter();
   const dispatch = useDispatch();
   const onClickLogOut = () => {
     dispatch(logOutRequestAction());
-    router.replace("/signin");
   };
+
+  useEffect(() => {
+    if (logOutDone) {
+      router.replace("/");
+    }
+  }, [logOutDone]);
   return (
     <>
       <Head>
@@ -95,7 +105,9 @@ const Profile = () => {
               <UserName>jungyu</UserName>
               <ButtonContainer>
                 <Button>Edit Profile</Button>
-                <Button onClick={onClickLogOut}>로그아웃</Button>
+                <Button onClick={onClickLogOut}>
+                  {logOutLoading ? "Loading..." : "로그아웃"}
+                </Button>
               </ButtonContainer>
             </UserInfo>
           </ProfileContainer>
