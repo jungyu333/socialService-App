@@ -1,21 +1,29 @@
 import { SIGN_UP_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS } from "./types";
 
-export const signUpRequestAction = () => {
+export const signUpRequestAction = (data: SignUpData) => {
   return {
     type: SIGN_UP_REQUEST,
+    data,
   };
 };
 
-export const signUpSuccessAction = () => {
+export const signUpSuccessAction = (data: SignUpData) => {
   return {
     type: SIGN_UP_SUCCESS,
+    data,
   };
 };
+
+interface SignUpData {
+  email: string;
+  name: string;
+  password: string;
+}
 
 export const signUpFailureAction = (data) => {
   return {
     type: SIGN_UP_FAILURE,
-    error: data,
+    data,
   };
 };
 

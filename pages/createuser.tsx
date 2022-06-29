@@ -1,11 +1,15 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Input from "../components/Input";
 import Layout from "../components/Layout";
 import LogInForm from "../components/LogInForm";
 import tw from "tailwind-styled-components";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { signUpRequestAction } from "../action/signUpAction";
+import { useSelector } from "react-redux";
+import { RootState } from "../reducers";
 
 const LoginForm = tw.form`
   space-y-5
@@ -38,6 +42,10 @@ interface ValidForm {
 }
 
 function createuser() {
+  const { signUpDone, signUpLoading, signUpError } = useSelector(
+    (state: RootState) => state.signUpReducer
+  );
+  const dispatch = useDispatch();
   const router = useRouter();
   const {
     register,
@@ -45,14 +53,26 @@ function createuser() {
     formState: { errors },
     reset,
   } = useForm<ValidForm>();
-  const onValid = (validForm: ValidForm) => {
-    if (validForm.password !== validForm.passwordCheck) {
+  const onValid = ({ email, name, password, passwordCheck }: ValidForm) => {
+    if (password !== passwordCheck) {
       alert("비밀번호가 일치하지 않습니다");
       reset({ passwordCheck: "" });
     } else {
-      router.replace("/signin");
+      dispatch(signUpRequestAction({ email, name, password }));
     }
   };
+
+  useEffect(() => {
+    if (signUpDone) {
+      router.replace("/signin");
+    }
+  }, [signUpDone]);
+
+  useEffect(() => {
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpError]);
   return (
     <>
       <Head>
@@ -103,7 +123,9 @@ function createuser() {
             />
             <Error>{errors.passwordCheck?.message}</Error>
             <div>
-              <SubmitButton>회원가입</SubmitButton>
+              <SubmitButton>
+                {signUpLoading ? "Loading..." : "회원가입"}
+              </SubmitButton>
             </div>
           </LoginForm>
         </LogInForm>

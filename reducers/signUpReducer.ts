@@ -34,7 +34,7 @@ const signUpReducer = (state = initialState, action: SignUpAction) =>
       case SIGN_UP_FAILURE:
         draft.signUpDone = false;
         draft.signUpLoading = false;
-        draft.signUpError = action.error;
+        draft.signUpError = action.data;
     }
   });
 
