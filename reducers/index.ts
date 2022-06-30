@@ -3,7 +3,6 @@ import { combineReducers } from "redux";
 import userReducer from "./userReducer";
 import postReducer from "./postReducer";
 import signUpReducer from "./signUpReducer";
-import editInfoReducer from "./editInfoReducer";
 
 const rootReducer = combineReducers({
   index: (state = {}, action) => {
@@ -18,7 +17,6 @@ const rootReducer = combineReducers({
   userReducer,
   postReducer,
   signUpReducer,
-  editInfoReducer,
 });
 
 export default rootReducer;

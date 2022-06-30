@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import CircleItem from "../../components/CircleItem";
 import { useDispatch } from "react-redux";
-import { logOutRequestAction } from "../../action/logInOutActions";
+import { logOutRequestAction } from "../../action/userAction";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";

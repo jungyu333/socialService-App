@@ -7,10 +7,7 @@ import Input from "../components/Input";
 import { useRouter } from "next/router";
 import LogInForm from "../components/LogInForm";
 import { useDispatch } from "react-redux";
-import {
-  logInErrorInitAction,
-  logInRequestAction,
-} from "../action/logInOutActions";
+import { logInErrorInitAction, logInRequestAction } from "../action/userAction";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
 

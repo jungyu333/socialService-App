@@ -1,6 +1,6 @@
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { LogInOutAction } from "../action/logInOutActions";
+import { UserAction } from "../action/userAction";
 
 import {
   LOG_IN_ERROR_INIT,
@@ -16,7 +16,7 @@ function logInAPI(data) {
   return axios.post("/login", data);
 }
 
-function* logIn(action: LogInOutAction) {
+function* logIn(action: UserAction) {
   try {
     const result = yield call(logInAPI, action.data);
 

@@ -1,6 +1,9 @@
 import produce from "immer";
-import { LogInOutAction } from "../action/logInOutActions";
+import { UserAction } from "../action/userAction";
 import {
+  EDIT_INFO_FAILUER,
+  EDIT_INFO_REQUEST,
+  EDIT_INFO_SUCCESS,
   LOG_IN_ERROR_INIT,
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
@@ -10,23 +13,29 @@ import {
   LOG_OUT_SUCCESS,
 } from "../action/types";
 
-const initialState: LogInState = {
+const initialState: UserState = {
   logInDone: false,
   logInLoading: false,
   logInError: null,
   logOutDone: false,
   logOutLoading: false,
   logOutError: null,
+  editLoading: false,
+  editDone: false,
+  editError: null,
   me: null,
 };
 
-export interface LogInState {
+export interface UserState {
   logInDone: boolean;
   logInLoading: boolean;
   logInError: string;
   logOutDone: boolean;
   logOutLoading: boolean;
   logOutError: string;
+  editLoading: boolean;
+  editDone: boolean;
+  editError: string;
 
   me: {
     id: number;
@@ -38,7 +47,7 @@ export interface LogInState {
   };
 }
 
-const userReducer = (state = initialState, action: LogInOutAction) =>
+const userReducer = (state = initialState, action: UserAction) =>
   produce(state, (draft) => {
     switch (action.type) {
       case LOG_IN_REQUEST:
@@ -79,6 +88,22 @@ const userReducer = (state = initialState, action: LogInOutAction) =>
         break;
       case LOG_IN_ERROR_INIT:
         draft.logInError = null;
+        break;
+      case EDIT_INFO_REQUEST:
+        draft.editLoading = true;
+        draft.editDone = false;
+        draft.editError = null;
+        break;
+      case EDIT_INFO_SUCCESS:
+        draft.editLoading = false;
+        draft.editDone = true;
+        draft.editError = null;
+        draft.me.nickname = action.data.nickname;
+        break;
+      case EDIT_INFO_FAILUER:
+        draft.editLoading = false;
+        draft.editDone = false;
+        draft.editError = action.data;
         break;
       default:
         break;

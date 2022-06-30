@@ -6,6 +6,9 @@ import {
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
+  EDIT_INFO_FAILUER,
+  EDIT_INFO_REQUEST,
+  EDIT_INFO_SUCCESS,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -57,6 +60,27 @@ export const logInErrorInitAction = () => {
   };
 };
 
+export const editInfoRequestAction = (data: EditInfoData) => {
+  return {
+    type: EDIT_INFO_REQUEST,
+    data,
+  };
+};
+
+export const editInfoSuccessAction = (data: EditInfoData) => {
+  return {
+    type: EDIT_INFO_SUCCESS,
+    data,
+  };
+};
+
+export const editInfoFailureAction = (data: string) => {
+  return {
+    type: EDIT_INFO_FAILUER,
+    data,
+  };
+};
+
 export interface LogInData {
   id: number;
   nickname: string;
@@ -66,11 +90,18 @@ export interface LogInData {
   Followings: {}[];
 }
 
-export type LogInOutAction =
+interface EditInfoData {
+  nickname: string;
+}
+
+export type UserAction =
   | ReturnType<typeof logInRequestAction>
   | ReturnType<typeof logOutRequestAction>
   | ReturnType<typeof logInSuccessAction>
   | ReturnType<typeof logInFailureAction>
   | ReturnType<typeof logOutSuccessAction>
   | ReturnType<typeof logOutFailureAction>
-  | ReturnType<typeof logInErrorInitAction>;
+  | ReturnType<typeof logInErrorInitAction>
+  | ReturnType<typeof editInfoRequestAction>
+  | ReturnType<typeof editInfoSuccessAction>
+  | ReturnType<typeof editInfoFailureAction>;
