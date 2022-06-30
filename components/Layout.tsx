@@ -82,6 +82,7 @@ interface LogInProps {
   $isLogIn: boolean;
 }
 const Layout = ({ children }) => {
+  const { me } = useSelector((state: RootState) => state.userReducer);
   const isLogIn = useSelector(
     (state: RootState) => state.userReducer.logInDone
   );
@@ -100,11 +101,13 @@ const Layout = ({ children }) => {
               <a>홈</a>
             </Link>
           </MenuItem>
-          <MenuItem>
-            <Link href="/profile">
-              <a>마이페이지</a>
-            </Link>
-          </MenuItem>
+          {me ? (
+            <MenuItem>
+              <Link href="/profile">
+                <a>마이페이지</a>
+              </Link>
+            </MenuItem>
+          ) : null}
           {!isLogIn ? (
             <MenuItem>
               <Link href="/signin">
@@ -155,9 +158,11 @@ const Layout = ({ children }) => {
           </Link>
         </MobileMenuItem>
         <MobileMenuItem>
-          <Link href="/profile">
-            <a>마이페이지</a>
-          </Link>
+          {me ? (
+            <Link href="/profile">
+              <a>마이페이지</a>
+            </Link>
+          ) : null}
         </MobileMenuItem>
         {!isLogIn ? (
           <MobileMenuItem>

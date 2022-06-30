@@ -1,18 +1,18 @@
 import Head from "next/head";
 import React, { useEffect } from "react";
-import Layout from "../components/Layout";
+import Layout from "../../components/Layout";
 import tw from "tailwind-styled-components";
 import {
   StarOutlined,
   TwitterOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
-import CircleItem from "../components/CircleItem";
+import CircleItem from "../../components/CircleItem";
 import { useDispatch } from "react-redux";
-import { logOutRequestAction } from "../action/logInOutActions";
+import { logOutRequestAction } from "../../action/logInOutActions";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { RootState } from "../reducers";
+import { RootState } from "../../reducers";
 
 const ProfileWrapper = tw.div`
   max-w-sm
@@ -77,7 +77,7 @@ const CommunicateWrapper = tw.div`
 `;
 
 const Profile = () => {
-  const { logOutLoading, logOutDone } = useSelector(
+  const { me, logOutLoading, logOutDone } = useSelector(
     (state: RootState) => state.userReducer
   );
   const router = useRouter();
@@ -86,11 +86,15 @@ const Profile = () => {
     dispatch(logOutRequestAction());
   };
 
+  const onClickEdit = () => {
+    router.push("/profile/editinfo");
+  };
+
   useEffect(() => {
     if (logOutDone) {
       router.replace("/");
     }
-  }, [logOutDone]);
+  }, [logOutDone, me]);
   return (
     <>
       <Head>
@@ -104,7 +108,7 @@ const Profile = () => {
             <UserInfo>
               <UserName>jungyu</UserName>
               <ButtonContainer>
-                <Button>Edit Profile</Button>
+                <Button onClick={onClickEdit}>Edit Profile</Button>
                 <Button onClick={onClickLogOut}>
                   {logOutLoading ? "Loading..." : "로그아웃"}
                 </Button>

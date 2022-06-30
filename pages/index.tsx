@@ -14,6 +14,7 @@ const Wrapper = tw.div`
 `;
 
 const Home = () => {
+  const { me } = useSelector((state: RootState) => state.userReducer);
   const { mainPosts } = useSelector((state: RootState) => state.postReducer);
   return (
     <>
@@ -23,7 +24,7 @@ const Home = () => {
       </Head>
       <Layout>
         <Wrapper>
-          <UserProfile />
+          {me ? <UserProfile /> : null}
           <PostForm />
           {mainPosts.map((post) => (
             <PostCard key={post.id} {...post} />
