@@ -32,6 +32,9 @@ export interface LogInState {
     id: number;
     nickname: string;
     email: string;
+    Posts: {}[];
+    Followers: {}[];
+    Followings: {}[];
   };
 }
 

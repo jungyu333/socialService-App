@@ -6,6 +6,8 @@ import Input from "../../components/Input";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
+import { useDispatch } from "react-redux";
+import { editInfoRequestAction } from "../../action/editInfoActions";
 
 const LoginForm = tw.form`
   space-y-4
@@ -30,15 +32,15 @@ const InputHead = tw.div`
   text-start
 `;
 
+interface ValidForm {
+  email: string;
+  name: string;
+}
+
 function editinfo() {
   const { me } = useSelector((state: RootState) => state.userReducer);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
-
+  const { register, handleSubmit, setValue } = useForm<ValidForm>();
+  const dispatch = useDispatch();
   useEffect(() => {
     if (me) {
       if (me.email) {
@@ -50,8 +52,9 @@ function editinfo() {
     }
   }, [me]);
 
-  const onValid = (data) => {
-    console.log(data);
+  const onValid = ({ email, name }: ValidForm) => {
+    console.log(email, name);
+    dispatch(editInfoRequestAction({ email, name }));
   };
   return (
     <Layout>

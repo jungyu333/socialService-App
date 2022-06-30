@@ -61,6 +61,9 @@ export interface LogInData {
   id: number;
   nickname: string;
   email: string;
+  Posts: {}[];
+  Followers: {}[];
+  Followings: {}[];
 }
 
 export type LogInOutAction =
