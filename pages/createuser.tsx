@@ -91,7 +91,17 @@ function createuser() {
       alert("비밀번호가 일치하지 않습니다");
       reset({ passwordCheck: "" });
     } else {
-      dispatch(signUpRequestAction({ email, name, password }));
+      if (!avatarPaths) {
+        dispatch(signUpRequestAction({ email, name, password }));
+      } else {
+        const formData = new FormData();
+        formData.append("avatar", avatarPaths);
+        formData.append("email", email);
+        formData.append("name", name);
+        formData.append("password", password);
+
+        dispatch(signUpRequestAction(formData));
+      }
     }
   };
 

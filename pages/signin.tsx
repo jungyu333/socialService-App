@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { logInErrorInitAction, logInRequestAction } from "../action/userAction";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
+import { signUpErrorInitAction } from "../action/signUpAction";
 
 const LoginForm = tw.form`
   space-y-4
@@ -72,7 +73,8 @@ const SignIn = () => {
       router.replace("/");
     }
     dispatch(logInErrorInitAction());
-  }, [logInErrorInitAction, logInError, me]);
+    dispatch(signUpErrorInitAction());
+  }, [logInErrorInitAction, signUpErrorInitAction, logInError, me]);
 
   return (
     <>

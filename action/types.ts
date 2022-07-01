@@ -11,6 +11,7 @@ export const SIGN_UP_REQUEST = "SIGN_UP_REQUEST" as const;
 export const SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS" as const;
 export const SIGN_UP_FAILURE = "SIGN_UP_FAILURE" as const;
 export const LOG_IN_ERROR_INIT = "LOG_IN_ERROR_INIT" as const;
+export const SIGN_UP_ERROR_INIT = "SIGN_UP_ERROR_INIT" as const;
 export const EDIT_INFO_REQUEST = "EDIT_INFO_REQUEST" as const;
 export const EDIT_INFO_SUCCESS = "EDIT_INFO_SUCCESS" as const;
 export const EDIT_INFO_FAILUER = "EDIT_INFO_FAILUER" as const;

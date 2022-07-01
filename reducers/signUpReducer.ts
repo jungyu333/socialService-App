@@ -1,6 +1,7 @@
 import produce from "immer";
 import { SignUpAction } from "../action/signUpAction";
 import {
+  SIGN_UP_ERROR_INIT,
   SIGN_UP_FAILURE,
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
@@ -35,6 +36,12 @@ const signUpReducer = (state = initialState, action: SignUpAction) =>
         draft.signUpDone = false;
         draft.signUpLoading = false;
         draft.signUpError = action.data;
+        break;
+      case SIGN_UP_ERROR_INIT:
+        draft.signUpDone = false;
+        draft.signUpLoading = false;
+        draft.signUpError = null;
+        break;
       default:
         break;
     }
