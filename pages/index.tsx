@@ -24,7 +24,7 @@ const Home = () => {
       </Head>
       <Layout>
         <Wrapper>
-          {me ? <UserProfile /> : null}
+          {me !== null ? <UserProfile /> : null}
           <PostForm />
           {mainPosts.map((post) => (
             <PostCard key={post.id} {...post} />

@@ -1,5 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
+import { RootState } from "../reducers";
 
 const Wrapper = tw.div`
   hidden
@@ -59,6 +61,9 @@ const InfoBox = tw.div`
 `;
 
 function UserProfile() {
+  const { Posts, Followers, Followings, nickname } = useSelector(
+    (state: RootState) => state.userReducer.me
+  );
   return (
     <>
       <Wrapper>
@@ -66,18 +71,21 @@ function UserProfile() {
           <ProfileContainer>
             <Image />
             <UserInfo>
-              <UserName>jungyu</UserName>
+              <UserName>{nickname}</UserName>
             </UserInfo>
           </ProfileContainer>
           <InfoContainer>
             <InfoBox>
-              <div>게시물</div>0
+              <div>게시물</div>
+              {Posts.length}
             </InfoBox>
             <InfoBox>
-              <div>팔로잉</div>0
+              <div>팔로잉</div>
+              {Followings.length}
             </InfoBox>
             <InfoBox>
-              <div>팔로워</div>0
+              <div>팔로워</div>
+              {Followers.length}
             </InfoBox>
           </InfoContainer>
         </ProfileWrapper>

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Input from "../components/Input";
 import Layout from "../components/Layout";
@@ -34,6 +34,28 @@ const Error = tw.div`
   text-start
 `;
 
+const Avatar = tw.div`
+  bg-slate-500
+  w-16
+  h-16
+  rounded-full
+`;
+
+const AvatarInput = tw.input`
+  hidden
+`;
+
+const AvatarButton = tw.div`
+  cursor-pointer
+  text-sm
+  text-gray-500
+  hover:text-indigo-600
+  hover:font-bold
+  border-2
+  rounded-md
+  p-2
+`;
+
 interface ValidForm {
   email: string;
   password: string;
@@ -62,6 +84,11 @@ function createuser() {
     }
   };
 
+  const avatarInput = useRef<HTMLInputElement>();
+  const onClickAvater = useCallback(() => {
+    avatarInput.current.click();
+  }, [avatarInput.current]);
+
   useEffect(() => {
     if (signUpDone) {
       router.replace("/signin");
@@ -82,6 +109,11 @@ function createuser() {
       <Layout>
         <LogInForm headTitle="회원가입" isLogIn={false}>
           <LoginForm onSubmit={handleSubmit(onValid)}>
+            <div className="flex items-center space-x-3">
+              <Avatar />
+              <AvatarButton onClick={onClickAvater}>이미지</AvatarButton>
+            </div>
+            <AvatarInput type="file" ref={avatarInput} />
             <Input
               register={register("email", {
                 required: "Email Id를 입력해주세요",

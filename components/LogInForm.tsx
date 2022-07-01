@@ -12,7 +12,7 @@ const LoginWrapper = tw.div<WrapperProps>`
   rounded-md
   shadow-md
   sm:max-w-lg
-  ${(p) => (p.$isLogIn ? " h-96" : "h-[40rem]")}
+  ${(p) => (p.$isLogIn ? " h-96" : "h-[45rem]")}
 `;
 
 const LogInHead = tw.div`

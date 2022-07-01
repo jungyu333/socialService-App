@@ -94,7 +94,8 @@ const Profile = () => {
     if (logOutDone) {
       router.replace("/");
     }
-  }, [logOutDone, me]);
+  }, [logOutDone]);
+
   return (
     <>
       <Head>
@@ -106,7 +107,7 @@ const Profile = () => {
           <ProfileContainer>
             <Image />
             <UserInfo>
-              <UserName>jungyu</UserName>
+              <UserName>{me?.nickname}</UserName>
               <ButtonContainer>
                 <Button onClick={onClickEdit}>Edit Profile</Button>
                 <Button onClick={onClickLogOut}>
