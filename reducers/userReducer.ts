@@ -1,6 +1,7 @@
 import produce from "immer";
 import { UserAction } from "../action/userAction";
 import {
+  AVATAR_DELETE,
   AVATAR_UPLOAD_FAILUER,
   AVATAR_UPLOAD_REQUEST,
   AVATAR_UPLOAD_SUCCESS,
@@ -130,6 +131,10 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.avatarUploadLoading = false;
         draft.avatarUploadDone = false;
         draft.avatarUploadError = action.data;
+        break;
+      case AVATAR_DELETE:
+        draft.avatarPaths = null;
+        draft.avatarUploadDone = false;
         break;
       default:
         break;

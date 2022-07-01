@@ -17,3 +17,4 @@ export const EDIT_INFO_FAILUER = "EDIT_INFO_FAILUER" as const;
 export const AVATAR_UPLOAD_REQUEST = "AVATAR_UPLOAD_REQUEST" as const;
 export const AVATAR_UPLOAD_SUCCESS = "AVATAR_UPLOAD_SUCCESS" as const;
 export const AVATAR_UPLOAD_FAILUER = "AVATAR_UPLOAD_FAILUER" as const;
+export const AVATAR_DELETE = "AVATAR_DELETE" as const;

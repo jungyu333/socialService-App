@@ -12,6 +12,7 @@ import {
   AVATAR_UPLOAD_FAILUER,
   AVATAR_UPLOAD_REQUEST,
   AVATAR_UPLOAD_SUCCESS,
+  AVATAR_DELETE,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -118,6 +119,13 @@ export const avatarUploadFailureAction = (data) => {
   };
 };
 
+export const avatarDeleteAction = () => {
+  return {
+    type: AVATAR_DELETE,
+    data: null,
+  };
+};
+
 export type UserAction =
   | ReturnType<typeof logInRequestAction>
   | ReturnType<typeof logOutRequestAction>
@@ -131,4 +139,5 @@ export type UserAction =
   | ReturnType<typeof editInfoFailureAction>
   | ReturnType<typeof avatarUploadRequestAction>
   | ReturnType<typeof avatarUploadSuccessAction>
-  | ReturnType<typeof avatarUploadFailureAction>;
+  | ReturnType<typeof avatarUploadFailureAction>
+  | ReturnType<typeof avatarDeleteAction>;

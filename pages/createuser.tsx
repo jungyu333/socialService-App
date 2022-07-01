@@ -10,7 +10,10 @@ import { useDispatch } from "react-redux";
 import { signUpRequestAction } from "../action/signUpAction";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
-import { avatarUploadRequestAction } from "../action/userAction";
+import {
+  avatarDeleteAction,
+  avatarUploadRequestAction,
+} from "../action/userAction";
 
 const LoginForm = tw.form`
   space-y-5
@@ -105,6 +108,10 @@ function createuser() {
     dispatch(avatarUploadRequestAction(avatarFormData));
   };
 
+  const onClickDeleteAvatar = () => {
+    dispatch(avatarDeleteAction());
+  };
+
   useEffect(() => {
     if (signUpDone) {
       router.replace("/signin");
@@ -135,7 +142,13 @@ function createuser() {
                 <Avatar />
               )}
 
-              <AvatarButton onClick={onClickAvater}>이미지</AvatarButton>
+              {!avatarPaths ? (
+                <AvatarButton onClick={onClickAvater}>이미지</AvatarButton>
+              ) : (
+                <AvatarButton onClick={onClickDeleteAvatar}>
+                  초기화
+                </AvatarButton>
+              )}
             </div>
             <AvatarInput
               name="avatar"
