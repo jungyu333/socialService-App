@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { signUpRequestAction } from "../action/signUpAction";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
+import { avatarUploadRequestAction } from "../action/userAction";
 
 const LoginForm = tw.form`
   space-y-5
@@ -34,8 +35,14 @@ const Error = tw.div`
   text-start
 `;
 
-const Avatar = tw.div`
-  bg-slate-500
+const PreAvatar = tw.img`
+  rounded-full
+  w-16
+  h-16
+`;
+
+const Avatar = tw.img`
+ bg-slate-500
   w-16
   h-16
   rounded-full
@@ -68,6 +75,7 @@ function createuser() {
     (state: RootState) => state.signUpReducer
   );
   const dispatch = useDispatch();
+  const { avatarPaths } = useSelector((state: RootState) => state.userReducer);
   const router = useRouter();
   const {
     register,
@@ -89,6 +97,14 @@ function createuser() {
     avatarInput.current.click();
   }, [avatarInput.current]);
 
+  const onChangeAvatar = (e) => {
+    const avatarFormData = new FormData();
+    [].forEach.call(e.target.files, (file) => {
+      avatarFormData.append("avatar", file);
+    });
+    dispatch(avatarUploadRequestAction(avatarFormData));
+  };
+
   useEffect(() => {
     if (signUpDone) {
       router.replace("/signin");
@@ -108,12 +124,25 @@ function createuser() {
       </Head>
       <Layout>
         <LogInForm headTitle="회원가입" isLogIn={false}>
-          <LoginForm onSubmit={handleSubmit(onValid)}>
+          <LoginForm
+            onSubmit={handleSubmit(onValid)}
+            encType="multipart/form-data"
+          >
             <div className="flex items-center space-x-3">
-              <Avatar />
+              {avatarPaths ? (
+                <PreAvatar src={`http://localhost:4000/${avatarPaths}`} />
+              ) : (
+                <Avatar />
+              )}
+
               <AvatarButton onClick={onClickAvater}>이미지</AvatarButton>
             </div>
-            <AvatarInput type="file" ref={avatarInput} />
+            <AvatarInput
+              name="avatar"
+              type="file"
+              ref={avatarInput}
+              onChange={onChangeAvatar}
+            />
             <Input
               register={register("email", {
                 required: "Email Id를 입력해주세요",

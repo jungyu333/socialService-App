@@ -1,6 +1,9 @@
 import produce from "immer";
 import { UserAction } from "../action/userAction";
 import {
+  AVATAR_UPLOAD_FAILUER,
+  AVATAR_UPLOAD_REQUEST,
+  AVATAR_UPLOAD_SUCCESS,
   EDIT_INFO_FAILUER,
   EDIT_INFO_REQUEST,
   EDIT_INFO_SUCCESS,
@@ -23,7 +26,11 @@ const initialState: UserState = {
   editLoading: false,
   editDone: false,
   editError: null,
+  avatarUploadLoading: false,
+  avatarUploadDone: false,
+  avatarUploadError: null,
   me: null,
+  avatarPaths: null,
 };
 
 export interface UserState {
@@ -36,7 +43,10 @@ export interface UserState {
   editLoading: boolean;
   editDone: boolean;
   editError: string;
-
+  avatarUploadLoading: boolean;
+  avatarUploadDone: boolean;
+  avatarUploadError: string;
+  avatarPaths: string;
   me: {
     id: number;
     nickname: string;
@@ -104,6 +114,22 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.editLoading = false;
         draft.editDone = false;
         draft.editError = action.data;
+        break;
+      case AVATAR_UPLOAD_REQUEST:
+        draft.avatarUploadLoading = true;
+        draft.avatarUploadDone = false;
+        draft.avatarUploadError = null;
+        break;
+      case AVATAR_UPLOAD_SUCCESS:
+        draft.avatarUploadLoading = false;
+        draft.avatarUploadDone = true;
+        draft.avatarUploadError = null;
+        draft.avatarPaths = action.data;
+        break;
+      case AVATAR_UPLOAD_FAILUER:
+        draft.avatarUploadLoading = false;
+        draft.avatarUploadDone = false;
+        draft.avatarUploadError = action.data;
         break;
       default:
         break;

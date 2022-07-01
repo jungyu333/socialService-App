@@ -3,7 +3,6 @@ import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { UserAction } from "../action/userAction";
 
 import {
-  LOG_IN_ERROR_INIT,
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,

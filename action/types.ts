@@ -14,3 +14,6 @@ export const LOG_IN_ERROR_INIT = "LOG_IN_ERROR_INIT" as const;
 export const EDIT_INFO_REQUEST = "EDIT_INFO_REQUEST" as const;
 export const EDIT_INFO_SUCCESS = "EDIT_INFO_SUCCESS" as const;
 export const EDIT_INFO_FAILUER = "EDIT_INFO_FAILUER" as const;
+export const AVATAR_UPLOAD_REQUEST = "AVATAR_UPLOAD_REQUEST" as const;
+export const AVATAR_UPLOAD_SUCCESS = "AVATAR_UPLOAD_SUCCESS" as const;
+export const AVATAR_UPLOAD_FAILUER = "AVATAR_UPLOAD_FAILUER" as const;
