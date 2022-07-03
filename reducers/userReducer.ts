@@ -121,6 +121,7 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.editDone = true;
         draft.editError = null;
         draft.me.nickname = action.data.nickname;
+        draft.me.avatar = action.data.avatar;
         break;
       case EDIT_INFO_FAILURE:
         draft.editLoading = false;

@@ -106,7 +106,12 @@ function editinfo() {
   }, [me]);
 
   const onValid = ({ nickname }: ValidForm) => {
-    dispatch(editInfoRequestAction({ nickname }));
+    const formData = new FormData();
+    formData.append("nickname", nickname);
+    formData.append("avatar", avatarPaths);
+    console.log(formData.get("nickname"));
+    console.log(formData.get("avatar"));
+    dispatch(editInfoRequestAction(formData));
     if (editDone) {
       router.push("/profile");
     }

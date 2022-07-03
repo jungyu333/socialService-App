@@ -67,14 +67,14 @@ export const logInErrorInitAction = () => {
   };
 };
 
-export const editInfoRequestAction = (data: EditInfoData) => {
+export const editInfoRequestAction = (data) => {
   return {
     type: EDIT_INFO_REQUEST,
     data,
   };
 };
 
-export const editInfoSuccessAction = (data: EditInfoData) => {
+export const editInfoSuccessAction = (data) => {
   return {
     type: EDIT_INFO_SUCCESS,
     data,
@@ -100,6 +100,7 @@ export interface LogInData {
 
 interface EditInfoData {
   nickname: string;
+  avatarPaths: string;
 }
 
 export const avatarUploadRequestAction = (data) => {

@@ -11,7 +11,7 @@ import {
 } from "../action/types";
 
 function editInfoAPI(data) {
-  return axios.patch("/editinfo", data);
+  return axios.post("/editinfo", data);
 }
 
 function* editInfo(action: UserAction) {
@@ -38,7 +38,7 @@ function avatarEditAPI(data) {
 function* avatarEdit(action: UserAction) {
   try {
     const result = yield call(avatarEditAPI, action.data);
-    console.log(result);
+
     yield put({
       type: AVATAR_EDIT_SUCCESS,
       data: result.data,
