@@ -41,6 +41,13 @@ const Image = tw.div`
   shadow-sm
 `;
 
+const Avatar = tw.img`
+  rounded-full
+  w-20
+  h-20
+  shadow-sm
+`;
+
 const UserInfo = tw.div`
   space-y-2
 `;
@@ -62,7 +69,7 @@ const Button = tw.button`
   p-2
   bg-indigo-400
   hover:bg-indigo-600
-  hover:text-white
+  text-white
 `;
 
 const CommunicateWrapper = tw.div`
@@ -105,7 +112,11 @@ const Profile = () => {
       <Layout>
         <ProfileWrapper>
           <ProfileContainer>
-            <Image />
+            {me?.avatar ? (
+              <Avatar src={`http://localhost:4000/${me.avatar}`} />
+            ) : (
+              <Image />
+            )}
             <UserInfo>
               <UserName>{me?.nickname}</UserName>
               <ButtonContainer>

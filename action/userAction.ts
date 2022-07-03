@@ -6,13 +6,16 @@ import {
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
-  EDIT_INFO_FAILUER,
   EDIT_INFO_REQUEST,
   EDIT_INFO_SUCCESS,
-  AVATAR_UPLOAD_FAILUER,
+  AVATAR_UPLOAD_FAILURE,
   AVATAR_UPLOAD_REQUEST,
   AVATAR_UPLOAD_SUCCESS,
   AVATAR_DELETE,
+  EDIT_INFO_FAILURE,
+  AVATAR_EDIT_REQUEST,
+  AVATAR_EDIT_FAILURE,
+  AVATAR_EDIT_SUCCESS,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -80,7 +83,7 @@ export const editInfoSuccessAction = (data: EditInfoData) => {
 
 export const editInfoFailureAction = (data: string) => {
   return {
-    type: EDIT_INFO_FAILUER,
+    type: EDIT_INFO_FAILURE,
     data,
   };
 };
@@ -89,6 +92,7 @@ export interface LogInData {
   id: number;
   nickname: string;
   email: string;
+  avatar: string;
   Posts: {}[];
   Followers: {}[];
   Followings: {}[];
@@ -114,7 +118,7 @@ export const avatarUploadSuccessAction = (data) => {
 
 export const avatarUploadFailureAction = (data) => {
   return {
-    type: AVATAR_UPLOAD_FAILUER,
+    type: AVATAR_UPLOAD_FAILURE,
     data,
   };
 };
@@ -123,6 +127,27 @@ export const avatarDeleteAction = () => {
   return {
     type: AVATAR_DELETE,
     data: null,
+  };
+};
+
+export const avatarEditSuccessAction = (data) => {
+  return {
+    type: AVATAR_EDIT_SUCCESS,
+    data,
+  };
+};
+
+export const avatarEditFailureAction = (data) => {
+  return {
+    type: AVATAR_EDIT_FAILURE,
+    data,
+  };
+};
+
+export const avatarEditRequestAction = (data) => {
+  return {
+    type: AVATAR_EDIT_REQUEST,
+    data,
   };
 };
 
@@ -140,4 +165,7 @@ export type UserAction =
   | ReturnType<typeof avatarUploadRequestAction>
   | ReturnType<typeof avatarUploadSuccessAction>
   | ReturnType<typeof avatarUploadFailureAction>
-  | ReturnType<typeof avatarDeleteAction>;
+  | ReturnType<typeof avatarDeleteAction>
+  | ReturnType<typeof avatarEditRequestAction>
+  | ReturnType<typeof avatarEditSuccessAction>
+  | ReturnType<typeof avatarEditFailureAction>;

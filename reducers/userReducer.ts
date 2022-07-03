@@ -2,10 +2,13 @@ import produce from "immer";
 import { UserAction } from "../action/userAction";
 import {
   AVATAR_DELETE,
-  AVATAR_UPLOAD_FAILUER,
+  AVATAR_EDIT_FAILURE,
+  AVATAR_EDIT_REQUEST,
+  AVATAR_EDIT_SUCCESS,
+  AVATAR_UPLOAD_FAILURE,
   AVATAR_UPLOAD_REQUEST,
   AVATAR_UPLOAD_SUCCESS,
-  EDIT_INFO_FAILUER,
+  EDIT_INFO_FAILURE,
   EDIT_INFO_REQUEST,
   EDIT_INFO_SUCCESS,
   LOG_IN_ERROR_INIT,
@@ -30,6 +33,9 @@ const initialState: UserState = {
   avatarUploadLoading: false,
   avatarUploadDone: false,
   avatarUploadError: null,
+  avatarEditLoading: false,
+  avatarEditDone: false,
+  avatarEditError: null,
   me: null,
   avatarPaths: null,
 };
@@ -48,6 +54,9 @@ export interface UserState {
   avatarUploadDone: boolean;
   avatarUploadError: string;
   avatarPaths: string;
+  avatarEditLoading: boolean;
+  avatarEditDone: boolean;
+  avatarEditError: string;
   me: {
     id: number;
     nickname: string;
@@ -55,6 +64,7 @@ export interface UserState {
     Posts: {}[];
     Followers: {}[];
     Followings: {}[];
+    avatar: string;
   };
 }
 
@@ -72,6 +82,7 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.logInError = null;
         draft.logOutDone = false;
         draft.me = action.data;
+        draft.avatarPaths = action.data.avatar;
         break;
       case LOG_IN_FAILURE:
         draft.logInDone = false;
@@ -111,7 +122,23 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.editError = null;
         draft.me.nickname = action.data.nickname;
         break;
-      case EDIT_INFO_FAILUER:
+      case EDIT_INFO_FAILURE:
+        draft.editLoading = false;
+        draft.editDone = false;
+        draft.editError = action.data;
+        break;
+      case AVATAR_EDIT_REQUEST:
+        draft.avatarEditLoading = true;
+        draft.avatarEditDone = false;
+        draft.avatarEditError = null;
+        break;
+      case AVATAR_EDIT_SUCCESS:
+        draft.editLoading = false;
+        draft.editDone = true;
+        draft.editError = null;
+        draft.avatarPaths = action.data;
+        break;
+      case AVATAR_EDIT_FAILURE:
         draft.editLoading = false;
         draft.editDone = false;
         draft.editError = action.data;
@@ -127,7 +154,7 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.avatarUploadError = null;
         draft.avatarPaths = action.data;
         break;
-      case AVATAR_UPLOAD_FAILUER:
+      case AVATAR_UPLOAD_FAILURE:
         draft.avatarUploadLoading = false;
         draft.avatarUploadDone = false;
         draft.avatarUploadError = action.data;

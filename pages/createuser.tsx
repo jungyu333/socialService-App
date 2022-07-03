@@ -10,10 +10,7 @@ import { useDispatch } from "react-redux";
 import { signUpRequestAction } from "../action/signUpAction";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
-import {
-  avatarDeleteAction,
-  avatarUploadRequestAction,
-} from "../action/userAction";
+import AvatarInput from "../components/AvatarInput";
 
 const LoginForm = tw.form`
   space-y-5
@@ -36,34 +33,6 @@ const Error = tw.div`
   text-red-500
   text-sm
   text-start
-`;
-
-const PreAvatar = tw.img`
-  rounded-full
-  w-16
-  h-16
-`;
-
-const Avatar = tw.img`
- bg-slate-500
-  w-16
-  h-16
-  rounded-full
-`;
-
-const AvatarInput = tw.input`
-  hidden
-`;
-
-const AvatarButton = tw.div`
-  cursor-pointer
-  text-sm
-  text-gray-500
-  hover:text-indigo-600
-  hover:font-bold
-  border-2
-  rounded-md
-  p-2
 `;
 
 interface ValidForm {
@@ -105,23 +74,6 @@ function createuser() {
     }
   };
 
-  const avatarInput = useRef<HTMLInputElement>();
-  const onClickAvater = useCallback(() => {
-    avatarInput.current.click();
-  }, [avatarInput.current]);
-
-  const onChangeAvatar = (e) => {
-    const avatarFormData = new FormData();
-    [].forEach.call(e.target.files, (file) => {
-      avatarFormData.append("avatar", file);
-    });
-    dispatch(avatarUploadRequestAction(avatarFormData));
-  };
-
-  const onClickDeleteAvatar = () => {
-    dispatch(avatarDeleteAction());
-  };
-
   useEffect(() => {
     if (signUpDone) {
       router.replace("/signin");
@@ -145,27 +97,7 @@ function createuser() {
             onSubmit={handleSubmit(onValid)}
             encType="multipart/form-data"
           >
-            <div className="flex items-center space-x-3">
-              {avatarPaths ? (
-                <PreAvatar src={`http://localhost:4000/${avatarPaths}`} />
-              ) : (
-                <Avatar />
-              )}
-
-              {!avatarPaths ? (
-                <AvatarButton onClick={onClickAvater}>이미지</AvatarButton>
-              ) : (
-                <AvatarButton onClick={onClickDeleteAvatar}>
-                  초기화
-                </AvatarButton>
-              )}
-            </div>
-            <AvatarInput
-              name="avatar"
-              type="file"
-              ref={avatarInput}
-              onChange={onChangeAvatar}
-            />
+            <AvatarInput />
             <Input
               register={register("email", {
                 required: "Email Id를 입력해주세요",

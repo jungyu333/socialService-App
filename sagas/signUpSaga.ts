@@ -2,7 +2,7 @@ import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { SignUpAction } from "../action/signUpAction";
 import {
-  AVATAR_UPLOAD_FAILUER,
+  AVATAR_UPLOAD_FAILURE,
   AVATAR_UPLOAD_REQUEST,
   AVATAR_UPLOAD_SUCCESS,
   SIGN_UP_FAILURE,
@@ -18,8 +18,7 @@ function signUpAPI(data) {
 function* signUp(action: SignUpAction) {
   try {
     const result = yield call(signUpAPI, action.data);
-    console.log(result);
-    console.log(action.data);
+
     yield put({
       type: SIGN_UP_SUCCESS,
     });
@@ -38,14 +37,14 @@ function avatarUploadAPI(data) {
 function* avatarUpload(action: UserAction) {
   try {
     const result = yield call(avatarUploadAPI, action.data);
-    console.log(result);
+
     yield put({
       type: AVATAR_UPLOAD_SUCCESS,
       data: result.data,
     });
   } catch (err) {
     yield put({
-      type: AVATAR_UPLOAD_FAILUER,
+      type: AVATAR_UPLOAD_FAILURE,
       data: err.response.data,
     });
   }

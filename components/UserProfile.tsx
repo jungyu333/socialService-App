@@ -30,6 +30,13 @@ const ProfileContainer = tw.div`
   mt-8
 `;
 
+const Avatar = tw.img`
+  w-20
+  h-20
+  rounded-full
+  shadow-sm
+`;
+
 const Image = tw.div`
   bg-slate-700
   rounded-full
@@ -61,7 +68,7 @@ const InfoBox = tw.div`
 `;
 
 function UserProfile() {
-  const { Posts, Followers, Followings, nickname } = useSelector(
+  const { Posts, Followers, Followings, nickname, avatar } = useSelector(
     (state: RootState) => state.userReducer.me
   );
   return (
@@ -69,7 +76,11 @@ function UserProfile() {
       <Wrapper>
         <ProfileWrapper>
           <ProfileContainer>
-            <Image />
+            {avatar ? (
+              <Avatar src={`http://localhost:4000/${avatar}`} />
+            ) : (
+              <Image />
+            )}
             <UserInfo>
               <UserName>{nickname}</UserName>
             </UserInfo>
