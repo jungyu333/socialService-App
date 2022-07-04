@@ -1,6 +1,7 @@
 import produce from "immer";
 import { PostActionType } from "../action/postActions";
 import {
+  ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   POST_IMAGE_UPLOAD_FAILURE,
@@ -13,7 +14,8 @@ const initialState: PostState = {
   postImageUploadDone: false,
   postImageUploadError: null,
   addPostLoading: false,
-  addPostDond: false,
+  addPostDone: false,
+  addPostError: null,
   imagePaths: [],
   mainPosts: [
     {
@@ -58,7 +60,8 @@ export interface PostState {
   postImageUploadDone: boolean;
   postImageUploadError: string;
   addPostLoading: boolean;
-  addPostDond: boolean;
+  addPostError: string;
+  addPostDone: boolean;
   mainPosts: [
     {
       id: number;
@@ -91,20 +94,23 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postImageUploadError = action.data;
         break;
       case ADD_POST_REQUEST:
-        return {
-          ...state,
-          addPostLoading: true,
-          addPostDone: false,
-        };
+        draft.addPostLoading = true;
+        draft.addPostDone = false;
+        draft.addPostError = null;
+        break;
       case ADD_POST_SUCCESS:
-        return {
-          ...state,
-          addPostLoading: false,
-          addPostDone: true,
-          mainPosts: [dummyData(action.data), ...state.mainPosts],
-        };
+        draft.addPostLoading = false;
+        draft.addPostDone = true;
+        draft.addPostError = null;
+        draft.mainPosts.unshift(action.data);
+        break;
+      case ADD_POST_FAILURE:
+        draft.addPostLoading = false;
+        draft.addPostDone = false;
+        draft.addPostError = action.data;
+        break;
       default:
-        return state;
+        break;
     }
   });
 

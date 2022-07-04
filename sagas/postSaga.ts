@@ -1,33 +1,24 @@
 import axios from "axios";
-import { all, call, delay, fork, put, takeLatest } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import {
+  addPostFailureAction,
+  addPostSuccessAction,
   postImageUploadFailureAction,
   postImageUploadSuccessAction,
 } from "../action/postActions";
-import {
-  ADD_POST_FAILURE,
-  ADD_POST_REQUEST,
-  ADD_POST_SUCCESS,
-  POST_IMAGE_UPLOAD_REQUEST,
-} from "../action/types";
+import { ADD_POST_REQUEST, POST_IMAGE_UPLOAD_REQUEST } from "../action/types";
 
 function addPostAPI(data) {
-  return axios.post("/api/post", data);
+  return axios.post("/post", data);
 }
 
 function* addPost(action) {
   try {
-    // const result = yield call(logInAPI, action.data);
-    yield delay(1000);
-    yield put({
-      type: ADD_POST_SUCCESS,
-      data: action.data,
-    });
+    const result = yield call(addPostAPI, action.data);
+    console.log(result);
+    yield put(addPostSuccessAction(result.data));
   } catch (err) {
-    yield put({
-      type: ADD_POST_FAILURE,
-      data: err.response.data,
-    });
+    yield put(addPostFailureAction(err.response.data));
   }
 }
 

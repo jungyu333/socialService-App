@@ -1,9 +1,14 @@
 import { PlusSquareOutlined } from "@ant-design/icons";
 import React, { useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import tw from "tailwind-styled-components";
-import { postImageUploadRequestAction } from "../action/postActions";
+import {
+  addPostRequestAction,
+  postImageUploadRequestAction,
+} from "../action/postActions";
+import { RootState } from "../reducers";
 
 const Wrapper = tw.div`
   max-w-sm
@@ -57,7 +62,9 @@ const ImageInput = tw.input`
 interface ValidForm {
   content: string;
 }
+
 function PostForm() {
+  const { imagePaths } = useSelector((state: RootState) => state.postReducer);
   const dispatch = useDispatch();
   const photoInput = useRef<HTMLInputElement>();
   const { register, handleSubmit, reset } = useForm<ValidForm>();
@@ -65,9 +72,17 @@ function PostForm() {
     photoInput.current.click();
   }, [photoInput.current]);
   const onValid = ({ content }: ValidForm) => {
-    console.log(content);
+    if (!imagePaths) {
+      dispatch(addPostRequestAction({ content }));
+    } else {
+      const formData = new FormData();
+      imagePaths.forEach((image) => {
+        formData.append("image", image);
+      });
+      formData.append("content", content);
+      dispatch(addPostRequestAction(formData));
+    }
   };
-
   const onChangePhoto = (e) => {
     console.log(e.target.files);
     const formData = new FormData();
@@ -76,6 +91,7 @@ function PostForm() {
     });
     dispatch(postImageUploadRequestAction(formData));
   };
+
   return (
     <Wrapper>
       <FormContainer
