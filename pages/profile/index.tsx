@@ -112,8 +112,8 @@ const Profile = () => {
       <Layout>
         <ProfileWrapper>
           <ProfileContainer>
-            {me?.avatar ? (
-              <Avatar src={`http://localhost:4000/${me.avatar}`} />
+            {me?.avatar !== "null" ? (
+              <Avatar src={`http://localhost:4000/${me?.avatar}`} />
             ) : (
               <Image />
             )}

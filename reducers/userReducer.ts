@@ -37,7 +37,7 @@ const initialState: UserState = {
   avatarEditDone: false,
   avatarEditError: null,
   me: null,
-  avatarPaths: null,
+  avatarPaths: "null",
 };
 
 export interface UserState {
@@ -161,7 +161,7 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.avatarUploadError = action.data;
         break;
       case AVATAR_DELETE:
-        draft.avatarPaths = null;
+        draft.avatarPaths = "null";
         draft.avatarUploadDone = false;
         break;
       default:

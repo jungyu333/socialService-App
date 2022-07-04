@@ -76,10 +76,10 @@ function UserProfile() {
       <Wrapper>
         <ProfileWrapper>
           <ProfileContainer>
-            {avatar ? (
-              <Avatar src={`http://localhost:4000/${avatar}`} />
-            ) : (
+            {avatar === "null" ? (
               <Image />
+            ) : (
+              <Avatar src={`http://localhost:4000/${avatar}`} />
             )}
             <UserInfo>
               <UserName>{nickname}</UserName>

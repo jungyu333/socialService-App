@@ -61,13 +61,13 @@ function AvatarInput() {
   return (
     <>
       <div className="flex items-center space-x-3">
-        {avatarPaths ? (
+        {avatarPaths !== "null" ? (
           <PreAvatar src={`http://localhost:4000/${avatarPaths}`} />
         ) : (
           <Avatar />
         )}
 
-        {!avatarPaths ? (
+        {avatarPaths === "null" ? (
           <AvatarButton onClick={onClickAvater}>이미지</AvatarButton>
         ) : (
           <AvatarButton onClick={onClickDeleteAvatar}>초기화</AvatarButton>
