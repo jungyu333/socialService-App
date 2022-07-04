@@ -2,6 +2,7 @@ import produce from "immer";
 import { UserAction } from "../action/userAction";
 import {
   AVATAR_DELETE,
+  AVATAR_EDIT_DELETE,
   AVATAR_EDIT_FAILURE,
   AVATAR_EDIT_REQUEST,
   AVATAR_EDIT_SUCCESS,
@@ -18,6 +19,7 @@ import {
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
+  USER_INFO_LOAD,
 } from "../action/types";
 
 const initialState: UserState = {
@@ -65,6 +67,8 @@ export interface UserState {
     Followers: {}[];
     Followings: {}[];
     avatar: string;
+    updatedAt: string;
+    createdAt: string;
   };
 }
 
@@ -138,6 +142,7 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.editDone = true;
         draft.editError = null;
         draft.avatarPaths = action.data;
+        draft.me.avatar = action.data;
         break;
       case AVATAR_EDIT_FAILURE:
         draft.editLoading = false;
@@ -162,7 +167,17 @@ const userReducer = (state = initialState, action: UserAction) =>
         break;
       case AVATAR_DELETE:
         draft.avatarPaths = "null";
+        // draft.me.avatar = "null";
         draft.avatarUploadDone = false;
+        break;
+      case AVATAR_EDIT_DELETE:
+        draft.avatarPaths = "null";
+        draft.me.avatar = "null";
+        draft.avatarUploadDone = false;
+        break;
+      case USER_INFO_LOAD:
+        draft.me = action.data;
+
         break;
       default:
         break;

@@ -8,13 +8,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import { useDispatch } from "react-redux";
 import {
-  avatarDeleteAction,
+  avatarEditDeleteAction,
   avatarEditRequestAction,
-  avatarUploadRequestAction,
   editInfoRequestAction,
 } from "../../action/userAction";
 import { useRouter } from "next/router";
-import AvatarInput from "../../components/AvatarInput";
 
 const LoginForm = tw.form`
   space-y-4
@@ -74,10 +72,10 @@ interface ValidForm {
 function editinfo() {
   const router = useRouter();
   const avatarInput = useRef<HTMLInputElement>();
-  const { me } = useSelector((state: RootState) => state.userReducer);
-  const { editLoading, editDone, editError, avatarPaths } = useSelector(
+  const { me, avatarPaths, editDone } = useSelector(
     (state: RootState) => state.userReducer
   );
+
   const { register, handleSubmit, setValue } = useForm<ValidForm>();
   const dispatch = useDispatch();
   const onClickAvater = useCallback(() => {
@@ -95,7 +93,7 @@ function editinfo() {
   };
 
   const onClickDeleteAvatar = () => {
-    dispatch(avatarDeleteAction());
+    dispatch(avatarEditDeleteAction());
   };
   useEffect(() => {
     if (me) {
@@ -125,13 +123,13 @@ function editinfo() {
           encType="multipart/form-data"
         >
           <div className="flex items-center space-x-3">
-            {avatarPaths !== "null" ? (
-              <PreAvatar src={`http://localhost:4000/${avatarPaths}`} />
+            {me.avatar !== "null" ? (
+              <PreAvatar src={`http://localhost:4000/${me.avatar}`} />
             ) : (
               <Avatar />
             )}
 
-            {avatarPaths === "null" ? (
+            {me.avatar === "null" ? (
               <AvatarButton onClick={onClickAvater}>이미지</AvatarButton>
             ) : (
               <AvatarButton onClick={onClickDeleteAvatar}>초기화</AvatarButton>

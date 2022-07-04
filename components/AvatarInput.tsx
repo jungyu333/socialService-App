@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
@@ -56,7 +56,13 @@ function AvatarInput() {
     dispatch(avatarDeleteAction());
   };
 
-  const { avatarPaths } = useSelector((state: RootState) => state.userReducer);
+  useEffect(() => {
+    dispatch(avatarDeleteAction());
+  }, []);
+
+  const { avatarPaths, me } = useSelector(
+    (state: RootState) => state.userReducer
+  );
 
   return (
     <>

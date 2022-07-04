@@ -111,7 +111,7 @@ const Layout = ({ children }) => {
           {!isLogIn ? (
             <MenuItem>
               <Link href="/signin">
-                <LogIn $isLogIn={isLogIn}>로그인</LogIn>
+                <LogIn $isLogIn={me}>로그인</LogIn>
               </Link>
             </MenuItem>
           ) : null}
@@ -167,7 +167,7 @@ const Layout = ({ children }) => {
         {!isLogIn ? (
           <MobileMenuItem>
             <Link href="/signin">
-              <LogIn $isLogIn={isLogIn}>로그인</LogIn>
+              <LogIn $isLogIn={me}>로그인</LogIn>
             </Link>
           </MobileMenuItem>
         ) : null}

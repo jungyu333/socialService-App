@@ -7,9 +7,13 @@ import {
   TwitterOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
+
 import CircleItem from "../../components/CircleItem";
 import { useDispatch } from "react-redux";
-import { logOutRequestAction } from "../../action/userAction";
+import {
+  logOutRequestAction,
+  userInfoLoadAction,
+} from "../../action/userAction";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
@@ -100,8 +104,9 @@ const Profile = () => {
   useEffect(() => {
     if (logOutDone) {
       router.replace("/");
+      dispatch(userInfoLoadAction(me));
     }
-  }, [logOutDone]);
+  }, [logOutDone, me]);
 
   return (
     <>

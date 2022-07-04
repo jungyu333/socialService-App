@@ -16,6 +16,8 @@ import {
   AVATAR_EDIT_REQUEST,
   AVATAR_EDIT_FAILURE,
   AVATAR_EDIT_SUCCESS,
+  USER_INFO_LOAD,
+  AVATAR_EDIT_DELETE,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -96,6 +98,8 @@ export interface LogInData {
   Posts: {}[];
   Followers: {}[];
   Followings: {}[];
+  updatedAt: string;
+  createdAt: string;
 }
 
 interface EditInfoData {
@@ -152,6 +156,20 @@ export const avatarEditRequestAction = (data) => {
   };
 };
 
+export const avatarEditDeleteAction = () => {
+  return {
+    type: AVATAR_EDIT_DELETE,
+    data: null,
+  };
+};
+
+export const userInfoLoadAction = (data) => {
+  return {
+    type: USER_INFO_LOAD,
+    data,
+  };
+};
+
 export type UserAction =
   | ReturnType<typeof logInRequestAction>
   | ReturnType<typeof logOutRequestAction>
@@ -169,4 +187,6 @@ export type UserAction =
   | ReturnType<typeof avatarDeleteAction>
   | ReturnType<typeof avatarEditRequestAction>
   | ReturnType<typeof avatarEditSuccessAction>
-  | ReturnType<typeof avatarEditFailureAction>;
+  | ReturnType<typeof avatarEditFailureAction>
+  | ReturnType<typeof userInfoLoadAction>
+  | ReturnType<typeof avatarEditDeleteAction>;

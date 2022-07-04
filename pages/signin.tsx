@@ -7,7 +7,11 @@ import Input from "../components/Input";
 import { useRouter } from "next/router";
 import LogInForm from "../components/LogInForm";
 import { useDispatch } from "react-redux";
-import { logInErrorInitAction, logInRequestAction } from "../action/userAction";
+import {
+  logInErrorInitAction,
+  logInRequestAction,
+  userInfoLoadAction,
+} from "../action/userAction";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
 import { signUpErrorInitAction } from "../action/signUpAction";
@@ -70,6 +74,7 @@ const SignIn = () => {
       alert(logInError);
     }
     if (me) {
+      dispatch(userInfoLoadAction(me));
       router.replace("/");
     }
     dispatch(logInErrorInitAction());
