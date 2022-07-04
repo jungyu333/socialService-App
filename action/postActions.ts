@@ -1,26 +1,58 @@
-import { ADD_POST_FAILURE, ADD_POST_REQUEST, ADD_POST_SUCCESS } from "./types";
+import {
+  ADD_POST_FAILURE,
+  ADD_POST_REQUEST,
+  ADD_POST_SUCCESS,
+  POST_IMAGE_UPLOAD_FAILURE,
+  POST_IMAGE_UPLOAD_REQUEST,
+  POST_IMAGE_UPLOAD_SUCCESS,
+} from "./types";
 
-export const addPostRequestAction = (data: string) => {
+export const addPostRequestAction = (data) => {
   return {
     type: ADD_POST_REQUEST,
     data,
   };
 };
 
-export const addPostSuccessAction = (data: string) => {
+export const addPostSuccessAction = (data) => {
   return {
     type: ADD_POST_SUCCESS,
     data,
   };
 };
 
-export const addPostFailureAction = () => {
+export const addPostFailureAction = (data: string) => {
   return {
     type: ADD_POST_FAILURE,
+    data,
+  };
+};
+
+export const postImageUploadRequestAction = (data) => {
+  return {
+    type: POST_IMAGE_UPLOAD_REQUEST,
+    data,
+  };
+};
+
+export const postImageUploadSuccessAction = (data) => {
+  return {
+    type: POST_IMAGE_UPLOAD_SUCCESS,
+    data,
+  };
+};
+
+export const postImageUploadFailureAction = (data) => {
+  return {
+    type: POST_IMAGE_UPLOAD_FAILURE,
+    data,
   };
 };
 
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
-  | ReturnType<typeof addPostFailureAction>;
+  | ReturnType<typeof addPostFailureAction>
+  | ReturnType<typeof postImageUploadRequestAction>
+  | ReturnType<typeof postImageUploadSuccessAction>
+  | ReturnType<typeof postImageUploadFailureAction>;

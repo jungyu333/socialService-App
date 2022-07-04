@@ -24,3 +24,6 @@ export const AVATAR_EDIT_FAILURE = "AVATAR_EDIT_FAILURE" as const;
 export const USER_INFO_LOAD = "USER_INFO_LOAD" as const;
 export const AVATAR_DELETE = "AVATAR_DELETE" as const;
 export const AVATAR_EDIT_DELETE = "AVATAR_EDIT_DELETE" as const;
+export const POST_IMAGE_UPLOAD_REQUEST = "POST_IMAGE_UPLOAD_REQUEST" as const;
+export const POST_IMAGE_UPLOAD_SUCCESS = "POST_IMAGE_UPLOAD_SUCCESS" as const;
+export const POST_IMAGE_UPLOAD_FAILURE = "POST_IMAGE_UPLOAD_FAILURE" as const;

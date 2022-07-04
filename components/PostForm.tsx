@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import tw from "tailwind-styled-components";
-import { addPostRequestAction } from "../action/PostActions";
+import { postImageUploadRequestAction } from "../action/postActions";
 
 const Wrapper = tw.div`
   max-w-sm
@@ -65,17 +65,33 @@ function PostForm() {
     photoInput.current.click();
   }, [photoInput.current]);
   const onValid = ({ content }: ValidForm) => {
-    dispatch(addPostRequestAction(content));
+    console.log(content);
+  };
 
-    reset();
+  const onChangePhoto = (e) => {
+    console.log(e.target.files);
+    const formData = new FormData();
+    [].forEach.call(e.target.files, (file) => {
+      formData.append("postimg", file);
+    });
+    dispatch(postImageUploadRequestAction(formData));
   };
   return (
     <Wrapper>
-      <FormContainer onSubmit={handleSubmit(onValid)}>
+      <FormContainer
+        onSubmit={handleSubmit(onValid)}
+        encType="multipart/form-data"
+      >
         <TextArea {...register("content")} rows={4} />
         <SubmitButtonContainer>
           <PlusPhoto onClick={onClickPhoto} />
-          <ImageInput type="file" ref={photoInput} />
+          <ImageInput
+            multiple
+            type="file"
+            ref={photoInput}
+            name="postimg"
+            onChange={onChangePhoto}
+          />
           <SubmitButton>짹짹</SubmitButton>
         </SubmitButtonContainer>
       </FormContainer>

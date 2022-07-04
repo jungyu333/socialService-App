@@ -1,9 +1,20 @@
+import produce from "immer";
 import { PostActionType } from "../action/postActions";
-import { ADD_POST_REQUEST, ADD_POST_SUCCESS } from "../action/types";
+import {
+  ADD_POST_REQUEST,
+  ADD_POST_SUCCESS,
+  POST_IMAGE_UPLOAD_FAILURE,
+  POST_IMAGE_UPLOAD_REQUEST,
+  POST_IMAGE_UPLOAD_SUCCESS,
+} from "../action/types";
 
 const initialState: PostState = {
+  postImageUploadLoading: false,
+  postImageUploadDone: false,
+  postImageUploadError: null,
   addPostLoading: false,
   addPostDond: false,
+  imagePaths: [],
   mainPosts: [
     {
       id: 1,
@@ -29,8 +40,6 @@ const initialState: PostState = {
       ],
     },
   ],
-
-  imagePaths: [],
 };
 
 const dummyData = (data) => ({
@@ -45,6 +54,9 @@ const dummyData = (data) => ({
 });
 
 export interface PostState {
+  postImageUploadLoading: boolean;
+  postImageUploadDone: boolean;
+  postImageUploadError: string;
   addPostLoading: boolean;
   addPostDond: boolean;
   mainPosts: [
@@ -56,27 +68,44 @@ export interface PostState {
       Comments: { User: { name: string }; content: string }[];
     }
   ];
-  imagePaths: {}[];
+  imagePaths: [];
 }
 
-const postReducer = (state = initialState, action: PostActionType) => {
-  switch (action.type) {
-    case ADD_POST_REQUEST:
-      return {
-        ...state,
-        addPostLoading: true,
-        addPostDone: false,
-      };
-    case ADD_POST_SUCCESS:
-      return {
-        ...state,
-        addPostLoading: false,
-        addPostDone: true,
-        mainPosts: [dummyData(action.data), ...state.mainPosts],
-      };
-    default:
-      return state;
-  }
-};
+const postReducer = (state = initialState, action: PostActionType) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case POST_IMAGE_UPLOAD_REQUEST:
+        draft.postImageUploadLoading = true;
+        draft.postImageUploadDone = false;
+        draft.postImageUploadError = null;
+        break;
+      case POST_IMAGE_UPLOAD_SUCCESS:
+        draft.postImageUploadLoading = false;
+        draft.postImageUploadDone = true;
+        draft.postImageUploadError = null;
+        draft.imagePaths = action.data;
+        break;
+      case POST_IMAGE_UPLOAD_FAILURE:
+        draft.postImageUploadLoading = false;
+        draft.postImageUploadDone = false;
+        draft.postImageUploadError = action.data;
+        break;
+      case ADD_POST_REQUEST:
+        return {
+          ...state,
+          addPostLoading: true,
+          addPostDone: false,
+        };
+      case ADD_POST_SUCCESS:
+        return {
+          ...state,
+          addPostLoading: false,
+          addPostDone: true,
+          mainPosts: [dummyData(action.data), ...state.mainPosts],
+        };
+      default:
+        return state;
+    }
+  });
 
 export default postReducer;

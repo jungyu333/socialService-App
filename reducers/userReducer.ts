@@ -167,7 +167,6 @@ const userReducer = (state = initialState, action: UserAction) =>
         break;
       case AVATAR_DELETE:
         draft.avatarPaths = "null";
-        // draft.me.avatar = "null";
         draft.avatarUploadDone = false;
         break;
       case AVATAR_EDIT_DELETE:
@@ -177,7 +176,6 @@ const userReducer = (state = initialState, action: UserAction) =>
         break;
       case USER_INFO_LOAD:
         draft.me = action.data;
-
         break;
       default:
         break;
