@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import tw from "tailwind-styled-components";
 import Comment from "./Comment";
+import PostImage from "../components/PostImage";
 
 import CommentForm from "./CommentForm";
 import PostButtons from "./PostButtons";
@@ -38,8 +39,8 @@ const ContentContainer = tw.div`
 const Avatar = tw.div`
   bg-slate-500
   rounded-full
-  w-10
-  h-10
+  w-12
+  h-12
 `;
 
 const ContentInfo = tw.div`
@@ -73,10 +74,18 @@ const CommentCount = tw.div`
 
 export interface PostProps {
   id: number;
-  User: { id: number; name: string };
+  User: { id: number; nickname: string; avatar: string };
+  UserId: number;
   content: string;
-  Comments: { User: { name: string }; content: string }[];
-  Images: {}[];
+  Images: {
+    id: number;
+    src: string;
+    createdAt: string;
+    updatedAt: string;
+    PostId: number;
+  }[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 function PostCard(post: PostProps) {
@@ -84,14 +93,21 @@ function PostCard(post: PostProps) {
 
   return (
     <Wrapper>
-      <Image />
+      {post.Images[0] ? <PostImage images={post.Images} /> : null}
       <ContentWrapper>
         <ContentContainer>
           <div>
-            <Avatar />
+            {post.User.avatar ? (
+              <img
+                className="rounded-full w-12 h-12"
+                src={`http://localhost:4000/${post.User.avatar}`}
+              />
+            ) : (
+              <Avatar />
+            )}
           </div>
           <ContentInfo>
-            <Name>{post.User?.name}</Name>
+            <Name>{post.User.nickname}</Name>
             <PostContent postData={post.content} />
           </ContentInfo>
         </ContentContainer>
@@ -99,10 +115,10 @@ function PostCard(post: PostProps) {
         {commentOpened ? (
           <>
             <CommentForm {...post} />
-            <CommentCount>{post.Comments.length}개의 댓글</CommentCount>
-            {post.Comments.map((comment, idx) => (
+            <CommentCount>55개의 댓글</CommentCount>
+            {/* {post.Comments.map((comment, idx) => (
               <Comment key={idx} {...comment} />
-            ))}
+            ))} */}
           </>
         ) : null}
       </ContentWrapper>

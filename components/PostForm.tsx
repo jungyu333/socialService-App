@@ -89,6 +89,7 @@ function PostForm() {
       formData.append("content", content);
       dispatch(addPostRequestAction(formData));
     }
+    reset();
   };
   const onChangePhoto = (e) => {
     console.log(e.target.files);
@@ -117,6 +118,7 @@ function PostForm() {
             type="file"
             ref={photoInput}
             name="postimg"
+            accept="image/*"
             onChange={onChangePhoto}
           />
           <SubmitButton>짹짹</SubmitButton>
