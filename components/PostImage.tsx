@@ -1,5 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
+import ImageZoom from "./ImageZoom";
 
 function postImage({ images }) {
   const [imageZoom, setImageZoom] = useState(false);
@@ -7,7 +8,7 @@ function postImage({ images }) {
     setImageZoom(true);
   };
 
-  const onClickclose = () => {
+  const onClickClose = () => {
     setImageZoom(false);
   };
   if (images.length === 1) {
@@ -18,6 +19,7 @@ function postImage({ images }) {
           src={`http://localhost:4000/${images[0].src}`}
           onClick={onClickZoom}
         />
+        {imageZoom && <ImageZoom images={images} onClickClose={onClickClose} />}
       </>
     );
   } else if (images.length === 2) {
@@ -33,6 +35,7 @@ function postImage({ images }) {
           src={`http://localhost:4000/${images[1].src}`}
           onClick={onClickZoom}
         />
+        {imageZoom && <ImageZoom images={images} onClickClose={onClickClose} />}
       </div>
     );
   } else {
@@ -55,6 +58,7 @@ function postImage({ images }) {
             </div>
           </div>
         </div>
+        {imageZoom && <ImageZoom images={images} onClickClose={onClickClose} />}
       </div>
     );
   }
