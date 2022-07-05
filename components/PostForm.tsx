@@ -1,4 +1,4 @@
-import { PlusSquareOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import React, { useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -59,6 +59,12 @@ const ImageInput = tw.input`
   hidden
 `;
 
+const PreImage = tw.img`
+  w-28
+  h-28
+  bg-cover
+`;
+
 interface ValidForm {
   content: string;
 }
@@ -111,6 +117,20 @@ function PostForm() {
           <SubmitButton>짹짹</SubmitButton>
         </SubmitButtonContainer>
       </FormContainer>
+      <div>
+        {imagePaths.length !== 0 ? (
+          <div className="flex px-2 items-center space-x-2 mt-2 overflow-auto scrollbar-thin  scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+            {imagePaths.map((image) => (
+              <div key={image} className="h-36 w-28 min-w-max mb-2">
+                <PreImage src={`http://localhost:4000/${image}`} />
+                <button className="text-lg text-gray-400 hover:text-red-500">
+                  <DeleteOutlined />
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </div>
     </Wrapper>
   );
 }

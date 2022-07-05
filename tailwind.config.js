@@ -18,10 +18,10 @@ module.exports = {
 
       xl: "1280px",
       // => @media (min-width: 1280px) { ... }
-
-      "2xl": "1536px",
-      // => @media (min-width: 1536px) { ... }
     },
   },
-  plugins: [require("tailwind-scrollbar-hide")],
+  plugins: [require("tailwind-scrollbar-hide"), require("tailwind-scrollbar")],
+  variants: {
+    scrollbar: ["rounded"],
+  },
 };
