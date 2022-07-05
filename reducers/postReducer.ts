@@ -4,6 +4,7 @@ import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
+  POST_IMAGE_DELETE,
   POST_IMAGE_UPLOAD_FAILURE,
   POST_IMAGE_UPLOAD_REQUEST,
   POST_IMAGE_UPLOAD_SUCCESS,
@@ -71,7 +72,7 @@ export interface PostState {
       Comments: { User: { name: string }; content: string }[];
     }
   ];
-  imagePaths: [];
+  imagePaths: string[];
 }
 
 const postReducer = (state = initialState, action: PostActionType) =>
@@ -93,6 +94,11 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postImageUploadDone = false;
         draft.postImageUploadError = action.data;
         break;
+      case POST_IMAGE_DELETE:
+        draft.imagePaths = draft.imagePaths.filter(
+          (image) => image !== action.data
+        );
+        break;
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;
         draft.addPostDone = false;
@@ -109,6 +115,7 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.addPostDone = false;
         draft.addPostError = action.data;
         break;
+
       default:
         break;
     }

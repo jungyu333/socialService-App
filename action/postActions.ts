@@ -2,6 +2,7 @@ import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
+  POST_IMAGE_DELETE,
   POST_IMAGE_UPLOAD_FAILURE,
   POST_IMAGE_UPLOAD_REQUEST,
   POST_IMAGE_UPLOAD_SUCCESS,
@@ -49,10 +50,18 @@ export const postImageUploadFailureAction = (data) => {
   };
 };
 
+export const postImageDeleteAction = (data) => {
+  return {
+    type: POST_IMAGE_DELETE,
+    data,
+  };
+};
+
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
   | ReturnType<typeof addPostFailureAction>
   | ReturnType<typeof postImageUploadRequestAction>
   | ReturnType<typeof postImageUploadSuccessAction>
-  | ReturnType<typeof postImageUploadFailureAction>;
+  | ReturnType<typeof postImageUploadFailureAction>
+  | ReturnType<typeof postImageDeleteAction>;

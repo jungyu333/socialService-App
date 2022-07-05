@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import tw from "tailwind-styled-components";
 import {
   addPostRequestAction,
+  postImageDeleteAction,
   postImageUploadRequestAction,
 } from "../action/postActions";
 import { RootState } from "../reducers";
@@ -96,6 +97,10 @@ function PostForm() {
       formData.append("postimg", file);
     });
     dispatch(postImageUploadRequestAction(formData));
+    e.target.value = "";
+  };
+  const onClickPostImgDelete = (index) => {
+    dispatch(postImageDeleteAction(index));
   };
 
   return (
@@ -123,7 +128,10 @@ function PostForm() {
             {imagePaths.map((image) => (
               <div key={image} className="h-36 w-28 min-w-max mb-2">
                 <PreImage src={`http://localhost:4000/${image}`} />
-                <button className="text-lg text-gray-400 hover:text-red-500">
+                <button
+                  onClick={() => onClickPostImgDelete(image)}
+                  className="text-lg text-gray-400 hover:text-red-500"
+                >
                   <DeleteOutlined />
                 </button>
               </div>
