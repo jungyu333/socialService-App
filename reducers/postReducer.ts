@@ -44,6 +44,11 @@ export interface PostState {
     content: string;
     Comments: {
       id: number;
+      User: {
+        id: number;
+        avatar: string;
+        nickname: string;
+      };
       content: string;
       createdAt: string;
       updatedAt: string;

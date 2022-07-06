@@ -2,10 +2,17 @@ import React from "react";
 import tw from "tailwind-styled-components";
 
 interface CommentProps {
+  id: number;
   User: {
-    name: string;
+    id: number;
+    avatar: string;
+    nickname: string;
   };
   content: string;
+  createdAt: string;
+  updatedAt: string;
+  UserId: number;
+  PostId: number;
 }
 
 const Wrapper = tw.div`
@@ -49,9 +56,16 @@ function Comment(comment: CommentProps) {
   return (
     <Wrapper>
       <CommentContainer>
-        <Avatar />
+        {comment.User.avatar ? (
+          <img
+            className="w-10 h-10 rounded-full"
+            src={`http://localhost:4000/${comment.User.avatar}`}
+          />
+        ) : (
+          <Avatar />
+        )}
         <CommentBox>
-          <Name>{comment.User.name}</Name>
+          <Name>{comment.User.nickname}</Name>
           <Content>{comment.content}</Content>
         </CommentBox>
       </CommentContainer>

@@ -77,6 +77,19 @@ export interface PostProps {
   User: { id: number; nickname: string; avatar: string };
   UserId: number;
   content: string;
+  Comments: {
+    id: number;
+    User: {
+      id: number;
+      avatar: string;
+      nickname: string;
+    };
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+    UserId: number;
+    PostId: number;
+  }[];
   Images: {
     id: number;
     src: string;
@@ -115,10 +128,10 @@ function PostCard(post: PostProps) {
         {commentOpened ? (
           <>
             <CommentForm {...post} />
-            <CommentCount>55개의 댓글</CommentCount>
-            {/* {post.Comments.map((comment, idx) => (
-              <Comment key={idx} {...comment} />
-            ))} */}
+            <CommentCount>{post.Comments.length}개의 댓글</CommentCount>
+            {post.Comments.map((comment) => (
+              <Comment key={comment.id} {...comment} />
+            ))}
           </>
         ) : null}
       </ContentWrapper>
