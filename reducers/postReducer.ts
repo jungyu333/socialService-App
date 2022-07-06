@@ -1,6 +1,9 @@
 import produce from "immer";
 import { PostActionType } from "../action/postActions";
 import {
+  ADD_COMMENT_FAILURE,
+  ADD_COMMENT_REQUEST,
+  ADD_COMMENT_SUCCESS,
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
@@ -17,20 +20,12 @@ const initialState: PostState = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
   imagePaths: [],
   mainPosts: [],
 };
-
-const dummyData = (data) => ({
-  id: 2,
-  User: { id: 21, name: "jungyu" },
-  content: data,
-  Images: [{}],
-  Comments: [
-    { User: { name: "jun1" }, content: "comment11" },
-    { User: { name: "jun2" }, content: "comment22" },
-  ],
-});
 
 export interface PostState {
   postImageUploadLoading: boolean;
@@ -39,11 +34,22 @@ export interface PostState {
   addPostLoading: boolean;
   addPostError: string;
   addPostDone: boolean;
+  addCommentLoading: boolean;
+  addCommentDone: boolean;
+  addCommentError: string;
   mainPosts: {
     id: number;
     User: { id: number; nickname: string; avatar: string };
     UserId: number;
     content: string;
+    Comments: {
+      id: number;
+      content: string;
+      createdAt: string;
+      updatedAt: string;
+      UserId: number;
+      PostId: number;
+    }[];
     Images: {
       id: number;
       src: string;
@@ -54,7 +60,6 @@ export interface PostState {
     createdAt: string;
     updatedAt: string;
   }[];
-
   imagePaths: string[];
 }
 
@@ -99,7 +104,25 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.addPostDone = false;
         draft.addPostError = action.data;
         break;
-
+      case ADD_COMMENT_REQUEST:
+        draft.addCommentLoading = true;
+        draft.addCommentDone = false;
+        draft.addCommentError = null;
+        break;
+      case ADD_COMMENT_SUCCESS:
+        const post = draft.mainPosts.find(
+          (post) => post.id === action.data.PostId
+        );
+        post.Comments.unshift(action.data);
+        draft.addCommentLoading = false;
+        draft.addCommentDone = true;
+        draft.addCommentError = null;
+        break;
+      case ADD_COMMENT_FAILURE:
+        draft.addCommentLoading = false;
+        draft.addCommentDone = false;
+        draft.addCommentError = action.data;
+        break;
       default:
         break;
     }

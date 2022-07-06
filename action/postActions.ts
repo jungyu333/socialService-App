@@ -1,4 +1,7 @@
 import {
+  ADD_COMMENT_FAILURE,
+  ADD_COMMENT_REQUEST,
+  ADD_COMMENT_SUCCESS,
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
@@ -57,6 +60,27 @@ export const postImageDeleteAction = (data) => {
   };
 };
 
+export const addCommentRequestAction = (data) => {
+  return {
+    type: ADD_COMMENT_REQUEST,
+    data,
+  };
+};
+
+export const addCommentSuccessAction = (data) => {
+  return {
+    type: ADD_COMMENT_SUCCESS,
+    data,
+  };
+};
+
+export const addCommentFailureAction = (data: string) => {
+  return {
+    type: ADD_COMMENT_FAILURE,
+    data,
+  };
+};
+
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
@@ -64,4 +88,7 @@ export type PostActionType =
   | ReturnType<typeof postImageUploadRequestAction>
   | ReturnType<typeof postImageUploadSuccessAction>
   | ReturnType<typeof postImageUploadFailureAction>
-  | ReturnType<typeof postImageDeleteAction>;
+  | ReturnType<typeof postImageDeleteAction>
+  | ReturnType<typeof addCommentRequestAction>
+  | ReturnType<typeof addCommentSuccessAction>
+  | ReturnType<typeof addCommentFailureAction>;

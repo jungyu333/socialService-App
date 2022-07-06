@@ -3,6 +3,10 @@ import { PostProps } from "./PostCard";
 import tw from "tailwind-styled-components";
 import { SendOutlined } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "../reducers";
+import { addCommentRequestAction } from "../action/postActions";
 
 const Wrapper = tw.div`
   max-w-sm
@@ -34,19 +38,23 @@ const SubmitButton = tw.button`
 `;
 
 interface ValidForm {
-  comment: string;
+  content: string;
 }
 function CommentForm(post: PostProps) {
+  const dispatch = useDispatch();
+  const { id } = useSelector((state: RootState) => state.userReducer.me);
   const { register, handleSubmit, reset } = useForm<ValidForm>();
-  const onValid = (validForm: ValidForm) => {
-    console.log(validForm);
+  const onValid = ({ content }: ValidForm) => {
+    dispatch(
+      addCommentRequestAction({ content: content, postId: post.id, userId: id })
+    );
     reset();
   };
   return (
     <Wrapper>
       <form onSubmit={handleSubmit(onValid)}>
         <TextArea
-          {...register("comment", { required: "내용을 입력해주세요" })}
+          {...register("content", { required: "내용을 입력해주세요" })}
           rows={3}
         />
         <SubmitButton>

@@ -92,7 +92,6 @@ function PostForm() {
     reset();
   };
   const onChangePhoto = (e) => {
-    console.log(e.target.files);
     const formData = new FormData();
     [].forEach.call(e.target.files, (file) => {
       formData.append("postimg", file);
