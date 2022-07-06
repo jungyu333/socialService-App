@@ -124,7 +124,7 @@ function PostCard(post: PostProps) {
             <PostContent postData={post.content} />
           </ContentInfo>
         </ContentContainer>
-        <PostButtons setCommentOpened={setCommentOpened} />
+        <PostButtons postId={post.id} setCommentOpened={setCommentOpened} />
         {commentOpened ? (
           <>
             <CommentForm {...post} />

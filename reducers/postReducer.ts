@@ -7,6 +7,9 @@ import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
+  POST_DELETE_FAILURE,
+  POST_DELETE_REQUEST,
+  POST_DELETE_SUCCESS,
   POST_IMAGE_DELETE,
   POST_IMAGE_UPLOAD_FAILURE,
   POST_IMAGE_UPLOAD_REQUEST,
@@ -23,6 +26,9 @@ const initialState: PostState = {
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
+  postDeleteLoading: false,
+  postDeleteDone: false,
+  postDeleteError: null,
   imagePaths: [],
   mainPosts: [],
 };
@@ -37,6 +43,9 @@ export interface PostState {
   addCommentLoading: boolean;
   addCommentDone: boolean;
   addCommentError: string;
+  postDeleteLoading: boolean;
+  postDeleteDone: boolean;
+  postDeleteError: string;
   mainPosts: {
     id: number;
     User: { id: number; nickname: string; avatar: string };
@@ -127,6 +136,24 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.addCommentLoading = false;
         draft.addCommentDone = false;
         draft.addCommentError = action.data;
+        break;
+      case POST_DELETE_REQUEST:
+        draft.postDeleteLoading = true;
+        draft.postDeleteDone = false;
+        draft.postDeleteError = null;
+        break;
+      case POST_DELETE_SUCCESS:
+        draft.postDeleteLoading = false;
+        draft.postDeleteDone = true;
+        draft.postDeleteError = null;
+        draft.mainPosts = draft.mainPosts.filter(
+          (post) => post.id !== parseInt(action.data.postId)
+        );
+        break;
+      case POST_DELETE_FAILURE:
+        draft.postDeleteLoading = false;
+        draft.postDeleteDone = false;
+        draft.postDeleteError = action.data;
         break;
       default:
         break;

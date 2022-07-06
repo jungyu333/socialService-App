@@ -5,6 +5,9 @@ import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
+  POST_DELETE_FAILURE,
+  POST_DELETE_REQUEST,
+  POST_DELETE_SUCCESS,
   POST_IMAGE_DELETE,
   POST_IMAGE_UPLOAD_FAILURE,
   POST_IMAGE_UPLOAD_REQUEST,
@@ -81,6 +84,27 @@ export const addCommentFailureAction = (data: string) => {
   };
 };
 
+export const postDeleteRequestAction = (data) => {
+  return {
+    type: POST_DELETE_REQUEST,
+    data,
+  };
+};
+
+export const postDeleteSuccessAction = (data) => {
+  return {
+    type: POST_DELETE_SUCCESS,
+    data,
+  };
+};
+
+export const postDeleteFailureAction = (data) => {
+  return {
+    type: POST_DELETE_FAILURE,
+    data,
+  };
+};
+
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
@@ -91,4 +115,7 @@ export type PostActionType =
   | ReturnType<typeof postImageDeleteAction>
   | ReturnType<typeof addCommentRequestAction>
   | ReturnType<typeof addCommentSuccessAction>
-  | ReturnType<typeof addCommentFailureAction>;
+  | ReturnType<typeof addCommentFailureAction>
+  | ReturnType<typeof postDeleteRequestAction>
+  | ReturnType<typeof postDeleteSuccessAction>
+  | ReturnType<typeof postDeleteFailureAction>;

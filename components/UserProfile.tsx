@@ -6,7 +6,7 @@ import { RootState } from "../reducers";
 const Wrapper = tw.div`
   hidden
   absolute
-  2xl:flex 
+  xl:flex 
   top-10
   left-10
 `;

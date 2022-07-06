@@ -3,7 +3,10 @@ import {
   DeleteOutlined,
   HeartOutlined,
 } from "@ant-design/icons";
+
+import { useDispatch } from "react-redux";
 import tw from "tailwind-styled-components";
+import { postDeleteRequestAction } from "../action/postActions";
 
 const ButtonWrapper = tw.div`
   flex
@@ -29,13 +32,20 @@ const IconBox = tw.div`
   
 `;
 
-function PostButtons({ setCommentOpened }) {
+function PostButtons({ postId, setCommentOpened }) {
+  const dispatch = useDispatch();
+
   const onClickComment = () => {
     setCommentOpened((prev) => !prev);
   };
+  const onClickDeletePost = () => {
+    dispatch(postDeleteRequestAction(postId));
+    console.log(postId);
+  };
+
   return (
     <ButtonWrapper>
-      <IconBox>
+      <IconBox onClick={onClickDeletePost}>
         <DeleteOutlined />
       </IconBox>
 

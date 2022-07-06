@@ -5,12 +5,15 @@ import {
   addCommentSuccessAction,
   addPostFailureAction,
   addPostSuccessAction,
+  postDeleteFailureAction,
+  postDeleteSuccessAction,
   postImageUploadFailureAction,
   postImageUploadSuccessAction,
 } from "../action/postActions";
 import {
   ADD_COMMENT_REQUEST,
   ADD_POST_REQUEST,
+  POST_DELETE_REQUEST,
   POST_IMAGE_UPLOAD_REQUEST,
 } from "../action/types";
 
@@ -57,6 +60,20 @@ function* addComment(action) {
   }
 }
 
+function postDeleteAPI(data) {
+  return axios.delete(`/post/${data}`, data);
+}
+
+function* postDelete(action) {
+  try {
+    const result = yield call(postDeleteAPI, action.data);
+    yield put(postDeleteSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(postDeleteFailureAction(err.response.data));
+  }
+}
+
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
@@ -69,6 +86,15 @@ function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 
+function* watchPostDelete() {
+  yield takeLatest(POST_DELETE_REQUEST, postDelete);
+}
+
 export default function* postSaga() {
-  yield all([fork(watchAddPost), fork(watchAddPostImg), fork(watchAddComment)]);
+  yield all([
+    fork(watchAddPost),
+    fork(watchAddPostImg),
+    fork(watchAddComment),
+    fork(watchPostDelete),
+  ]);
 }
