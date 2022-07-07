@@ -37,9 +37,14 @@ const IconBox = tw.div`
 
 function PostButtons({ postId, setCommentOpened }) {
   const dispatch = useDispatch();
+  const { me } = useSelector((state: RootState) => state.userReducer);
 
   const onClickComment = () => {
-    setCommentOpened((prev) => !prev);
+    if (!me) {
+      alert("로그인이 필요합니다.");
+    } else {
+      setCommentOpened((prev) => !prev);
+    }
   };
   const onClickDeletePost = () => {
     dispatch(postDeleteRequestAction(postId));

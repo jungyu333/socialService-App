@@ -56,13 +56,13 @@ function Comment(comment: CommentProps) {
   return (
     <Wrapper>
       <CommentContainer>
-        {comment.User.avatar ? (
+        {!comment.User.avatar || comment.User.avatar === "null" ? (
+          <Avatar />
+        ) : (
           <img
             className="w-10 h-10 rounded-full"
             src={`http://localhost:4000/${comment.User.avatar}`}
           />
-        ) : (
-          <Avatar />
         )}
         <CommentBox>
           <Name>{comment.User.nickname}</Name>

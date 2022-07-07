@@ -30,7 +30,7 @@ const Home = () => {
   useEffect(() => {
     if (inView && hasMorePosts && !postLoadLoading) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
-      console.log(lastId);
+
       dispatch(postLoadRequestAction(lastId));
     }
   }, [inView, mainPosts, hasMorePosts, postLoadLoading]);

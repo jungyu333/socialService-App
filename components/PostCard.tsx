@@ -110,13 +110,13 @@ function PostCard(post: PostProps) {
       <ContentWrapper>
         <ContentContainer>
           <div>
-            {post.User?.avatar ? (
+            {!post.User?.avatar || post.User?.avatar === "null" ? (
+              <Avatar />
+            ) : (
               <img
                 className="rounded-full w-12 h-12"
                 src={`http://localhost:4000/${post.User.avatar}`}
               />
-            ) : (
-              <Avatar />
             )}
           </div>
           <ContentInfo>
