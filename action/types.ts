@@ -37,3 +37,6 @@ export const POST_DELETE_FAILURE = "POST_DELETE_FAILURE" as const;
 export const POST_LOAD_REQUEST = "POST_LOAD_REQUEST" as const;
 export const POST_LOAD_SUCCESS = "POST_LOAD_SUCCESS" as const;
 export const POST_LOAD_FAILURE = "POST_LOAD_FAILURE" as const;
+export const USER_INFO_LOAD_REQUEST = "USER_INFO_LOAD_REQUEST" as const;
+export const USER_INFO_LOAD_SUCCESS = "USER_INFO_LOAD_SUCCESS" as const;
+export const USER_INFO_LOAD_FAILURE = "USER_INFO_LOAD_FAILURE" as const;

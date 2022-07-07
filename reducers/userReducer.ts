@@ -19,7 +19,9 @@ import {
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
-  USER_INFO_LOAD,
+  USER_INFO_LOAD_FAILURE,
+  USER_INFO_LOAD_REQUEST,
+  USER_INFO_LOAD_SUCCESS,
 } from "../action/types";
 
 const initialState: UserState = {
@@ -38,6 +40,9 @@ const initialState: UserState = {
   avatarEditLoading: false,
   avatarEditDone: false,
   avatarEditError: null,
+  userLoadLoading: false,
+  userLoadDone: false,
+  userLoadError: null,
   me: null,
   avatarPaths: "null",
 };
@@ -59,6 +64,9 @@ export interface UserState {
   avatarEditLoading: boolean;
   avatarEditDone: boolean;
   avatarEditError: string;
+  userLoadLoading: boolean;
+  userLoadDone: boolean;
+  userLoadError: string;
   me: {
     id: number;
     nickname: string;
@@ -174,8 +182,21 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.me.avatar = "null";
         draft.avatarUploadDone = false;
         break;
-      case USER_INFO_LOAD:
+      case USER_INFO_LOAD_REQUEST:
+        draft.userLoadLoading = true;
+        draft.userLoadDone = false;
+        draft.userLoadError = null;
+        break;
+      case USER_INFO_LOAD_SUCCESS:
+        draft.userLoadLoading = false;
+        draft.userLoadDone = true;
+        draft.userLoadError = null;
         draft.me = action.data;
+        break;
+      case USER_INFO_LOAD_FAILURE:
+        draft.userLoadLoading = false;
+        draft.userLoadDone = false;
+        draft.userLoadError = action.data;
         break;
       default:
         break;

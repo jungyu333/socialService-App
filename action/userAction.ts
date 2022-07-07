@@ -18,6 +18,9 @@ import {
   AVATAR_EDIT_SUCCESS,
   USER_INFO_LOAD,
   AVATAR_EDIT_DELETE,
+  USER_INFO_LOAD_REQUEST,
+  USER_INFO_LOAD_SUCCESS,
+  USER_INFO_LOAD_FAILURE,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -170,6 +173,27 @@ export const userInfoLoadAction = (data) => {
   };
 };
 
+export const userInfoLoadRequestAction = () => {
+  return {
+    type: USER_INFO_LOAD_REQUEST,
+    data: null,
+  };
+};
+
+export const userInfoLoadSuccessAction = (data) => {
+  return {
+    type: USER_INFO_LOAD_SUCCESS,
+    data,
+  };
+};
+
+export const userInfoLoadFailureAction = (data) => {
+  return {
+    type: USER_INFO_LOAD_FAILURE,
+    data,
+  };
+};
+
 export type UserAction =
   | ReturnType<typeof logInRequestAction>
   | ReturnType<typeof logOutRequestAction>
@@ -189,4 +213,7 @@ export type UserAction =
   | ReturnType<typeof avatarEditSuccessAction>
   | ReturnType<typeof avatarEditFailureAction>
   | ReturnType<typeof userInfoLoadAction>
-  | ReturnType<typeof avatarEditDeleteAction>;
+  | ReturnType<typeof avatarEditDeleteAction>
+  | ReturnType<typeof userInfoLoadRequestAction>
+  | ReturnType<typeof userInfoLoadSuccessAction>
+  | ReturnType<typeof userInfoLoadFailureAction>;

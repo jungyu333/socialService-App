@@ -1,6 +1,10 @@
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { UserAction } from "../action/userAction";
+import {
+  UserAction,
+  userInfoLoadFailureAction,
+  userInfoLoadSuccessAction,
+} from "../action/userAction";
 
 import {
   LOG_IN_FAILURE,
@@ -9,6 +13,7 @@ import {
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
+  USER_INFO_LOAD_REQUEST,
 } from "../action/types";
 
 function logInAPI(data) {
@@ -51,6 +56,20 @@ function* logOut() {
   }
 }
 
+function userLoadAPI() {
+  return axios("/userload");
+}
+
+function* userLoad() {
+  try {
+    const result = yield call(userLoadAPI);
+    yield put(userInfoLoadSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(userInfoLoadFailureAction(err.response.data));
+  }
+}
+
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -59,6 +78,10 @@ function* watchLogOut() {
   yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
+function* watchUserLoad() {
+  yield takeLatest(USER_INFO_LOAD_REQUEST, userLoad);
+}
+
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchLogOut)]);
+  yield all([fork(watchLogin), fork(watchLogOut), fork(watchUserLoad)]);
 }

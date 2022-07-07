@@ -7,10 +7,9 @@ import tw from "tailwind-styled-components";
 import PostForm from "../components/PostForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
-import useSWR from "swr";
 
 import { useDispatch } from "react-redux";
-import { userInfoLoadAction } from "../action/userAction";
+import { userInfoLoadRequestAction } from "../action/userAction";
 import { useInView } from "react-intersection-observer";
 import { postLoadRequestAction } from "../action/postActions";
 
@@ -24,9 +23,9 @@ const Home = () => {
 
   const dispatch = useDispatch();
   const { me } = useSelector((state: RootState) => state.userReducer);
-  const { mainPosts, postLoadLoading, hasMorePosts, postDeleteError } =
-    useSelector((state: RootState) => state.postReducer);
-  const { data, error } = useSWR("/userload");
+  const { mainPosts, postLoadLoading, hasMorePosts } = useSelector(
+    (state: RootState) => state.postReducer
+  );
 
   useEffect(() => {
     if (inView && hasMorePosts && !postLoadLoading) {
@@ -37,10 +36,8 @@ const Home = () => {
   }, [inView, mainPosts, hasMorePosts, postLoadLoading]);
 
   useEffect(() => {
-    if (!error) {
-      dispatch(userInfoLoadAction(data));
-    }
-  }, [data]);
+    dispatch(userInfoLoadRequestAction());
+  }, []);
 
   return (
     <>
