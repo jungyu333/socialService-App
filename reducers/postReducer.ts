@@ -183,6 +183,7 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postLoadDone = false;
         draft.postLoadError = action.data;
         break;
+
       default:
         break;
     }

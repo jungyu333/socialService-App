@@ -1,5 +1,5 @@
 import axios from "axios";
-import { all, call, fork, put, takeLatest } from "redux-saga/effects";
+import { all, call, delay, fork, put, takeLatest } from "redux-saga/effects";
 import {
   addCommentFailureAction,
   addCommentSuccessAction,
@@ -74,6 +74,7 @@ function* postDelete(action) {
   } catch (err) {
     console.error(err);
     yield put(postDeleteFailureAction(err.response.data));
+    alert(err.response.data);
   }
 }
 

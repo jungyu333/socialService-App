@@ -23,12 +23,9 @@ const Home = () => {
   const [ref, inView] = useInView();
 
   const dispatch = useDispatch();
-  const { me, logInDone } = useSelector(
-    (state: RootState) => state.userReducer
-  );
-  const { mainPosts, postLoadLoading, hasMorePosts } = useSelector(
-    (state: RootState) => state.postReducer
-  );
+  const { me } = useSelector((state: RootState) => state.userReducer);
+  const { mainPosts, postLoadLoading, hasMorePosts, postDeleteError } =
+    useSelector((state: RootState) => state.postReducer);
   const { data, error } = useSWR("/userload");
 
   useEffect(() => {
