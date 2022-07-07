@@ -7,6 +7,9 @@ import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
+  COMMENT_REMOVE_FAILURE,
+  COMMENT_REMOVE_REQUEST,
+  COMMENT_REMOVE_SUCCESS,
   POST_DELETE_FAILURE,
   POST_DELETE_REQUEST,
   POST_DELETE_SUCCESS,
@@ -36,6 +39,9 @@ const initialState: PostState = {
   postLoadDone: false,
   postLoadError: null,
   hasMorePosts: true,
+  commentRemoveLoading: false,
+  commentRemoveDone: false,
+  commentRemoveError: null,
   imagePaths: [],
   mainPosts: [],
 };
@@ -57,6 +63,9 @@ export interface PostState {
   postLoadDone: boolean;
   postLoadError: string;
   hasMorePosts: boolean;
+  commentRemoveLoading: boolean;
+  commentRemoveDone: boolean;
+  commentRemoveError: string;
   mainPosts: {
     id: number;
     User: { id: number; nickname: string; avatar: string };
@@ -138,7 +147,7 @@ const postReducer = (state = initialState, action: PostActionType) =>
         const post = draft.mainPosts.find(
           (post) => post.id === action.data.PostId
         );
-        post.Comments.unshift(action.data);
+        post.Comments.push(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         draft.addCommentError = null;
@@ -183,7 +192,27 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postLoadDone = false;
         draft.postLoadError = action.data;
         break;
-
+      case COMMENT_REMOVE_REQUEST:
+        draft.commentRemoveLoading = true;
+        draft.commentRemoveDone = false;
+        draft.commentRemoveError = null;
+        break;
+      case COMMENT_REMOVE_SUCCESS:
+        draft.commentRemoveLoading = false;
+        draft.commentRemoveDone = true;
+        draft.commentRemoveError = null;
+        const postWithComment = draft.mainPosts.find(
+          (post) => post.id === parseInt(action.data.postId)
+        );
+        postWithComment.Comments = postWithComment.Comments.filter(
+          (comment) => comment.id !== parseInt(action.data.commentId)
+        );
+        break;
+      case COMMENT_REMOVE_FAILURE:
+        draft.commentRemoveLoading = false;
+        draft.commentRemoveDone = false;
+        draft.commentRemoveError = action.data;
+        break;
       default:
         break;
     }

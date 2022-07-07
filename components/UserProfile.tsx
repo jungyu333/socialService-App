@@ -87,13 +87,16 @@ function UserProfile() {
           </ProfileContainer>
           <InfoContainer>
             <InfoBox>
-              <div>게시물</div>0
+              <div>게시물</div>
+              {Posts.length}
             </InfoBox>
             <InfoBox>
-              <div>팔로잉</div>0
+              <div>팔로잉</div>
+              {Followings.length}
             </InfoBox>
             <InfoBox>
-              <div>팔로워</div>0
+              <div>팔로워</div>
+              {Followers.length}
             </InfoBox>
           </InfoContainer>
         </ProfileWrapper>

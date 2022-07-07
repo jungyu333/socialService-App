@@ -1,5 +1,9 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
+import { commentRemoveRequestAction } from "../action/postActions";
+import { RootState } from "../reducers";
 
 interface CommentProps {
   id: number;
@@ -39,8 +43,9 @@ const Avatar = tw.div`
 `;
 
 const CommentBox = tw.div`
-  flex-col
-  space-y-1
+  flex
+  justify-between
+  w-full
 `;
 
 const Name = tw.div`
@@ -53,6 +58,16 @@ const Content = tw.div`
   text-gray-500
 `;
 function Comment(comment: CommentProps) {
+  const dispatch = useDispatch();
+  const { me } = useSelector((state: RootState) => state.userReducer);
+  const onClickCommentRemove = () => {
+    dispatch(
+      commentRemoveRequestAction({
+        commentId: comment.id,
+        postId: comment.PostId,
+      })
+    );
+  };
   return (
     <Wrapper>
       <CommentContainer>
@@ -65,8 +80,15 @@ function Comment(comment: CommentProps) {
           />
         )}
         <CommentBox>
-          <Name>{comment.User.nickname}</Name>
-          <Content>{comment.content}</Content>
+          <div className="w-3/4 space-y-2">
+            <Name>{comment.User.nickname}</Name>
+            <Content>{comment.content}</Content>
+          </div>
+          {me?.id === comment.UserId ? (
+            <div className="flex text-xs items-start text-gray-400 space-x-1">
+              <button onClick={onClickCommentRemove}>삭제</button>
+            </div>
+          ) : null}
         </CommentBox>
       </CommentContainer>
     </Wrapper>

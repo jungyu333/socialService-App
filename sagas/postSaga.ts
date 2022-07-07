@@ -5,6 +5,8 @@ import {
   addCommentSuccessAction,
   addPostFailureAction,
   addPostSuccessAction,
+  commentRemoveFailureAction,
+  commentRemoveSuccessAction,
   postDeleteFailureAction,
   postDeleteSuccessAction,
   postImageUploadFailureAction,
@@ -15,6 +17,7 @@ import {
 import {
   ADD_COMMENT_REQUEST,
   ADD_POST_REQUEST,
+  COMMENT_REMOVE_REQUEST,
   POST_DELETE_REQUEST,
   POST_IMAGE_UPLOAD_REQUEST,
   POST_LOAD_REQUEST,
@@ -55,7 +58,7 @@ function addCommentAPI(data) {
 function* addComment(action) {
   try {
     const result = yield call(addCommentAPI, action.data);
-    console.log(result);
+
     yield put(addCommentSuccessAction(result.data));
   } catch (err) {
     console.error(err);
@@ -84,13 +87,28 @@ function postLoadAPI(data) {
 
 function* postLoad(action) {
   try {
-    console.log(action.data);
     const result = yield call(postLoadAPI, action.data);
-    console.log(result.data);
+
     yield put(postLoadSuccessAction(result.data));
   } catch (err) {
     console.error(err);
     yield put(postLoadFailureAction(err.response.data));
+  }
+}
+
+function commentRemoveAPI(data) {
+  return axios.delete(`/post/${data.postId}/${data.commentId}`);
+}
+
+function* commentRemove(action) {
+  try {
+    console.log(action.data);
+    const result = yield call(commentRemoveAPI, action.data);
+    console.log(result);
+    yield put(commentRemoveSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(commentRemoveFailureAction(err.response.data));
   }
 }
 
@@ -114,6 +132,10 @@ function* watchPostLoad() {
   yield takeLatest(POST_LOAD_REQUEST, postLoad);
 }
 
+function* watchCommentRemove() {
+  yield takeLatest(COMMENT_REMOVE_REQUEST, commentRemove);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchAddPost),
@@ -121,5 +143,6 @@ export default function* postSaga() {
     fork(watchAddComment),
     fork(watchPostDelete),
     fork(watchPostLoad),
+    fork(watchCommentRemove),
   ]);
 }

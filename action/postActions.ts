@@ -5,6 +5,9 @@ import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
+  COMMENT_REMOVE_FAILURE,
+  COMMENT_REMOVE_REQUEST,
+  COMMENT_REMOVE_SUCCESS,
   POST_DELETE_FAILURE,
   POST_DELETE_REQUEST,
   POST_DELETE_SUCCESS,
@@ -129,6 +132,27 @@ export const postLoadFailureAction = (data) => {
   };
 };
 
+export const commentRemoveRequestAction = (data) => {
+  return {
+    type: COMMENT_REMOVE_REQUEST,
+    data,
+  };
+};
+
+export const commentRemoveSuccessAction = (data) => {
+  return {
+    type: COMMENT_REMOVE_SUCCESS,
+    data,
+  };
+};
+
+export const commentRemoveFailureAction = (data) => {
+  return {
+    type: COMMENT_REMOVE_FAILURE,
+    data,
+  };
+};
+
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
@@ -145,4 +169,7 @@ export type PostActionType =
   | ReturnType<typeof postDeleteFailureAction>
   | ReturnType<typeof postLoadRequestAction>
   | ReturnType<typeof postLoadSuccessAction>
-  | ReturnType<typeof postLoadFailureAction>;
+  | ReturnType<typeof postLoadFailureAction>
+  | ReturnType<typeof commentRemoveRequestAction>
+  | ReturnType<typeof commentRemoveSuccessAction>
+  | ReturnType<typeof commentRemoveFailureAction>;
