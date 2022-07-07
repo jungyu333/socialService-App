@@ -34,3 +34,6 @@ export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE" as const;
 export const POST_DELETE_REQUEST = "POST_DELETE_REQUEST" as const;
 export const POST_DELETE_SUCCESS = "POST_DELETE_SUCCESS" as const;
 export const POST_DELETE_FAILURE = "POST_DELETE_FAILURE" as const;
+export const POST_LOAD_REQUEST = "POST_LOAD_REQUEST" as const;
+export const POST_LOAD_SUCCESS = "POST_LOAD_SUCCESS" as const;
+export const POST_LOAD_FAILURE = "POST_LOAD_FAILURE" as const;

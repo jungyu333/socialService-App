@@ -12,6 +12,9 @@ import {
   POST_IMAGE_UPLOAD_FAILURE,
   POST_IMAGE_UPLOAD_REQUEST,
   POST_IMAGE_UPLOAD_SUCCESS,
+  POST_LOAD_FAILURE,
+  POST_LOAD_REQUEST,
+  POST_LOAD_SUCCESS,
 } from "./types";
 
 export const addPostRequestAction = (data) => {
@@ -105,6 +108,27 @@ export const postDeleteFailureAction = (data) => {
   };
 };
 
+export const postLoadRequestAction = (data) => {
+  return {
+    type: POST_LOAD_REQUEST,
+    data,
+  };
+};
+
+export const postLoadSuccessAction = (data) => {
+  return {
+    type: POST_LOAD_SUCCESS,
+    data,
+  };
+};
+
+export const postLoadFailureAction = (data) => {
+  return {
+    type: POST_LOAD_FAILURE,
+    data,
+  };
+};
+
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
@@ -118,4 +142,7 @@ export type PostActionType =
   | ReturnType<typeof addCommentFailureAction>
   | ReturnType<typeof postDeleteRequestAction>
   | ReturnType<typeof postDeleteSuccessAction>
-  | ReturnType<typeof postDeleteFailureAction>;
+  | ReturnType<typeof postDeleteFailureAction>
+  | ReturnType<typeof postLoadRequestAction>
+  | ReturnType<typeof postLoadSuccessAction>
+  | ReturnType<typeof postLoadFailureAction>;

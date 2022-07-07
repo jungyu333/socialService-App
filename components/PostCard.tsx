@@ -106,11 +106,11 @@ function PostCard(post: PostProps) {
 
   return (
     <Wrapper>
-      {post.Images[0] ? <PostImage images={post.Images} /> : null}
+      {post.Images?.length > 0 ? <PostImage images={post.Images} /> : null}
       <ContentWrapper>
         <ContentContainer>
           <div>
-            {post.User.avatar ? (
+            {post.User?.avatar ? (
               <img
                 className="rounded-full w-12 h-12"
                 src={`http://localhost:4000/${post.User.avatar}`}
@@ -120,7 +120,7 @@ function PostCard(post: PostProps) {
             )}
           </div>
           <ContentInfo>
-            <Name>{post.User.nickname}</Name>
+            <Name>{post.User?.nickname}</Name>
             <PostContent postData={post.content} />
           </ContentInfo>
         </ContentContainer>

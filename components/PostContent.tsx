@@ -4,7 +4,7 @@ import React from "react";
 function PostContent({ postData }) {
   return (
     <div>
-      {postData.split(/(#[^\s#]+)/g).map((hash, index) => {
+      {postData?.split(/(#[^\s#]+)/g).map((hash, index) => {
         if (hash.match(/(#[^\s#]+)/)) {
           return (
             <Link key={index} href={`/hashtag/${hash.slice(1)}`}>

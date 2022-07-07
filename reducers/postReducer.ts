@@ -14,6 +14,9 @@ import {
   POST_IMAGE_UPLOAD_FAILURE,
   POST_IMAGE_UPLOAD_REQUEST,
   POST_IMAGE_UPLOAD_SUCCESS,
+  POST_LOAD_FAILURE,
+  POST_LOAD_REQUEST,
+  POST_LOAD_SUCCESS,
 } from "../action/types";
 
 const initialState: PostState = {
@@ -29,6 +32,10 @@ const initialState: PostState = {
   postDeleteLoading: false,
   postDeleteDone: false,
   postDeleteError: null,
+  postLoadLoading: false,
+  postLoadDone: false,
+  postLoadError: null,
+  hasMorePosts: true,
   imagePaths: [],
   mainPosts: [],
 };
@@ -46,6 +53,10 @@ export interface PostState {
   postDeleteLoading: boolean;
   postDeleteDone: boolean;
   postDeleteError: string;
+  postLoadLoading: boolean;
+  postLoadDone: boolean;
+  postLoadError: string;
+  hasMorePosts: boolean;
   mainPosts: {
     id: number;
     User: { id: number; nickname: string; avatar: string };
@@ -154,6 +165,23 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postDeleteLoading = false;
         draft.postDeleteDone = false;
         draft.postDeleteError = action.data;
+        break;
+      case POST_LOAD_REQUEST:
+        draft.postLoadLoading = true;
+        draft.postLoadDone = false;
+        draft.postLoadError = null;
+        break;
+      case POST_LOAD_SUCCESS:
+        draft.postLoadLoading = false;
+        draft.postLoadDone = true;
+        draft.postLoadError = null;
+        draft.mainPosts = draft.mainPosts.concat(action.data);
+        draft.hasMorePosts = action.data.length === 10;
+        break;
+      case POST_LOAD_FAILURE:
+        draft.postLoadLoading = false;
+        draft.postLoadDone = false;
+        draft.postLoadError = action.data;
         break;
       default:
         break;

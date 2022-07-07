@@ -8,8 +8,11 @@ import PostForm from "../components/PostForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
 import useSWR from "swr";
+
 import { useDispatch } from "react-redux";
 import { userInfoLoadAction } from "../action/userAction";
+import { useInView } from "react-intersection-observer";
+import { postLoadRequestAction } from "../action/postActions";
 
 const Wrapper = tw.div`
   flex-col
@@ -17,12 +20,24 @@ const Wrapper = tw.div`
 `;
 
 const Home = () => {
+  const [ref, inView] = useInView();
+
   const dispatch = useDispatch();
   const { me, logInDone } = useSelector(
     (state: RootState) => state.userReducer
   );
-  const { mainPosts } = useSelector((state: RootState) => state.postReducer);
+  const { mainPosts, postLoadLoading, hasMorePosts } = useSelector(
+    (state: RootState) => state.postReducer
+  );
   const { data, error } = useSWR("/userload");
+
+  useEffect(() => {
+    if (inView && hasMorePosts && !postLoadLoading) {
+      const lastId = mainPosts[mainPosts.length - 1]?.id;
+      console.log(lastId);
+      dispatch(postLoadRequestAction(lastId));
+    }
+  }, [inView, mainPosts, hasMorePosts, postLoadLoading]);
 
   useEffect(() => {
     if (!error) {
@@ -41,8 +56,12 @@ const Home = () => {
           {me ? <UserProfile /> : null}
           {me ? <PostForm /> : null}
           {mainPosts.map((post) => (
-            <PostCard key={post.id} {...post} />
+            <PostCard key={post?.id} {...post} />
           ))}
+          <div
+            className="h-3"
+            ref={hasMorePosts && !postLoadLoading ? ref : undefined}
+          />
         </Wrapper>
       </Layout>
     </>
