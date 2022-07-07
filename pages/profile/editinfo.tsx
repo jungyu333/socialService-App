@@ -110,10 +110,13 @@ function editinfo() {
     console.log(formData.get("nickname"));
     console.log(formData.get("avatar"));
     dispatch(editInfoRequestAction(formData));
+  };
+
+  useEffect(() => {
     if (editDone) {
       router.push("/profile");
     }
-  };
+  }, [editDone]);
 
   return (
     <Layout>

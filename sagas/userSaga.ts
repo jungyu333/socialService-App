@@ -1,18 +1,18 @@
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import {
+  logInFailureAction,
+  logInSuccessAction,
+  logOutFailureAction,
+  logOutSuccessAction,
   UserAction,
   userInfoLoadFailureAction,
   userInfoLoadSuccessAction,
 } from "../action/userAction";
 
 import {
-  LOG_IN_FAILURE,
   LOG_IN_REQUEST,
-  LOG_IN_SUCCESS,
-  LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
-  LOG_OUT_SUCCESS,
   USER_INFO_LOAD_REQUEST,
 } from "../action/types";
 
@@ -24,15 +24,10 @@ function* logIn(action: UserAction) {
   try {
     const result = yield call(logInAPI, action.data);
 
-    yield put({
-      type: LOG_IN_SUCCESS,
-      data: result.data,
-    });
+    yield put(logInSuccessAction(result.data));
   } catch (err) {
-    yield put({
-      type: LOG_IN_FAILURE,
-      data: err.response.data,
-    });
+    yield put(logInFailureAction(err.response.data));
+    alert(err.response.data);
   }
 }
 
@@ -44,15 +39,10 @@ function* logOut() {
   try {
     yield call(logOutAPI);
 
-    yield put({
-      type: LOG_OUT_SUCCESS,
-    });
+    yield put(logOutSuccessAction());
   } catch (err) {
     console.error(err);
-    yield put({
-      type: LOG_OUT_FAILURE,
-      data: err.response.data,
-    });
+    yield put(logOutFailureAction(err.response.data));
   }
 }
 

@@ -146,16 +146,16 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.avatarEditError = null;
         break;
       case AVATAR_EDIT_SUCCESS:
-        draft.editLoading = false;
-        draft.editDone = true;
-        draft.editError = null;
+        draft.avatarEditLoading = false;
+        draft.avatarEditDone = true;
+        draft.avatarEditError = null;
         draft.avatarPaths = action.data;
         draft.me.avatar = action.data;
         break;
       case AVATAR_EDIT_FAILURE:
-        draft.editLoading = false;
-        draft.editDone = false;
-        draft.editError = action.data;
+        draft.avatarEditLoading = false;
+        draft.avatarEditDone = false;
+        draft.avatarEditError = action.data;
         break;
       case AVATAR_UPLOAD_REQUEST:
         draft.avatarUploadLoading = true;

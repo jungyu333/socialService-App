@@ -80,11 +80,6 @@ function createuser() {
     }
   }, [signUpDone]);
 
-  useEffect(() => {
-    if (signUpError) {
-      alert(signUpError);
-    }
-  }, [signUpError]);
   return (
     <>
       <Head>

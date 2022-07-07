@@ -53,7 +53,7 @@ interface ValidForm {
 }
 
 const SignIn = () => {
-  const { me, logInLoading, logInError } = useSelector(
+  const { me, logInLoading } = useSelector(
     (state: RootState) => state.userReducer
   );
   const dispatch = useDispatch();
@@ -70,16 +70,10 @@ const SignIn = () => {
     router.push("createuser");
   };
   useEffect(() => {
-    if (logInError) {
-      alert(logInError);
-    }
     if (me) {
-      dispatch(userInfoLoadAction(me));
       router.replace("/");
     }
-    dispatch(logInErrorInitAction());
-    dispatch(signUpErrorInitAction());
-  }, [logInErrorInitAction, signUpErrorInitAction, logInError, me]);
+  }, [me]);
 
   return (
     <>

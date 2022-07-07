@@ -12,10 +12,10 @@ export const signUpRequestAction = (data) => {
   };
 };
 
-export const signUpSuccessAction = (data) => {
+export const signUpSuccessAction = () => {
   return {
     type: SIGN_UP_SUCCESS,
-    data,
+    data: null,
   };
 };
 

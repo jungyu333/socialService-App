@@ -1,15 +1,16 @@
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { SignUpAction } from "../action/signUpAction";
 import {
-  AVATAR_UPLOAD_FAILURE,
-  AVATAR_UPLOAD_REQUEST,
-  AVATAR_UPLOAD_SUCCESS,
-  SIGN_UP_FAILURE,
-  SIGN_UP_REQUEST,
-  SIGN_UP_SUCCESS,
-} from "../action/types";
-import { UserAction } from "../action/userAction";
+  SignUpAction,
+  signUpFailureAction,
+  signUpSuccessAction,
+} from "../action/signUpAction";
+import { AVATAR_UPLOAD_REQUEST, SIGN_UP_REQUEST } from "../action/types";
+import {
+  avatarUploadFailureAction,
+  avatarUploadSuccessAction,
+  UserAction,
+} from "../action/userAction";
 
 function signUpAPI(data) {
   return axios.post("/signup", data);
@@ -17,16 +18,12 @@ function signUpAPI(data) {
 
 function* signUp(action: SignUpAction) {
   try {
-    const result = yield call(signUpAPI, action.data);
+    yield call(signUpAPI, action.data);
 
-    yield put({
-      type: SIGN_UP_SUCCESS,
-    });
+    yield put(signUpSuccessAction());
   } catch (err) {
-    yield put({
-      type: SIGN_UP_FAILURE,
-      data: err.response.data,
-    });
+    yield put(signUpFailureAction(err.response.data));
+    alert(err.response.data);
   }
 }
 
@@ -38,15 +35,9 @@ function* avatarUpload(action: UserAction) {
   try {
     const result = yield call(avatarUploadAPI, action.data);
 
-    yield put({
-      type: AVATAR_UPLOAD_SUCCESS,
-      data: result.data,
-    });
+    yield put(avatarUploadSuccessAction(result.data));
   } catch (err) {
-    yield put({
-      type: AVATAR_UPLOAD_FAILURE,
-      data: err.response.data,
-    });
+    yield put(avatarUploadFailureAction(err.response.data));
   }
 }
 
