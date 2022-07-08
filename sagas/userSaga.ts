@@ -47,7 +47,7 @@ function* logOut() {
 }
 
 function userLoadAPI() {
-  return axios("/userload");
+  return axios.get("/userload");
 }
 
 function* userLoad() {

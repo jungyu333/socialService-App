@@ -166,13 +166,6 @@ export const avatarEditDeleteAction = () => {
   };
 };
 
-export const userInfoLoadAction = (data) => {
-  return {
-    type: USER_INFO_LOAD,
-    data,
-  };
-};
-
 export const userInfoLoadRequestAction = () => {
   return {
     type: USER_INFO_LOAD_REQUEST,
@@ -212,7 +205,6 @@ export type UserAction =
   | ReturnType<typeof avatarEditRequestAction>
   | ReturnType<typeof avatarEditSuccessAction>
   | ReturnType<typeof avatarEditFailureAction>
-  | ReturnType<typeof userInfoLoadAction>
   | ReturnType<typeof avatarEditDeleteAction>
   | ReturnType<typeof userInfoLoadRequestAction>
   | ReturnType<typeof userInfoLoadSuccessAction>
