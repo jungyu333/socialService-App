@@ -49,7 +49,7 @@ const Home = () => {
         <Wrapper>
           {me ? <UserProfile /> : null}
           {me ? <PostForm /> : null}
-          {mainPosts.map((post) => (
+          {mainPosts?.map((post) => (
             <PostCard key={post?.id} {...post} />
           ))}
           <div

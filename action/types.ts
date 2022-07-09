@@ -49,3 +49,6 @@ export const ADD_LIKE_FAILURE = "ADD_LIKE_FAILURE" as const;
 export const REMOVE_LIKE_REQUEST = "REMOVE_LIKE_REQUEST" as const;
 export const REMOVE_LIKE_SUCCESS = "REMOVE_LIKE_SUCCESS" as const;
 export const REMOVE_LIKE_FAILURE = "REMOVE_LIKE_FAILURE" as const;
+export const USER_POST_LOAD_REQUEST = "USER_POST_LOAD_REQUEST" as const;
+export const USER_POST_LOAD_SUCCESS = "USER_POST_LOAD_SUCCESS" as const;
+export const USER_POST_LOAD_FAILURE = "USER_POST_LOAD_FAILURE" as const;

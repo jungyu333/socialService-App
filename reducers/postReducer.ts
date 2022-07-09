@@ -44,6 +44,7 @@ const initialState: PostState = {
   postLoadDone: false,
   postLoadError: null,
   hasMorePosts: true,
+
   commentRemoveLoading: false,
   commentRemoveDone: false,
   commentRemoveError: null,
@@ -53,6 +54,7 @@ const initialState: PostState = {
   removeLikeLoading: false,
   removeLikeDone: false,
   removeLikeError: null,
+
   imagePaths: [],
   mainPosts: [],
 };
@@ -83,6 +85,7 @@ export interface PostState {
   removeLikeLoading: boolean;
   removeLikeDone: boolean;
   removeLikeError: string;
+
   mainPosts: {
     Likers: {
       id: number;
@@ -114,6 +117,7 @@ export interface PostState {
     createdAt: string;
     updatedAt: string;
   }[];
+
   imagePaths: string[];
 }
 
@@ -199,6 +203,7 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postLoadLoading = true;
         draft.postLoadDone = false;
         draft.postLoadError = null;
+
         break;
       case POST_LOAD_SUCCESS:
         draft.postLoadLoading = false;
@@ -272,7 +277,9 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.removeLikeLoading = false;
         draft.removeLikeDone = false;
         draft.removeLikeError = action.data;
+
         break;
+
       default:
         break;
     }

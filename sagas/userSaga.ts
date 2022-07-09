@@ -8,12 +8,15 @@ import {
   UserAction,
   userInfoLoadFailureAction,
   userInfoLoadSuccessAction,
+  userPostLoadFailureAction,
+  userPostLoadSuccessAction,
 } from "../action/userAction";
 
 import {
   LOG_IN_REQUEST,
   LOG_OUT_REQUEST,
   USER_INFO_LOAD_REQUEST,
+  USER_POST_LOAD_REQUEST,
 } from "../action/types";
 
 function logInAPI(data) {
@@ -60,6 +63,22 @@ function* userLoad() {
   }
 }
 
+function userPostLoadAPI(data) {
+  return axios.get(`/posts/user?lastId=${data.lastId || 0}`);
+}
+
+function* userPostLoad(action) {
+  try {
+    console.log(action.data);
+    const result = yield call(userPostLoadAPI, action.data);
+    console.log(result.data);
+    yield put(userPostLoadSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(userPostLoadFailureAction(err.response.data));
+  }
+}
+
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -72,6 +91,15 @@ function* watchUserLoad() {
   yield takeLatest(USER_INFO_LOAD_REQUEST, userLoad);
 }
 
+function* watchUserPostLoad() {
+  yield takeLatest(USER_POST_LOAD_REQUEST, userPostLoad);
+}
+
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchLogOut), fork(watchUserLoad)]);
+  yield all([
+    fork(watchLogin),
+    fork(watchLogOut),
+    fork(watchUserLoad),
+    fork(watchUserPostLoad),
+  ]);
 }

@@ -10,7 +10,10 @@ import {
 
 import CircleItem from "../../components/CircleItem";
 import { useDispatch } from "react-redux";
-import { logOutRequestAction } from "../../action/userAction";
+import {
+  logOutRequestAction,
+  userInfoLoadRequestAction,
+} from "../../action/userAction";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
@@ -104,6 +107,10 @@ const Profile = () => {
     }
   }, [logOutDone, me]);
 
+  useEffect(() => {
+    dispatch(userInfoLoadRequestAction());
+  }, []);
+
   return (
     <>
       <Head>
@@ -130,13 +137,13 @@ const Profile = () => {
           </ProfileContainer>
         </ProfileWrapper>
         <CommunicateWrapper>
-          <CircleItem text="내 게시물">
+          <CircleItem text="내 게시물" link={`/profile/userpost`}>
             <TwitterOutlined style={{ color: "white", fontSize: "24px" }} />
           </CircleItem>
-          <CircleItem text="팔로잉">
+          <CircleItem text="팔로잉" link={`/profile/following`}>
             <UserAddOutlined style={{ color: "white", fontSize: "24px" }} />
           </CircleItem>
-          <CircleItem text="팔로워">
+          <CircleItem text="팔로워" link={`/profile/follower`}>
             <StarOutlined style={{ color: "white", fontSize: "24px" }} />
           </CircleItem>
         </CommunicateWrapper>

@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React from "react";
 import tw from "tailwind-styled-components";
 
@@ -26,10 +27,15 @@ const Text = tw.div`
   
 `;
 
-function CircleItem({ children, text }) {
+function CircleItem({ children, text, link }) {
+  const router = useRouter();
+  const onClickLink = () => {
+    router.push(link);
+  };
+
   return (
     <>
-      <CircleContainer>
+      <CircleContainer onClick={onClickLink}>
         <Circle>{children}</Circle>
         <Text>{text}</Text>
       </CircleContainer>

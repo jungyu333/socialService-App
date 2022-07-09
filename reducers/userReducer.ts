@@ -22,6 +22,9 @@ import {
   USER_INFO_LOAD_FAILURE,
   USER_INFO_LOAD_REQUEST,
   USER_INFO_LOAD_SUCCESS,
+  USER_POST_LOAD_FAILURE,
+  USER_POST_LOAD_REQUEST,
+  USER_POST_LOAD_SUCCESS,
 } from "../action/types";
 
 const initialState: UserState = {
@@ -43,8 +46,13 @@ const initialState: UserState = {
   userLoadLoading: false,
   userLoadDone: false,
   userLoadError: null,
+  userPostLoadLoading: false,
+  userPostLoadDone: false,
+  userPostLoadError: null,
+  hasMoreUserPosts: true,
   me: null,
   avatarPaths: "null",
+  userMainPosts: [],
 };
 
 export interface UserState {
@@ -67,6 +75,10 @@ export interface UserState {
   userLoadLoading: boolean;
   userLoadDone: boolean;
   userLoadError: string;
+  userPostLoadLoading: boolean;
+  userPostLoadDone: boolean;
+  userPostLoadError: string;
+  hasMoreUserPosts: boolean;
   me: {
     id: number;
     nickname: string;
@@ -78,6 +90,37 @@ export interface UserState {
     updatedAt: string;
     createdAt: string;
   };
+  userMainPosts: {
+    Likers: {
+      id: number;
+    }[];
+    id: number;
+    User: { id: number; nickname: string; avatar: string };
+    UserId: number;
+    content: string;
+    Comments: {
+      id: number;
+      User: {
+        id: number;
+        avatar: string;
+        nickname: string;
+      };
+      content: string;
+      createdAt: string;
+      updatedAt: string;
+      UserId: number;
+      PostId: number;
+    }[];
+    Images: {
+      id: number;
+      src: string;
+      createdAt: string;
+      updatedAt: string;
+      PostId: number;
+    }[];
+    createdAt: string;
+    updatedAt: string;
+  }[];
 }
 
 const userReducer = (state = initialState, action: UserAction) =>
@@ -106,6 +149,7 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.logOutLoading = true;
         draft.logOutDone = false;
         draft.logOutError = null;
+
         break;
 
       case LOG_OUT_SUCCESS:
@@ -114,6 +158,7 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.logOutError = null;
         draft.logInDone = false;
         draft.me = null;
+        draft.userMainPosts = [];
         break;
       case LOG_OUT_FAILURE:
         draft.logOutLoading = false;
@@ -192,11 +237,31 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.userLoadDone = true;
         draft.userLoadError = null;
         draft.me = action.data;
+        draft.hasMoreUserPosts = true;
+
         break;
       case USER_INFO_LOAD_FAILURE:
         draft.userLoadLoading = false;
         draft.userLoadDone = false;
         draft.userLoadError = action.data;
+        break;
+      case USER_POST_LOAD_REQUEST:
+        draft.userPostLoadLoading = true;
+        draft.userPostLoadDone = false;
+        draft.userPostLoadError = null;
+
+        break;
+      case USER_POST_LOAD_SUCCESS:
+        draft.userPostLoadLoading = false;
+        draft.userPostLoadDone = true;
+        draft.userPostLoadError = null;
+        draft.userMainPosts = draft.userMainPosts.concat(action.data);
+        draft.hasMoreUserPosts = action.data.length === 10;
+        break;
+      case USER_POST_LOAD_FAILURE:
+        draft.userPostLoadLoading = false;
+        draft.userPostLoadDone = false;
+        draft.userPostLoadError = action.data;
         break;
       default:
         break;

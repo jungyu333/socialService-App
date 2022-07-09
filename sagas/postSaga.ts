@@ -139,7 +139,7 @@ function removeLikeAPI(data) {
 function* removeLike(action) {
   try {
     const result = yield call(removeLikeAPI, action.data);
-    console.log(result);
+
     yield put(removeLikeSuccessAction(result.data));
   } catch (err) {
     console.error(err);

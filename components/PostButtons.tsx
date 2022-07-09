@@ -72,7 +72,7 @@ function PostButtons({ postId, Likers, setCommentOpened }) {
     }
   };
   const isLike = Likers.find((like) => like.id === me?.id);
-  console.log(isLike);
+
   return (
     <ButtonWrapper>
       <IconBox onClick={onClickDeletePost}>
