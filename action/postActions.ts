@@ -2,6 +2,9 @@ import {
   ADD_COMMENT_FAILURE,
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
+  ADD_LIKE_FAILURE,
+  ADD_LIKE_REQUEST,
+  ADD_LIKE_SUCCESS,
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
@@ -18,6 +21,9 @@ import {
   POST_LOAD_FAILURE,
   POST_LOAD_REQUEST,
   POST_LOAD_SUCCESS,
+  REMOVE_LIKE_FAILURE,
+  REMOVE_LIKE_REQUEST,
+  REMOVE_LIKE_SUCCESS,
 } from "./types";
 
 export const addPostRequestAction = (data) => {
@@ -153,6 +159,48 @@ export const commentRemoveFailureAction = (data) => {
   };
 };
 
+export const addLikeRequestAction = (data) => {
+  return {
+    type: ADD_LIKE_REQUEST,
+    data,
+  };
+};
+
+export const addLikeSuccessAction = (data) => {
+  return {
+    type: ADD_LIKE_SUCCESS,
+    data,
+  };
+};
+
+export const addLikeFailureAction = (data) => {
+  return {
+    type: ADD_LIKE_FAILURE,
+    data,
+  };
+};
+
+export const removeLikeRequestAction = (data) => {
+  return {
+    type: REMOVE_LIKE_REQUEST,
+    data,
+  };
+};
+
+export const removeLikeSuccessAction = (data) => {
+  return {
+    type: REMOVE_LIKE_SUCCESS,
+    data,
+  };
+};
+
+export const removeLikeFailureAction = (data) => {
+  return {
+    type: REMOVE_LIKE_FAILURE,
+    data,
+  };
+};
+
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
@@ -172,4 +220,10 @@ export type PostActionType =
   | ReturnType<typeof postLoadFailureAction>
   | ReturnType<typeof commentRemoveRequestAction>
   | ReturnType<typeof commentRemoveSuccessAction>
-  | ReturnType<typeof commentRemoveFailureAction>;
+  | ReturnType<typeof commentRemoveFailureAction>
+  | ReturnType<typeof addLikeRequestAction>
+  | ReturnType<typeof addLikeSuccessAction>
+  | ReturnType<typeof addLikeFailureAction>
+  | ReturnType<typeof removeLikeRequestAction>
+  | ReturnType<typeof removeLikeSuccessAction>
+  | ReturnType<typeof removeLikeFailureAction>;

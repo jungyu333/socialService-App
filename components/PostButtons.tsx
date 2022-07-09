@@ -2,13 +2,18 @@ import {
   CommentOutlined,
   DeleteOutlined,
   HeartOutlined,
+  HeartTwoTone,
 } from "@ant-design/icons";
-import { useEffect } from "react";
+
 import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
 import tw from "tailwind-styled-components";
-import { postDeleteRequestAction } from "../action/postActions";
+import {
+  addLikeRequestAction,
+  postDeleteRequestAction,
+  removeLikeRequestAction,
+} from "../action/postActions";
 import { RootState } from "../reducers";
 
 const ButtonWrapper = tw.div`
@@ -35,8 +40,9 @@ const IconBox = tw.div`
   
 `;
 
-function PostButtons({ postId, setCommentOpened }) {
+function PostButtons({ postId, Likers, setCommentOpened }) {
   const dispatch = useDispatch();
+
   const { me } = useSelector((state: RootState) => state.userReducer);
 
   const onClickComment = () => {
@@ -50,15 +56,38 @@ function PostButtons({ postId, setCommentOpened }) {
     dispatch(postDeleteRequestAction(postId));
   };
 
+  const onClickLike = () => {
+    if (!me) {
+      alert("로그인이 필요합니다.");
+    } else {
+      dispatch(addLikeRequestAction(postId));
+    }
+  };
+
+  const onClickUnLike = () => {
+    if (!me) {
+      alert("로그인이 필요합니다.");
+    } else {
+      dispatch(removeLikeRequestAction(postId));
+    }
+  };
+  const isLike = Likers.find((like) => like.id === me?.id);
+  console.log(isLike);
   return (
     <ButtonWrapper>
       <IconBox onClick={onClickDeletePost}>
         <DeleteOutlined />
       </IconBox>
 
-      <IconBox>
-        <HeartOutlined />
-      </IconBox>
+      {isLike ? (
+        <IconBox onClick={onClickUnLike}>
+          <HeartTwoTone twoToneColor="#eb2f96" />
+        </IconBox>
+      ) : (
+        <IconBox onClick={onClickLike}>
+          <HeartOutlined />
+        </IconBox>
+      )}
       <IconBox onClick={onClickComment}>
         <CommentOutlined />
       </IconBox>

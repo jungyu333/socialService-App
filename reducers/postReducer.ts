@@ -4,6 +4,9 @@ import {
   ADD_COMMENT_FAILURE,
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
+  ADD_LIKE_FAILURE,
+  ADD_LIKE_REQUEST,
+  ADD_LIKE_SUCCESS,
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
@@ -20,6 +23,8 @@ import {
   POST_LOAD_FAILURE,
   POST_LOAD_REQUEST,
   POST_LOAD_SUCCESS,
+  REMOVE_LIKE_REQUEST,
+  REMOVE_LIKE_SUCCESS,
 } from "../action/types";
 
 const initialState: PostState = {
@@ -42,6 +47,12 @@ const initialState: PostState = {
   commentRemoveLoading: false,
   commentRemoveDone: false,
   commentRemoveError: null,
+  addLikeLoading: false,
+  addLikeDone: false,
+  addLikeError: null,
+  removeLikeLoading: false,
+  removeLikeDone: false,
+  removeLikeError: null,
   imagePaths: [],
   mainPosts: [],
 };
@@ -66,7 +77,16 @@ export interface PostState {
   commentRemoveLoading: boolean;
   commentRemoveDone: boolean;
   commentRemoveError: string;
+  addLikeLoading: boolean;
+  addLikeDone: boolean;
+  addLikeError: string;
+  removeLikeLoading: boolean;
+  removeLikeDone: boolean;
+  removeLikeError: string;
   mainPosts: {
+    Likers: {
+      id: number;
+    }[];
     id: number;
     User: { id: number; nickname: string; avatar: string };
     UserId: number;
@@ -212,6 +232,46 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.commentRemoveLoading = false;
         draft.commentRemoveDone = false;
         draft.commentRemoveError = action.data;
+        break;
+      case ADD_LIKE_REQUEST:
+        draft.addLikeLoading = true;
+        draft.addLikeDone = false;
+        draft.addLikeError = null;
+        break;
+      case ADD_LIKE_SUCCESS:
+        draft.addLikeLoading = false;
+        draft.addLikeDone = true;
+        draft.addLikeError = null;
+        const postLiked = draft.mainPosts.find(
+          (post) => post.id === parseInt(action.data.postId)
+        );
+        postLiked.Likers.push({ id: action.data.userId });
+        break;
+      case ADD_LIKE_FAILURE:
+        draft.addLikeLoading = false;
+        draft.addLikeDone = true;
+        draft.addLikeError = action.data;
+        break;
+      case REMOVE_LIKE_REQUEST:
+        draft.removeLikeLoading = true;
+        draft.removeLikeDone = false;
+        draft.removeLikeError = null;
+        break;
+      case REMOVE_LIKE_SUCCESS:
+        draft.removeLikeLoading = false;
+        draft.removeLikeDone = true;
+        draft.removeLikeError = null;
+        const postUnLiked = draft.mainPosts.find(
+          (post) => post.id === parseInt(action.data.postId)
+        );
+        postUnLiked.Likers = postUnLiked.Likers.filter(
+          (like) => like.id !== parseInt(action.data.userId)
+        );
+        break;
+      case REMOVE_LIKE_REQUEST:
+        draft.removeLikeLoading = false;
+        draft.removeLikeDone = false;
+        draft.removeLikeError = action.data;
         break;
       default:
         break;

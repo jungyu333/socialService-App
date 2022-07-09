@@ -97,6 +97,7 @@ export interface PostProps {
     updatedAt: string;
     PostId: number;
   }[];
+  Likers: { id: number }[];
   createdAt: string;
   updatedAt: string;
 }
@@ -124,11 +125,21 @@ function PostCard(post: PostProps) {
             <PostContent postData={post.content} />
           </ContentInfo>
         </ContentContainer>
-        <PostButtons postId={post.id} setCommentOpened={setCommentOpened} />
+        <PostButtons
+          postId={post.id}
+          Likers={post.Likers}
+          setCommentOpened={setCommentOpened}
+        />
         {commentOpened ? (
           <>
             <CommentForm {...post} />
-            <CommentCount>{post.Comments.length}개의 댓글</CommentCount>
+            <div className="flex space-x-2">
+              <CommentCount>{post.Comments.length} 개의 댓글</CommentCount>
+              <div className=" text-sm text-gray-500 mt-2">
+                {post.Likers.length} 개의 좋아요
+              </div>
+            </div>
+
             {post.Comments.map((comment) => (
               <Comment key={comment.id} {...comment} />
             ))}

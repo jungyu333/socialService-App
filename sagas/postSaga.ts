@@ -1,8 +1,10 @@
 import axios from "axios";
-import { all, call, delay, fork, put, takeLatest } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import {
   addCommentFailureAction,
   addCommentSuccessAction,
+  addLikeFailureAction,
+  addLikeSuccessAction,
   addPostFailureAction,
   addPostSuccessAction,
   commentRemoveFailureAction,
@@ -13,14 +15,18 @@ import {
   postImageUploadSuccessAction,
   postLoadFailureAction,
   postLoadSuccessAction,
+  removeLikeFailureAction,
+  removeLikeSuccessAction,
 } from "../action/postActions";
 import {
   ADD_COMMENT_REQUEST,
+  ADD_LIKE_REQUEST,
   ADD_POST_REQUEST,
   COMMENT_REMOVE_REQUEST,
   POST_DELETE_REQUEST,
   POST_IMAGE_UPLOAD_REQUEST,
   POST_LOAD_REQUEST,
+  REMOVE_LIKE_REQUEST,
 } from "../action/types";
 
 function addPostAPI(data) {
@@ -102,13 +108,42 @@ function commentRemoveAPI(data) {
 
 function* commentRemove(action) {
   try {
-    console.log(action.data);
     const result = yield call(commentRemoveAPI, action.data);
-    console.log(result);
+
     yield put(commentRemoveSuccessAction(result.data));
   } catch (err) {
     console.error(err);
     yield put(commentRemoveFailureAction(err.response.data));
+  }
+}
+
+function addLikeAPI(data) {
+  return axios.patch(`/post/${data}/like`);
+}
+
+function* addLike(action) {
+  try {
+    const result = yield call(addLikeAPI, action.data);
+    console.log(result);
+    yield put(addLikeSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(addLikeFailureAction(err.response.data));
+  }
+}
+
+function removeLikeAPI(data) {
+  return axios.delete(`/post/${data}/like`);
+}
+
+function* removeLike(action) {
+  try {
+    const result = yield call(removeLikeAPI, action.data);
+    console.log(result);
+    yield put(removeLikeSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(removeLikeFailureAction(err.response.data));
   }
 }
 
@@ -136,6 +171,14 @@ function* watchCommentRemove() {
   yield takeLatest(COMMENT_REMOVE_REQUEST, commentRemove);
 }
 
+function* watchAddLike() {
+  yield takeLatest(ADD_LIKE_REQUEST, addLike);
+}
+
+function* watchRemoveLike() {
+  yield takeLatest(REMOVE_LIKE_REQUEST, removeLike);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchAddPost),
@@ -144,5 +187,7 @@ export default function* postSaga() {
     fork(watchPostDelete),
     fork(watchPostLoad),
     fork(watchCommentRemove),
+    fork(watchAddLike),
+    fork(watchRemoveLike),
   ]);
 }
