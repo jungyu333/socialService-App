@@ -20,9 +20,6 @@ import {
   USER_INFO_LOAD_REQUEST,
   USER_INFO_LOAD_SUCCESS,
   USER_INFO_LOAD_FAILURE,
-  USER_POST_LOAD_FAILURE,
-  USER_POST_LOAD_REQUEST,
-  USER_POST_LOAD_SUCCESS,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -189,27 +186,6 @@ export const userInfoLoadFailureAction = (data) => {
   };
 };
 
-export const userPostLoadRequestAcion = (data) => {
-  return {
-    type: USER_POST_LOAD_REQUEST,
-    data,
-  };
-};
-
-export const userPostLoadSuccessAction = (data) => {
-  return {
-    type: USER_POST_LOAD_SUCCESS,
-    data,
-  };
-};
-
-export const userPostLoadFailureAction = (data) => {
-  return {
-    type: USER_POST_LOAD_FAILURE,
-    data,
-  };
-};
-
 export type UserAction =
   | ReturnType<typeof logInRequestAction>
   | ReturnType<typeof logOutRequestAction>
@@ -231,7 +207,4 @@ export type UserAction =
   | ReturnType<typeof avatarEditDeleteAction>
   | ReturnType<typeof userInfoLoadRequestAction>
   | ReturnType<typeof userInfoLoadSuccessAction>
-  | ReturnType<typeof userInfoLoadFailureAction>
-  | ReturnType<typeof userPostLoadRequestAcion>
-  | ReturnType<typeof userPostLoadSuccessAction>
-  | ReturnType<typeof userPostLoadFailureAction>;
+  | ReturnType<typeof userInfoLoadFailureAction>;

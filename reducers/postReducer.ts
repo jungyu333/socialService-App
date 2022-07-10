@@ -25,6 +25,9 @@ import {
   POST_LOAD_SUCCESS,
   REMOVE_LIKE_REQUEST,
   REMOVE_LIKE_SUCCESS,
+  USER_POST_LOAD_FAILURE,
+  USER_POST_LOAD_REQUEST,
+  USER_POST_LOAD_SUCCESS,
 } from "../action/types";
 
 const initialState: PostState = {
@@ -200,12 +203,14 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postDeleteError = action.data;
         break;
       case POST_LOAD_REQUEST:
+      case USER_POST_LOAD_REQUEST:
         draft.postLoadLoading = true;
         draft.postLoadDone = false;
         draft.postLoadError = null;
 
         break;
       case POST_LOAD_SUCCESS:
+      case USER_POST_LOAD_SUCCESS:
         draft.postLoadLoading = false;
         draft.postLoadDone = true;
         draft.postLoadError = null;
@@ -213,6 +218,7 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.hasMorePosts = action.data.length === 10;
         break;
       case POST_LOAD_FAILURE:
+      case USER_POST_LOAD_FAILURE:
         draft.postLoadLoading = false;
         draft.postLoadDone = false;
         draft.postLoadError = action.data;
@@ -277,7 +283,6 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.removeLikeLoading = false;
         draft.removeLikeDone = false;
         draft.removeLikeError = action.data;
-
         break;
 
       default:

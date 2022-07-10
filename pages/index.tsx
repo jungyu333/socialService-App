@@ -7,11 +7,14 @@ import tw from "tailwind-styled-components";
 import PostForm from "../components/PostForm";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
-
+import { END } from "redux-saga";
 import { useDispatch } from "react-redux";
 import { userInfoLoadRequestAction } from "../action/userAction";
 import { useInView } from "react-intersection-observer";
 import { postLoadRequestAction } from "../action/postActions";
+import wrapper from "../store/configureStore";
+import axios from "axios";
+import { GetServerSideProps } from "next";
 
 const Wrapper = tw.div`
   flex-col
@@ -35,10 +38,6 @@ const Home = () => {
     }
   }, [inView, mainPosts, hasMorePosts, postLoadLoading]);
 
-  useEffect(() => {
-    dispatch(userInfoLoadRequestAction());
-  }, []);
-
   return (
     <>
       <Head>
@@ -61,4 +60,23 @@ const Home = () => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const cookie = context.req ? context.req.headers.cookie : "";
+    axios.defaults.headers.common.Cookie = "";
+    if (context.req && cookie) {
+      axios.defaults.headers.common.Cookie = cookie;
+    }
+
+    store.dispatch(userInfoLoadRequestAction());
+    store.dispatch(postLoadRequestAction(0));
+
+    store.dispatch(END);
+    await store.sagaTask.toPromise();
+    return {
+      props: {},
+    };
+  });
+
 export default Home;

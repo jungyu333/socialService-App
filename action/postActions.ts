@@ -24,6 +24,9 @@ import {
   REMOVE_LIKE_FAILURE,
   REMOVE_LIKE_REQUEST,
   REMOVE_LIKE_SUCCESS,
+  USER_POST_LOAD_FAILURE,
+  USER_POST_LOAD_REQUEST,
+  USER_POST_LOAD_SUCCESS,
 } from "./types";
 
 export const addPostRequestAction = (data) => {
@@ -201,6 +204,27 @@ export const removeLikeFailureAction = (data) => {
   };
 };
 
+export const userPostLoadRequestAcion = (data) => {
+  return {
+    type: USER_POST_LOAD_REQUEST,
+    data,
+  };
+};
+
+export const userPostLoadSuccessAction = (data) => {
+  return {
+    type: USER_POST_LOAD_SUCCESS,
+    data,
+  };
+};
+
+export const userPostLoadFailureAction = (data) => {
+  return {
+    type: USER_POST_LOAD_FAILURE,
+    data,
+  };
+};
+
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
@@ -226,4 +250,7 @@ export type PostActionType =
   | ReturnType<typeof addLikeFailureAction>
   | ReturnType<typeof removeLikeRequestAction>
   | ReturnType<typeof removeLikeSuccessAction>
-  | ReturnType<typeof removeLikeFailureAction>;
+  | ReturnType<typeof removeLikeFailureAction>
+  | ReturnType<typeof userPostLoadRequestAcion>
+  | ReturnType<typeof userPostLoadSuccessAction>
+  | ReturnType<typeof userPostLoadFailureAction>;

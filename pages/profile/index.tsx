@@ -137,7 +137,7 @@ const Profile = () => {
           </ProfileContainer>
         </ProfileWrapper>
         <CommunicateWrapper>
-          <CircleItem text="내 게시물" link={`/profile/userpost`}>
+          <CircleItem text="내 게시물" link={`/user/${me?.id}`}>
             <TwitterOutlined style={{ color: "white", fontSize: "24px" }} />
           </CircleItem>
           <CircleItem text="팔로잉" link={`/profile/following`}>

@@ -17,6 +17,8 @@ import {
   postLoadSuccessAction,
   removeLikeFailureAction,
   removeLikeSuccessAction,
+  userPostLoadFailureAction,
+  userPostLoadSuccessAction,
 } from "../action/postActions";
 import {
   ADD_COMMENT_REQUEST,
@@ -27,6 +29,7 @@ import {
   POST_IMAGE_UPLOAD_REQUEST,
   POST_LOAD_REQUEST,
   REMOVE_LIKE_REQUEST,
+  USER_POST_LOAD_REQUEST,
 } from "../action/types";
 
 function addPostAPI(data) {
@@ -124,7 +127,7 @@ function addLikeAPI(data) {
 function* addLike(action) {
   try {
     const result = yield call(addLikeAPI, action.data);
-    console.log(result);
+
     yield put(addLikeSuccessAction(result.data));
   } catch (err) {
     console.error(err);
@@ -144,6 +147,21 @@ function* removeLike(action) {
   } catch (err) {
     console.error(err);
     yield put(removeLikeFailureAction(err.response.data));
+  }
+}
+
+function userPostLoadAPI(data) {
+  return axios.get(`/posts/${data.userId}?lastId=${data.lastId || 0}`);
+}
+
+function* userPostLoad(action) {
+  try {
+    const result = yield call(userPostLoadAPI, action.data);
+
+    yield put(userPostLoadSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(userPostLoadFailureAction(err.response.data));
   }
 }
 
@@ -179,6 +197,10 @@ function* watchRemoveLike() {
   yield takeLatest(REMOVE_LIKE_REQUEST, removeLike);
 }
 
+function* watchUserPostLoad() {
+  yield takeLatest(USER_POST_LOAD_REQUEST, userPostLoad);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchAddPost),
@@ -189,5 +211,6 @@ export default function* postSaga() {
     fork(watchCommentRemove),
     fork(watchAddLike),
     fork(watchRemoveLike),
+    fork(watchUserPostLoad),
   ]);
 }

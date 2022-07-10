@@ -4,20 +4,21 @@ import userReducer from "./userReducer";
 import postReducer from "./postReducer";
 import signUpReducer from "./signUpReducer";
 
-const rootReducer = combineReducers({
-  index: (state = {}, action) => {
-    switch (action.type) {
-      case HYDRATE:
-        console.log("HYDRATE", action);
-        return { ...(state as object), ...action.payload };
-      default:
-        return state;
+const rootReducer = (state, action) => {
+  switch (action.type) {
+    case HYDRATE:
+      console.log("HYDRATE", action);
+      return action.payload;
+    default: {
+      const combinedReducer = combineReducers({
+        userReducer,
+        postReducer,
+        signUpReducer,
+      });
+      return combinedReducer(state, action);
     }
-  },
-  userReducer,
-  postReducer,
-  signUpReducer,
-});
+  }
+};
 
 export default rootReducer;
 
