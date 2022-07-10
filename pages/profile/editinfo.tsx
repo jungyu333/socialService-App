@@ -11,8 +11,13 @@ import {
   avatarEditDeleteAction,
   avatarEditRequestAction,
   editInfoRequestAction,
+  userInfoLoadRequestAction,
 } from "../../action/userAction";
 import { useRouter } from "next/router";
+import wrapper from "../../store/configureStore";
+import { GetServerSideProps } from "next";
+import axios from "axios";
+import { END } from "redux-saga";
 
 const LoginForm = tw.form`
   space-y-4
@@ -159,5 +164,21 @@ function editinfo() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const cookie = context.req ? context.req.headers.cookie : "";
+    axios.defaults.headers.common.Cookie = "";
+    if (context.req && cookie) {
+      axios.defaults.headers.common.Cookie = cookie;
+    }
+
+    store.dispatch(userInfoLoadRequestAction());
+    store.dispatch(END);
+    await store.sagaTask.toPromise();
+    return {
+      props: {},
+    };
+  });
 
 export default editinfo;
