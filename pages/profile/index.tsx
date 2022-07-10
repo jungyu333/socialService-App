@@ -17,6 +17,10 @@ import {
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
+import { GetServerSideProps } from "next";
+import wrapper from "../../store/configureStore";
+import axios from "axios";
+import { END } from "redux-saga";
 
 const ProfileWrapper = tw.div`
   max-w-sm
@@ -107,10 +111,6 @@ const Profile = () => {
     }
   }, [logOutDone, me]);
 
-  useEffect(() => {
-    dispatch(userInfoLoadRequestAction());
-  }, []);
-
   return (
     <>
       <Head>
@@ -151,4 +151,21 @@ const Profile = () => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async (context) => {
+    const cookie = context.req ? context.req.headers.cookie : "";
+    axios.defaults.headers.common.Cookie = "";
+    if (context.req && cookie) {
+      axios.defaults.headers.common.Cookie = cookie;
+    }
+
+    store.dispatch(userInfoLoadRequestAction());
+    store.dispatch(END);
+    await store.sagaTask.toPromise();
+    return {
+      props: {},
+    };
+  });
+
 export default Profile;
