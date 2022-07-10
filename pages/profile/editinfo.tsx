@@ -108,6 +108,12 @@ function editinfo() {
     }
   }, [me]);
 
+  useEffect(() => {
+    if (!me) {
+      router.replace("/");
+    }
+  }, [me]);
+
   const onValid = ({ nickname }: ValidForm) => {
     const formData = new FormData();
     formData.append("nickname", nickname);
@@ -125,42 +131,48 @@ function editinfo() {
 
   return (
     <Layout>
-      <LogInForm headTitle="회원 정보 수정">
-        <LoginForm
-          onSubmit={handleSubmit(onValid)}
-          encType="multipart/form-data"
-        >
-          <div className="flex items-center space-x-3">
-            {me.avatar !== "null" ? (
-              <PreAvatar src={`http://localhost:4000/${me.avatar}`} />
-            ) : (
-              <Avatar />
-            )}
+      {me ? (
+        <>
+          <LogInForm headTitle="회원 정보 수정">
+            <LoginForm
+              onSubmit={handleSubmit(onValid)}
+              encType="multipart/form-data"
+            >
+              <div className="flex items-center space-x-3">
+                {me?.avatar !== "null" ? (
+                  <PreAvatar src={`http://localhost:4000/${me?.avatar}`} />
+                ) : (
+                  <Avatar />
+                )}
 
-            {me.avatar === "null" ? (
-              <AvatarButton onClick={onClickAvater}>이미지</AvatarButton>
-            ) : (
-              <AvatarButton onClick={onClickDeleteAvatar}>초기화</AvatarButton>
-            )}
-          </div>
-          <InputAvatar
-            name="avataredit"
-            type="file"
-            ref={avatarInput}
-            onChange={onChangeAvatar}
-          />
-          <InputHead>Nick Name</InputHead>
-          <Input
-            register={register("nickname")}
-            type="text"
-            placeholder="Name"
-          />
+                {me.avatar === "null" ? (
+                  <AvatarButton onClick={onClickAvater}>이미지</AvatarButton>
+                ) : (
+                  <AvatarButton onClick={onClickDeleteAvatar}>
+                    초기화
+                  </AvatarButton>
+                )}
+              </div>
+              <InputAvatar
+                name="avataredit"
+                type="file"
+                ref={avatarInput}
+                onChange={onChangeAvatar}
+              />
+              <InputHead>Nick Name</InputHead>
+              <Input
+                register={register("nickname")}
+                type="text"
+                placeholder="Name"
+              />
 
-          <div>
-            <SubmitButton>수정하기</SubmitButton>
-          </div>
-        </LoginForm>
-      </LogInForm>
+              <div>
+                <SubmitButton>수정하기</SubmitButton>
+              </div>
+            </LoginForm>
+          </LogInForm>
+        </>
+      ) : null}
     </Layout>
   );
 }

@@ -42,7 +42,6 @@ function logOutAPI() {
 function* logOut() {
   try {
     yield call(logOutAPI);
-
     yield put(logOutSuccessAction());
   } catch (err) {
     console.error(err);

@@ -92,7 +92,7 @@ const CommunicateWrapper = tw.div`
 `;
 
 const Profile = () => {
-  const { me, logOutLoading, logOutDone } = useSelector(
+  const { me, logOutLoading } = useSelector(
     (state: RootState) => state.userReducer
   );
   const router = useRouter();
@@ -106,10 +106,10 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (logOutDone) {
+    if (!me) {
       router.replace("/");
     }
-  }, [logOutDone, me]);
+  }, [me]);
 
   return (
     <>
@@ -118,35 +118,39 @@ const Profile = () => {
         <title>마이페이지 | Social Service</title>
       </Head>
       <Layout>
-        <ProfileWrapper>
-          <ProfileContainer>
-            {me?.avatar !== "null" ? (
-              <Avatar src={`http://localhost:4000/${me?.avatar}`} />
-            ) : (
-              <Image />
-            )}
-            <UserInfo>
-              <UserName>{me?.nickname}</UserName>
-              <ButtonContainer>
-                <Button onClick={onClickEdit}>Edit Profile</Button>
-                <Button onClick={onClickLogOut}>
-                  {logOutLoading ? "Loading..." : "로그아웃"}
-                </Button>
-              </ButtonContainer>
-            </UserInfo>
-          </ProfileContainer>
-        </ProfileWrapper>
-        <CommunicateWrapper>
-          <CircleItem text="내 게시물" link={`/user/${me?.id}`}>
-            <TwitterOutlined style={{ color: "white", fontSize: "24px" }} />
-          </CircleItem>
-          <CircleItem text="팔로잉" link={`/profile/following`}>
-            <UserAddOutlined style={{ color: "white", fontSize: "24px" }} />
-          </CircleItem>
-          <CircleItem text="팔로워" link={`/profile/follower`}>
-            <StarOutlined style={{ color: "white", fontSize: "24px" }} />
-          </CircleItem>
-        </CommunicateWrapper>
+        {me ? (
+          <>
+            <ProfileWrapper>
+              <ProfileContainer>
+                {me?.avatar !== "null" ? (
+                  <Avatar src={`http://localhost:4000/${me?.avatar}`} />
+                ) : (
+                  <Image />
+                )}
+                <UserInfo>
+                  <UserName>{me?.nickname}</UserName>
+                  <ButtonContainer>
+                    <Button onClick={onClickEdit}>Edit Profile</Button>
+                    <Button onClick={onClickLogOut}>
+                      {logOutLoading ? "Loading..." : "로그아웃"}
+                    </Button>
+                  </ButtonContainer>
+                </UserInfo>
+              </ProfileContainer>
+            </ProfileWrapper>
+            <CommunicateWrapper>
+              <CircleItem text="내 게시물" link={`/user/${me?.id}`}>
+                <TwitterOutlined style={{ color: "white", fontSize: "24px" }} />
+              </CircleItem>
+              <CircleItem text="팔로잉" link={`/profile/following`}>
+                <UserAddOutlined style={{ color: "white", fontSize: "24px" }} />
+              </CircleItem>
+              <CircleItem text="팔로워" link={`/profile/follower`}>
+                <StarOutlined style={{ color: "white", fontSize: "24px" }} />
+              </CircleItem>
+            </CommunicateWrapper>
+          </>
+        ) : null}
       </Layout>
     </>
   );
