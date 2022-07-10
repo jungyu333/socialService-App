@@ -6,6 +6,7 @@ import PostImage from "../components/PostImage";
 import CommentForm from "./CommentForm";
 import PostButtons from "./PostButtons";
 import PostContent from "./PostContent";
+import Link from "next/link";
 
 const Wrapper = tw.div`
   max-w-sm
@@ -121,7 +122,12 @@ function PostCard(post: PostProps) {
             )}
           </div>
           <ContentInfo>
-            <Name>{post.User?.nickname}</Name>
+            <Link href={`/user/${post.UserId}`}>
+              <a>
+                <Name>{post.User?.nickname}</Name>
+              </a>
+            </Link>
+
             <PostContent postData={post.content} />
           </ContentInfo>
         </ContentContainer>

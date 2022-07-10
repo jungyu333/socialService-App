@@ -17,9 +17,12 @@ import {
   AVATAR_EDIT_FAILURE,
   AVATAR_EDIT_SUCCESS,
   AVATAR_EDIT_DELETE,
-  USER_INFO_LOAD_REQUEST,
-  USER_INFO_LOAD_SUCCESS,
-  USER_INFO_LOAD_FAILURE,
+  MY_INFO_LOAD_REQUEST,
+  MY_INFO_LOAD_SUCCESS,
+  MY_INFO_LOAD_FAILURE,
+  USER_LOAD_REQUEST,
+  USER_LOAD_SUCCESS,
+  USER_LOAD_FAILURE,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -104,11 +107,6 @@ export interface LogInData {
   createdAt: string;
 }
 
-interface EditInfoData {
-  nickname: string;
-  avatarPaths: string;
-}
-
 export const avatarUploadRequestAction = (data) => {
   return {
     type: AVATAR_UPLOAD_REQUEST,
@@ -165,23 +163,44 @@ export const avatarEditDeleteAction = () => {
   };
 };
 
-export const userInfoLoadRequestAction = () => {
+export const myInfoLoadRequestAction = () => {
   return {
-    type: USER_INFO_LOAD_REQUEST,
+    type: MY_INFO_LOAD_REQUEST,
     data: null,
   };
 };
 
-export const userInfoLoadSuccessAction = (data) => {
+export const myInfoLoadSuccessAction = (data) => {
   return {
-    type: USER_INFO_LOAD_SUCCESS,
+    type: MY_INFO_LOAD_SUCCESS,
     data,
   };
 };
 
-export const userInfoLoadFailureAction = (data) => {
+export const myInfoLoadFailureAction = (data) => {
   return {
-    type: USER_INFO_LOAD_FAILURE,
+    type: MY_INFO_LOAD_FAILURE,
+    data,
+  };
+};
+
+export const userLoadRequestAction = (data) => {
+  return {
+    type: USER_LOAD_REQUEST,
+    data,
+  };
+};
+
+export const userLoadSuccessAction = (data) => {
+  return {
+    type: USER_LOAD_SUCCESS,
+    data,
+  };
+};
+
+export const userLoadFailureAction = (data) => {
+  return {
+    type: USER_LOAD_FAILURE,
     data,
   };
 };
@@ -205,6 +224,9 @@ export type UserAction =
   | ReturnType<typeof avatarEditSuccessAction>
   | ReturnType<typeof avatarEditFailureAction>
   | ReturnType<typeof avatarEditDeleteAction>
-  | ReturnType<typeof userInfoLoadRequestAction>
-  | ReturnType<typeof userInfoLoadSuccessAction>
-  | ReturnType<typeof userInfoLoadFailureAction>;
+  | ReturnType<typeof myInfoLoadRequestAction>
+  | ReturnType<typeof myInfoLoadSuccessAction>
+  | ReturnType<typeof myInfoLoadFailureAction>
+  | ReturnType<typeof userLoadRequestAction>
+  | ReturnType<typeof userLoadSuccessAction>
+  | ReturnType<typeof userLoadFailureAction>;

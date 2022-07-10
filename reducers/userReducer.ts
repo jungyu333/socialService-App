@@ -19,9 +19,12 @@ import {
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
-  USER_INFO_LOAD_FAILURE,
-  USER_INFO_LOAD_REQUEST,
-  USER_INFO_LOAD_SUCCESS,
+  MY_INFO_LOAD_FAILURE,
+  MY_INFO_LOAD_REQUEST,
+  MY_INFO_LOAD_SUCCESS,
+  USER_LOAD_FAILURE,
+  USER_LOAD_REQUEST,
+  USER_LOAD_SUCCESS,
 } from "../action/types";
 
 const initialState: UserState = {
@@ -40,10 +43,13 @@ const initialState: UserState = {
   avatarEditLoading: false,
   avatarEditDone: false,
   avatarEditError: null,
+  myInfoLoadLoading: false,
+  myInfoLoadDone: false,
+  myInfoLoadError: null,
   userLoadLoading: false,
   userLoadDone: false,
   userLoadError: null,
-
+  userInfo: null,
   me: null,
   avatarPaths: "null",
 };
@@ -65,10 +71,23 @@ export interface UserState {
   avatarEditLoading: boolean;
   avatarEditDone: boolean;
   avatarEditError: string;
+  myInfoLoadLoading: boolean;
+  myInfoLoadDone: boolean;
+  myInfoLoadError: string;
   userLoadLoading: boolean;
   userLoadDone: boolean;
   userLoadError: string;
-
+  userInfo: {
+    id: number;
+    nickname: string;
+    email: string;
+    Posts: {}[];
+    Followers: {}[];
+    Followings: {}[];
+    avatar: string;
+    updatedAt: string;
+    createdAt: string;
+  };
   me: {
     id: number;
     nickname: string;
@@ -186,24 +205,40 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.me.avatar = "null";
         draft.avatarUploadDone = false;
         break;
-      case USER_INFO_LOAD_REQUEST:
+      case MY_INFO_LOAD_REQUEST:
+        draft.myInfoLoadLoading = true;
+        draft.myInfoLoadDone = false;
+        draft.myInfoLoadError = null;
+        break;
+      case MY_INFO_LOAD_SUCCESS:
+        draft.myInfoLoadLoading = false;
+        draft.myInfoLoadDone = true;
+        draft.myInfoLoadError = null;
+        draft.me = action.data;
+
+        break;
+      case MY_INFO_LOAD_FAILURE:
+        draft.myInfoLoadLoading = false;
+        draft.myInfoLoadDone = false;
+        draft.myInfoLoadError = action.data;
+        break;
+
+      case USER_LOAD_REQUEST:
         draft.userLoadLoading = true;
         draft.userLoadDone = false;
         draft.userLoadError = null;
         break;
-      case USER_INFO_LOAD_SUCCESS:
+      case USER_LOAD_SUCCESS:
         draft.userLoadLoading = false;
         draft.userLoadDone = true;
         draft.userLoadError = null;
-        draft.me = action.data;
-
+        draft.userInfo = action.data;
         break;
-      case USER_INFO_LOAD_FAILURE:
+      case USER_LOAD_FAILURE:
         draft.userLoadLoading = false;
         draft.userLoadDone = false;
         draft.userLoadError = action.data;
         break;
-
       default:
         break;
     }

@@ -6,14 +6,17 @@ import {
   logOutFailureAction,
   logOutSuccessAction,
   UserAction,
-  userInfoLoadFailureAction,
-  userInfoLoadSuccessAction,
+  myInfoLoadFailureAction,
+  myInfoLoadSuccessAction,
+  userLoadFailureAction,
+  userLoadSuccessAction,
 } from "../action/userAction";
 
 import {
   LOG_IN_REQUEST,
   LOG_OUT_REQUEST,
-  USER_INFO_LOAD_REQUEST,
+  MY_INFO_LOAD_REQUEST,
+  USER_LOAD_REQUEST,
   USER_POST_LOAD_REQUEST,
 } from "../action/types";
 
@@ -47,18 +50,36 @@ function* logOut() {
   }
 }
 
-function userLoadAPI() {
-  return axios.get("/userload");
+function myInfoLoadAPI() {
+  return axios.get("/user");
 }
 
-function* userLoad() {
+function* myInfoLoad() {
   try {
-    const result = yield call(userLoadAPI);
-    yield put(userInfoLoadSuccessAction(result.data));
+    const result = yield call(myInfoLoadAPI);
+    yield put(myInfoLoadSuccessAction(result.data));
   } catch (err) {
     console.error(err);
-    yield put(userInfoLoadFailureAction(err.response.data));
+    yield put(myInfoLoadFailureAction(err.response.data));
   }
+}
+
+function userLoadAPI(data) {
+  return axios.get(`/user/${data}`);
+}
+
+function* userLoad(action) {
+  try {
+    const result = yield call(userLoadAPI, action.data);
+    yield put(userLoadSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(userLoadFailureAction(err.response.data));
+  }
+}
+
+function* watchUserLoad() {
+  yield takeLatest(USER_LOAD_REQUEST, userLoad);
 }
 
 function* watchLogin() {
@@ -69,10 +90,15 @@ function* watchLogOut() {
   yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
-function* watchUserLoad() {
-  yield takeLatest(USER_INFO_LOAD_REQUEST, userLoad);
+function* watchMyInfoLoad() {
+  yield takeLatest(MY_INFO_LOAD_REQUEST, myInfoLoad);
 }
 
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchLogOut), fork(watchUserLoad)]);
+  yield all([
+    fork(watchLogin),
+    fork(watchLogOut),
+    fork(watchMyInfoLoad),
+    fork(watchUserLoad),
+  ]);
 }

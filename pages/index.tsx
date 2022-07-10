@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
 import { END } from "redux-saga";
 import { useDispatch } from "react-redux";
-import { userInfoLoadRequestAction } from "../action/userAction";
+import { myInfoLoadRequestAction } from "../action/userAction";
 import { useInView } from "react-intersection-observer";
 import { postLoadRequestAction } from "../action/postActions";
 import wrapper from "../store/configureStore";
@@ -69,7 +69,7 @@ export const getServerSideProps: GetServerSideProps =
       axios.defaults.headers.common.Cookie = cookie;
     }
 
-    store.dispatch(userInfoLoadRequestAction());
+    store.dispatch(myInfoLoadRequestAction());
     store.dispatch(postLoadRequestAction(0));
 
     store.dispatch(END);

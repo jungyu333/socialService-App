@@ -8,7 +8,10 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { END } from "redux-saga";
 import { userPostLoadRequestAcion } from "../../action/postActions";
-import { userInfoLoadRequestAction } from "../../action/userAction";
+import {
+  myInfoLoadRequestAction,
+  userLoadRequestAction,
+} from "../../action/userAction";
 
 import Layout from "../../components/Layout";
 import PostCard from "../../components/PostCard";
@@ -36,7 +39,7 @@ function User() {
     <>
       <Head>
         <meta charSet="UTF-8" />
-        <title>내 게시물| Social Service</title>
+        <title>피드 | Social Service</title>
       </Head>
       <Layout>
         {mainPosts?.map((post) => (
@@ -58,10 +61,12 @@ export const getServerSideProps: GetServerSideProps =
     if (context.req && cookie) {
       axios.defaults.headers.common.Cookie = cookie;
     }
+    store.dispatch(userLoadRequestAction(context.params.id));
     store.dispatch(
       userPostLoadRequestAcion({ lastId: 0, userId: context.params.id })
     );
-    store.dispatch(userInfoLoadRequestAction());
+    store.dispatch(myInfoLoadRequestAction());
+
     store.dispatch(END);
     await store.sagaTask.toPromise();
     return {

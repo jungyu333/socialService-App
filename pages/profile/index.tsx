@@ -12,7 +12,7 @@ import CircleItem from "../../components/CircleItem";
 import { useDispatch } from "react-redux";
 import {
   logOutRequestAction,
-  userInfoLoadRequestAction,
+  myInfoLoadRequestAction,
 } from "../../action/userAction";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
@@ -160,7 +160,7 @@ export const getServerSideProps: GetServerSideProps =
       axios.defaults.headers.common.Cookie = cookie;
     }
 
-    store.dispatch(userInfoLoadRequestAction());
+    store.dispatch(myInfoLoadRequestAction());
     store.dispatch(END);
     await store.sagaTask.toPromise();
     return {

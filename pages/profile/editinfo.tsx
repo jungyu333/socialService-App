@@ -11,7 +11,7 @@ import {
   avatarEditDeleteAction,
   avatarEditRequestAction,
   editInfoRequestAction,
-  userInfoLoadRequestAction,
+  myInfoLoadRequestAction,
 } from "../../action/userAction";
 import { useRouter } from "next/router";
 import wrapper from "../../store/configureStore";
@@ -173,7 +173,7 @@ export const getServerSideProps: GetServerSideProps =
       axios.defaults.headers.common.Cookie = cookie;
     }
 
-    store.dispatch(userInfoLoadRequestAction());
+    store.dispatch(myInfoLoadRequestAction());
     store.dispatch(END);
     await store.sagaTask.toPromise();
     return {
