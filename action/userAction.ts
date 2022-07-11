@@ -26,6 +26,9 @@ import {
   USER_FOLLOW_REQUEST,
   USER_FOLLOW_SUCCESS,
   USER_FOLLOW_FAILURE,
+  USER_UNFOLLOW_REQUEST,
+  USER_UNFOLLOW_SUCCESS,
+  USER_UNFOLLOW_FAILURE,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -218,13 +221,36 @@ export const userFollowRequestAction = (data) => {
 export const userFollowSuccessAction = (data) => {
   return {
     type: USER_FOLLOW_SUCCESS,
-    data,
+    userId: data.userId,
+    myId: data.myId,
   };
 };
 
 export const userFollowFailureAction = (data) => {
   return {
     type: USER_FOLLOW_FAILURE,
+    data,
+  };
+};
+
+export const userUnFollowRequestAction = (data) => {
+  return {
+    type: USER_UNFOLLOW_REQUEST,
+    data,
+  };
+};
+
+export const userUnFollowSuccessAction = (data) => {
+  return {
+    type: USER_UNFOLLOW_SUCCESS,
+    userId: data.userId,
+    myId: data.myId,
+  };
+};
+
+export const userUnFollowFailureAction = (data) => {
+  return {
+    type: USER_UNFOLLOW_FAILURE,
     data,
   };
 };
@@ -256,4 +282,7 @@ export type UserAction =
   | ReturnType<typeof userLoadFailureAction>
   | ReturnType<typeof userFollowRequestAction>
   | ReturnType<typeof userFollowSuccessAction>
-  | ReturnType<typeof userFollowFailureAction>;
+  | ReturnType<typeof userFollowFailureAction>
+  | ReturnType<typeof userUnFollowRequestAction>
+  | ReturnType<typeof userUnFollowSuccessAction>
+  | ReturnType<typeof userUnFollowFailureAction>;

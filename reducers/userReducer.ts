@@ -1,5 +1,5 @@
 import produce from "immer";
-import { UserAction } from "../action/userAction";
+
 import {
   AVATAR_DELETE,
   AVATAR_EDIT_DELETE,
@@ -28,6 +28,9 @@ import {
   USER_LOAD_FAILURE,
   USER_LOAD_REQUEST,
   USER_LOAD_SUCCESS,
+  USER_UNFOLLOW_FAILURE,
+  USER_UNFOLLOW_REQUEST,
+  USER_UNFOLLOW_SUCCESS,
 } from "../action/types";
 
 const initialState: UserState = {
@@ -55,6 +58,9 @@ const initialState: UserState = {
   userFollowLoading: false,
   userFollowDone: false,
   userFollowError: null,
+  userUnFollowLoading: false,
+  userUnFollowDone: false,
+  userUnFollowError: null,
   userInfo: null,
   me: null,
   avatarPaths: "null",
@@ -86,13 +92,16 @@ export interface UserState {
   userFollowLoading: boolean;
   userFollowDone: boolean;
   userFollowError: string;
+  userUnFollowLoading: boolean;
+  userUnFollowDone: boolean;
+  userUnFollowError: string;
   userInfo: {
     id: number;
     nickname: string;
     email: string;
     Posts: {}[];
-    Followers: {}[];
-    Followings: {}[];
+    Followers: { id: number }[];
+    Followings: { id: number }[];
     avatar: string;
     updatedAt: string;
     createdAt: string;
@@ -102,15 +111,17 @@ export interface UserState {
     nickname: string;
     email: string;
     Posts: {}[];
-    Followers: {}[];
-    Followings: {}[];
+    Followers: {
+      id: number;
+    }[];
+    Followings: { id: number }[];
     avatar: string;
     updatedAt: string;
     createdAt: string;
   };
 }
 
-const userReducer = (state = initialState, action: UserAction) =>
+const userReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case LOG_IN_REQUEST:
@@ -257,13 +268,34 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.userFollowLoading = false;
         draft.userFollowDone = true;
         draft.userFollowError = null;
-        draft.me.Followings.push(action.data);
-        draft.userInfo.Followers.push(action.data);
+        draft.me.Followings.push({ id: action.userId });
+        draft.userInfo.Followers.push({ id: action.myId });
         break;
       case USER_FOLLOW_FAILURE:
         draft.userFollowLoading = false;
         draft.userFollowDone = false;
         draft.userFollowError = action.data;
+        break;
+      case USER_UNFOLLOW_REQUEST:
+        draft.userUnFollowLoading = true;
+        draft.userUnFollowDone = false;
+        draft.userUnFollowError = null;
+        break;
+      case USER_UNFOLLOW_SUCCESS:
+        draft.userUnFollowLoading = false;
+        draft.userUnFollowDone = true;
+        draft.userUnFollowError = null;
+        draft.me.Followings = draft.me.Followings.filter(
+          (user) => user.id !== action.userId
+        );
+        draft.userInfo.Followers = draft.userInfo.Followers.filter(
+          (user) => user.id !== action.myId
+        );
+        break;
+      case USER_UNFOLLOW_FAILURE:
+        draft.userUnFollowLoading = false;
+        draft.userUnFollowDone = false;
+        draft.userUnFollowError = action.data;
         break;
       default:
         break;

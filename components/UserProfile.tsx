@@ -3,7 +3,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
-import { userFollowRequestAction } from "../action/userAction";
+import {
+  userFollowRequestAction,
+  userUnFollowRequestAction,
+} from "../action/userAction";
 import { RootState } from "../reducers";
 
 const Wrapper = tw.div`
@@ -89,13 +92,13 @@ const InfoBox = tw.div`
 function UserProfile() {
   const { userInfo, me } = useSelector((state: RootState) => state.userReducer);
   const dispatch = useDispatch();
-  const isFollowed = me?.Followings.find((user) => user.id === userInfo.id);
-  const onClickButton = () => {
-    if (!isFollowed) {
-      dispatch(userFollowRequestAction(userInfo.id));
-    } else {
-      console.log("unfollow");
-    }
+  const isFollowed = me?.Followings.find((user) => user?.id === userInfo?.id);
+  const onClickFollow = () => {
+    dispatch(userFollowRequestAction(userInfo.id));
+  };
+
+  const onClickUnFollow = () => {
+    dispatch(userUnFollowRequestAction(userInfo.id));
   };
 
   return (
@@ -116,13 +119,13 @@ function UserProfile() {
                     <>
                       {!isFollowed ? (
                         <>
-                          <Follow onClick={onClickButton}>
+                          <Follow onClick={onClickFollow}>
                             <UserAddOutlined />
                             Follow
                           </Follow>
                         </>
                       ) : (
-                        <Follow onClick={onClickButton}>
+                        <Follow onClick={onClickUnFollow}>
                           <UserAddOutlined />
                           UnFollow
                         </Follow>

@@ -12,6 +12,8 @@ import {
   userLoadSuccessAction,
   userFollowFailureAction,
   userFollowSuccessAction,
+  userUnFollowFailureAction,
+  userUnFollowSuccessAction,
 } from "../action/userAction";
 
 import {
@@ -21,13 +23,14 @@ import {
   USER_FOLLOW_REQUEST,
   USER_LOAD_REQUEST,
   USER_POST_LOAD_REQUEST,
+  USER_UNFOLLOW_REQUEST,
 } from "../action/types";
 
 function logInAPI(data) {
   return axios.post("/login", data);
 }
 
-function* logIn(action: UserAction) {
+function* logIn(action) {
   try {
     const result = yield call(logInAPI, action.data);
 
@@ -96,6 +99,22 @@ function* userFollow(action) {
   }
 }
 
+function unFollowAPI(data) {
+  return axios.delete(`/user/${data}/follow`);
+}
+
+function* userUnFollow(action) {
+  try {
+    const result = yield call(unFollowAPI, action.data);
+
+    yield put(userUnFollowSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(userUnFollowFailureAction(err.response.data));
+    alert(err.response.data);
+  }
+}
+
 function* watchUserLoad() {
   yield takeLatest(USER_LOAD_REQUEST, userLoad);
 }
@@ -116,6 +135,10 @@ function* watchFollow() {
   yield takeLatest(USER_FOLLOW_REQUEST, userFollow);
 }
 
+function* watchUnFollow() {
+  yield takeLatest(USER_UNFOLLOW_REQUEST, userUnFollow);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchLogin),
@@ -123,5 +146,6 @@ export default function* userSaga() {
     fork(watchMyInfoLoad),
     fork(watchUserLoad),
     fork(watchFollow),
+    fork(watchUnFollow),
   ]);
 }
