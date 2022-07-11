@@ -1,6 +1,9 @@
+import { UserAddOutlined } from "@ant-design/icons";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
+import { userFollowRequestAction } from "../action/userAction";
 import { RootState } from "../reducers";
 
 const Wrapper = tw.div`
@@ -9,10 +12,11 @@ const Wrapper = tw.div`
   xl:flex 
   top-10
   left-10
+  
 `;
 
 const ProfileWrapper = tw.div`
-  w-80
+  w-96
   bg-gray-100
   h-48
   shadow-md
@@ -46,7 +50,22 @@ const Image = tw.div`
 `;
 
 const UserInfo = tw.div`
-  space-y-2
+  
+  flex
+  items-center
+  w-full
+  justify-between
+`;
+
+const Follow = tw.button`
+  text-sm
+  text-gray-500
+  hover:text-indigo-700
+  flex 
+  justify-end
+  items-center
+  w-2/4
+  
 `;
 
 const UserName = tw.div`
@@ -68,38 +87,67 @@ const InfoBox = tw.div`
 `;
 
 function UserProfile() {
-  const { Posts, Followers, Followings, nickname, avatar } = useSelector(
-    (state: RootState) => state.userReducer.me
-  );
+  const { userInfo, me } = useSelector((state: RootState) => state.userReducer);
+  const dispatch = useDispatch();
+  const isFollowed = me?.Followings.find((user) => user.id === userInfo.id);
+  const onClickButton = () => {
+    if (!isFollowed) {
+      dispatch(userFollowRequestAction(userInfo.id));
+    } else {
+      console.log("unfollow");
+    }
+  };
+
   return (
     <>
       <Wrapper>
-        <ProfileWrapper>
-          <ProfileContainer>
-            {avatar === "null" ? (
-              <Image />
-            ) : (
-              <Avatar src={`http://localhost:4000/${avatar}`} />
-            )}
-            <UserInfo>
-              <UserName>{nickname}</UserName>
-            </UserInfo>
-          </ProfileContainer>
-          <InfoContainer>
-            <InfoBox>
-              <div>게시물</div>
-              {Posts.length}
-            </InfoBox>
-            <InfoBox>
-              <div>팔로잉</div>
-              {Followings.length}
-            </InfoBox>
-            <InfoBox>
-              <div>팔로워</div>
-              {Followers.length}
-            </InfoBox>
-          </InfoContainer>
-        </ProfileWrapper>
+        {userInfo ? (
+          <>
+            <ProfileWrapper>
+              <ProfileContainer>
+                {userInfo?.avatar === "null" ? (
+                  <Image />
+                ) : (
+                  <Avatar src={`http://localhost:4000/${userInfo?.avatar}`} />
+                )}
+                <UserInfo>
+                  <UserName>{userInfo?.nickname}</UserName>
+                  {me ? (
+                    <>
+                      {!isFollowed ? (
+                        <>
+                          <Follow onClick={onClickButton}>
+                            <UserAddOutlined />
+                            Follow
+                          </Follow>
+                        </>
+                      ) : (
+                        <Follow onClick={onClickButton}>
+                          <UserAddOutlined />
+                          UnFollow
+                        </Follow>
+                      )}
+                    </>
+                  ) : null}
+                </UserInfo>
+              </ProfileContainer>
+              <InfoContainer>
+                <InfoBox>
+                  <div>게시물</div>
+                  {userInfo?.Posts?.length}
+                </InfoBox>
+                <InfoBox>
+                  <div>팔로잉</div>
+                  {userInfo?.Followings?.length}
+                </InfoBox>
+                <InfoBox>
+                  <div>팔로워</div>
+                  {userInfo?.Followers?.length}
+                </InfoBox>
+              </InfoContainer>
+            </ProfileWrapper>
+          </>
+        ) : null}
       </Wrapper>
     </>
   );

@@ -55,3 +55,6 @@ export const USER_POST_LOAD_FAILURE = "USER_POST_LOAD_FAILURE" as const;
 export const USER_LOAD_REQUEST = "USER_LOAD_REQUEST" as const;
 export const USER_LOAD_SUCCESS = "USER_LOAD_SUCCESS" as const;
 export const USER_LOAD_FAILURE = "USER_LOAD_FAILURE" as const;
+export const USER_FOLLOW_REQUEST = "USER_FOLLOW_REQUEST" as const;
+export const USER_FOLLOW_SUCCESS = "USER_FOLLOW_SUCCESS" as const;
+export const USER_FOLLOW_FAILURE = "USER_FOLLOW_FAILURE" as const;

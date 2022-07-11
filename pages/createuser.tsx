@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Input from "../components/Input";
 import Layout from "../components/Layout";
@@ -43,7 +43,7 @@ interface ValidForm {
 }
 
 function createuser() {
-  const { signUpDone, signUpLoading, signUpError } = useSelector(
+  const { signUpDone, signUpLoading } = useSelector(
     (state: RootState) => state.signUpReducer
   );
   const dispatch = useDispatch();

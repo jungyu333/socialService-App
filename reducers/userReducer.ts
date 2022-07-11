@@ -22,6 +22,9 @@ import {
   MY_INFO_LOAD_FAILURE,
   MY_INFO_LOAD_REQUEST,
   MY_INFO_LOAD_SUCCESS,
+  USER_FOLLOW_FAILURE,
+  USER_FOLLOW_REQUEST,
+  USER_FOLLOW_SUCCESS,
   USER_LOAD_FAILURE,
   USER_LOAD_REQUEST,
   USER_LOAD_SUCCESS,
@@ -49,6 +52,9 @@ const initialState: UserState = {
   userLoadLoading: false,
   userLoadDone: false,
   userLoadError: null,
+  userFollowLoading: false,
+  userFollowDone: false,
+  userFollowError: null,
   userInfo: null,
   me: null,
   avatarPaths: "null",
@@ -77,6 +83,9 @@ export interface UserState {
   userLoadLoading: boolean;
   userLoadDone: boolean;
   userLoadError: string;
+  userFollowLoading: boolean;
+  userFollowDone: boolean;
+  userFollowError: string;
   userInfo: {
     id: number;
     nickname: string;
@@ -238,6 +247,23 @@ const userReducer = (state = initialState, action: UserAction) =>
         draft.userLoadLoading = false;
         draft.userLoadDone = false;
         draft.userLoadError = action.data;
+        break;
+      case USER_FOLLOW_REQUEST:
+        draft.userFollowLoading = true;
+        draft.userFollowDone = false;
+        draft.userFollowError = null;
+        break;
+      case USER_FOLLOW_SUCCESS:
+        draft.userFollowLoading = false;
+        draft.userFollowDone = true;
+        draft.userFollowError = null;
+        draft.me.Followings.push(action.data);
+        draft.userInfo.Followers.push(action.data);
+        break;
+      case USER_FOLLOW_FAILURE:
+        draft.userFollowLoading = false;
+        draft.userFollowDone = false;
+        draft.userFollowError = action.data;
         break;
       default:
         break;

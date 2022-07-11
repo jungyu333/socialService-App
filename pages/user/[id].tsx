@@ -12,15 +12,16 @@ import {
   myInfoLoadRequestAction,
   userLoadRequestAction,
 } from "../../action/userAction";
-
+import MyProfile from "../../components/MyProfile";
 import Layout from "../../components/Layout";
 import PostCard from "../../components/PostCard";
 import { RootState } from "../../reducers";
 import wrapper from "../../store/configureStore";
+import UserProfile from "../../components/UserProfile";
 
 function User() {
   const [ref, inView] = useInView();
-  const { me } = useSelector((state: RootState) => state.userReducer);
+  const { me, userInfo } = useSelector((state: RootState) => state.userReducer);
   const { mainPosts, hasMorePosts, postLoadLoading } = useSelector(
     (state: RootState) => state.postReducer
   );
@@ -42,13 +43,16 @@ function User() {
         <title>피드 | Social Service</title>
       </Head>
       <Layout>
-        {mainPosts?.map((post) => (
-          <PostCard key={post?.id} {...post} />
-        ))}
-        <div
-          className="h-3"
-          ref={hasMorePosts && !postLoadLoading ? ref : undefined}
-        />
+        <div className="relative mt-10">
+          {userInfo && userInfo.id !== me?.id ? <UserProfile /> : <MyProfile />}
+          {mainPosts?.map((post) => (
+            <PostCard key={post?.id} {...post} />
+          ))}
+          <div
+            className="h-3"
+            ref={hasMorePosts && !postLoadLoading ? ref : undefined}
+          />
+        </div>
       </Layout>
     </>
   );

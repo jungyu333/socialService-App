@@ -20,11 +20,6 @@ const Wrapper = tw.div`
   mb-2
 `;
 
-const Image = tw.div`
-  bg-slate-500
-  h-96
-`;
-
 const ContentWrapper = tw.div`
   p-2
   w-full
@@ -55,16 +50,6 @@ const ContentInfo = tw.div`
 const Name = tw.div`
   text-lg
   font-bold
-`;
-
-const Content = tw.div`
-  text-sm
-  w-4/5
-  h-10
-  text-gray-500
-  overflow-y-auto
-  break-words
-  scrollbar-hide
 `;
 
 const CommentCount = tw.div`

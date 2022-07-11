@@ -10,12 +10,15 @@ import {
   myInfoLoadSuccessAction,
   userLoadFailureAction,
   userLoadSuccessAction,
+  userFollowFailureAction,
+  userFollowSuccessAction,
 } from "../action/userAction";
 
 import {
   LOG_IN_REQUEST,
   LOG_OUT_REQUEST,
   MY_INFO_LOAD_REQUEST,
+  USER_FOLLOW_REQUEST,
   USER_LOAD_REQUEST,
   USER_POST_LOAD_REQUEST,
 } from "../action/types";
@@ -77,6 +80,22 @@ function* userLoad(action) {
   }
 }
 
+function followAPI(data) {
+  return axios.post(`/user/${data}/follow`);
+}
+
+function* userFollow(action) {
+  try {
+    const result = yield call(followAPI, action.data);
+
+    yield put(userFollowSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(userFollowFailureAction(err.response.data));
+    alert(err.response.data);
+  }
+}
+
 function* watchUserLoad() {
   yield takeLatest(USER_LOAD_REQUEST, userLoad);
 }
@@ -93,11 +112,16 @@ function* watchMyInfoLoad() {
   yield takeLatest(MY_INFO_LOAD_REQUEST, myInfoLoad);
 }
 
+function* watchFollow() {
+  yield takeLatest(USER_FOLLOW_REQUEST, userFollow);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchLogin),
     fork(watchLogOut),
     fork(watchMyInfoLoad),
     fork(watchUserLoad),
+    fork(watchFollow),
   ]);
 }

@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useEffect } from "react";
 import Layout from "../components/Layout";
 import PostCard from "../components/PostCard";
-import UserProfile from "../components/UserProfile";
+import MyProfile from "../components/MyProfile";
 import tw from "tailwind-styled-components";
 import PostForm from "../components/PostForm";
 import { useSelector } from "react-redux";
@@ -46,8 +46,8 @@ const Home = () => {
       </Head>
       <Layout>
         <Wrapper>
-          {me ? <UserProfile /> : null}
-          {me ? <PostForm /> : null}
+          {me ? <MyProfile /> : null}
+          {me && <PostForm />}
           {mainPosts?.map((post) => (
             <PostCard key={post?.id} {...post} />
           ))}
