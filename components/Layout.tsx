@@ -96,6 +96,11 @@ const Layout = ({ children }) => {
   };
 
   const { register, handleSubmit, reset } = useForm();
+  const onSearchMobileValid = (data) => {
+    router.push(`/search/${data.searchMobile}`);
+    reset();
+  };
+
   const onSearchValid = (data) => {
     router.push(`/search/${data.search}`);
     reset();
@@ -160,7 +165,11 @@ const Layout = ({ children }) => {
           )}
         </MobileButton>
         <form onSubmit={handleSubmit(onSearchValid)}>
-          <SearchInput {...register("search")} placeholder="search" />
+          <SearchInput
+            autocomplete="off"
+            {...register("search")}
+            placeholder="search"
+          />
         </form>
       </NavContainer>
       <MobileNavContainer $isToggled={isToggled}>
@@ -183,8 +192,13 @@ const Layout = ({ children }) => {
             </Link>
           </MobileMenuItem>
         ) : null}
-
-        <MobileSearchInput placeholder="search" />
+        <form onSubmit={handleSubmit(onSearchMobileValid)}>
+          <MobileSearchInput
+            autocomplete="off"
+            {...register("searchMobile")}
+            placeholder="search"
+          />
+        </form>
       </MobileNavContainer>
       {children}
     </Wrapper>
