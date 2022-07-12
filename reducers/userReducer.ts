@@ -6,6 +6,7 @@ import {
   AVATAR_EDIT_FAILURE,
   AVATAR_EDIT_REQUEST,
   AVATAR_EDIT_SUCCESS,
+  AVATAR_SET,
   AVATAR_UPLOAD_FAILURE,
   AVATAR_UPLOAD_REQUEST,
   AVATAR_UPLOAD_SUCCESS,
@@ -296,6 +297,9 @@ const userReducer = (state = initialState, action) =>
         draft.userUnFollowLoading = false;
         draft.userUnFollowDone = false;
         draft.userUnFollowError = action.data;
+        break;
+      case AVATAR_SET:
+        draft.avatarPaths = action.data;
         break;
       default:
         break;

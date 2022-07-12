@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import {
   avatarEditDeleteAction,
   avatarEditRequestAction,
+  avatarSetAction,
   editInfoRequestAction,
   myInfoLoadRequestAction,
 } from "../../action/userAction";
@@ -92,7 +93,7 @@ function editinfo() {
     [].forEach.call(e.target.files, (file) => {
       avatarEditFormData.append("avataredit", file);
     });
-    console.log(avatarEditFormData.get("avataredit"));
+
     dispatch(avatarEditRequestAction(avatarEditFormData));
     e.target.value = "";
   };
@@ -104,6 +105,9 @@ function editinfo() {
     if (me) {
       if (me.nickname) {
         setValue("nickname", me.nickname);
+      }
+      if (me.avatar) {
+        dispatch(avatarSetAction(me.avatar));
       }
     }
   }, [me]);
@@ -117,8 +121,8 @@ function editinfo() {
   const onValid = ({ nickname }: ValidForm) => {
     const formData = new FormData();
     formData.append("nickname", nickname);
+
     formData.append("avatar", avatarPaths);
-    console.log(formData.get("nickname"));
     console.log(formData.get("avatar"));
     dispatch(editInfoRequestAction(formData));
   };

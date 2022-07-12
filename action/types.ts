@@ -67,3 +67,4 @@ export const HASHTAG_LOAD_FAILURE = "HASHTAG_LOAD_FAILURE" as const;
 export const SEARCH_LOAD_REQUEST = "SEARCH_LOAD_REQUEST" as const;
 export const SEARCH_LOAD_SUCCESS = "SEARCH_LOAD_SUCCESS" as const;
 export const SEARCH_LOAD_FAILURE = "SEARCH_LOAD_FAILURE" as const;
+export const AVATAR_SET = "AVATAR_SET" as const;

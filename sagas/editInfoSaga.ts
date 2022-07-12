@@ -1,22 +1,18 @@
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import {
+  avatarEditFailureAction,
+  avatarEditSuccessAction,
   editInfoFailureAction,
   editInfoSuccessAction,
-  UserAction,
 } from "../action/userAction";
-import {
-  AVATAR_EDIT_FAILURE,
-  AVATAR_EDIT_REQUEST,
-  AVATAR_EDIT_SUCCESS,
-  EDIT_INFO_REQUEST,
-} from "../action/types";
+import { AVATAR_EDIT_REQUEST, EDIT_INFO_REQUEST } from "../action/types";
 
 function editInfoAPI(data) {
   return axios.post("/editinfo", data);
 }
 
-function* editInfo(action: UserAction) {
+function* editInfo(action) {
   try {
     const result = yield call(editInfoAPI, action.data);
 
@@ -31,20 +27,14 @@ function avatarEditAPI(data) {
   return axios.post("/editavatar", data);
 }
 
-function* avatarEdit(action: UserAction) {
+function* avatarEdit(action) {
   try {
     const result = yield call(avatarEditAPI, action.data);
 
-    yield put({
-      type: AVATAR_EDIT_SUCCESS,
-      data: result.data,
-    });
+    yield put(avatarEditSuccessAction(result.data));
   } catch (err) {
     console.error(err);
-    yield put({
-      type: AVATAR_EDIT_FAILURE,
-      data: err.response.data,
-    });
+    yield put(avatarEditFailureAction(err.response.data));
   }
 }
 

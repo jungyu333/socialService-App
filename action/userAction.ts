@@ -29,6 +29,7 @@ import {
   USER_UNFOLLOW_REQUEST,
   USER_UNFOLLOW_SUCCESS,
   USER_UNFOLLOW_FAILURE,
+  AVATAR_SET,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -138,6 +139,13 @@ export const avatarDeleteAction = () => {
   return {
     type: AVATAR_DELETE,
     data: null,
+  };
+};
+
+export const avatarSetAction = (data) => {
+  return {
+    type: AVATAR_SET,
+    data,
   };
 };
 
@@ -285,4 +293,5 @@ export type UserAction =
   | ReturnType<typeof userFollowFailureAction>
   | ReturnType<typeof userUnFollowRequestAction>
   | ReturnType<typeof userUnFollowSuccessAction>
-  | ReturnType<typeof userUnFollowFailureAction>;
+  | ReturnType<typeof userUnFollowFailureAction>
+  | ReturnType<typeof avatarSetAction>;
