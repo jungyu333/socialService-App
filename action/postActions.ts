@@ -11,6 +11,9 @@ import {
   COMMENT_REMOVE_FAILURE,
   COMMENT_REMOVE_REQUEST,
   COMMENT_REMOVE_SUCCESS,
+  HASHTAG_LOAD_FAILURE,
+  HASHTAG_LOAD_REQUEST,
+  HASHTAG_LOAD_SUCCESS,
   POST_DELETE_FAILURE,
   POST_DELETE_REQUEST,
   POST_DELETE_SUCCESS,
@@ -225,6 +228,27 @@ export const userPostLoadFailureAction = (data) => {
   };
 };
 
+export const hashtagLoadRequestAction = (data) => {
+  return {
+    type: HASHTAG_LOAD_REQUEST,
+    data,
+  };
+};
+
+export const hashtagLoadSuccessAction = (data) => {
+  return {
+    type: HASHTAG_LOAD_SUCCESS,
+    data,
+  };
+};
+
+export const hashtagLoadFailureAction = (data) => {
+  return {
+    type: HASHTAG_LOAD_FAILURE,
+    data,
+  };
+};
+
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
@@ -253,4 +277,7 @@ export type PostActionType =
   | ReturnType<typeof removeLikeFailureAction>
   | ReturnType<typeof userPostLoadRequestAcion>
   | ReturnType<typeof userPostLoadSuccessAction>
-  | ReturnType<typeof userPostLoadFailureAction>;
+  | ReturnType<typeof userPostLoadFailureAction>
+  | ReturnType<typeof hashtagLoadRequestAction>
+  | ReturnType<typeof hashtagLoadSuccessAction>
+  | ReturnType<typeof hashtagLoadFailureAction>;

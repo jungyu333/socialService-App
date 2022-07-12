@@ -65,7 +65,7 @@ function* myInfoLoad() {
     yield put(myInfoLoadSuccessAction(result.data));
   } catch (err) {
     console.error(err);
-    yield put(myInfoLoadFailureAction(err.response.data));
+    yield put(myInfoLoadFailureAction(err.response?.data));
   }
 }
 
@@ -110,7 +110,7 @@ function* userUnFollow(action) {
     yield put(userUnFollowSuccessAction(result.data));
   } catch (err) {
     console.error(err);
-    yield put(userUnFollowFailureAction(err.response.data));
+    yield put(userUnFollowFailureAction(err.response?.data));
     alert(err.response.data);
   }
 }

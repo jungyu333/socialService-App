@@ -9,6 +9,8 @@ import {
   addPostSuccessAction,
   commentRemoveFailureAction,
   commentRemoveSuccessAction,
+  hashtagLoadFailureAction,
+  hashtagLoadSuccessAction,
   postDeleteFailureAction,
   postDeleteSuccessAction,
   postImageUploadFailureAction,
@@ -25,6 +27,7 @@ import {
   ADD_LIKE_REQUEST,
   ADD_POST_REQUEST,
   COMMENT_REMOVE_REQUEST,
+  HASHTAG_LOAD_REQUEST,
   POST_DELETE_REQUEST,
   POST_IMAGE_UPLOAD_REQUEST,
   POST_LOAD_REQUEST,
@@ -165,6 +168,23 @@ function* userPostLoad(action) {
   }
 }
 
+function hashtagLoadAPI(data) {
+  return axios.get(
+    `/hashtag/${encodeURIComponent(data.hashtag)}?lastId=${data.lastId || 0}`
+  );
+}
+
+function* hashtagLoad(action) {
+  try {
+    const result = yield call(hashtagLoadAPI, action.data);
+    console.log(result.data);
+    yield put(hashtagLoadSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(hashtagLoadFailureAction(err.response.data));
+  }
+}
+
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
@@ -201,6 +221,10 @@ function* watchUserPostLoad() {
   yield takeLatest(USER_POST_LOAD_REQUEST, userPostLoad);
 }
 
+function* watchHashtagLoad() {
+  yield takeLatest(HASHTAG_LOAD_REQUEST, hashtagLoad);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchAddPost),
@@ -212,5 +236,6 @@ export default function* postSaga() {
     fork(watchAddLike),
     fork(watchRemoveLike),
     fork(watchUserPostLoad),
+    fork(watchHashtagLoad),
   ]);
 }

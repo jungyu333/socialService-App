@@ -13,6 +13,9 @@ import {
   COMMENT_REMOVE_FAILURE,
   COMMENT_REMOVE_REQUEST,
   COMMENT_REMOVE_SUCCESS,
+  HASHTAG_LOAD_FAILURE,
+  HASHTAG_LOAD_REQUEST,
+  HASHTAG_LOAD_SUCCESS,
   POST_DELETE_FAILURE,
   POST_DELETE_REQUEST,
   POST_DELETE_SUCCESS,
@@ -202,6 +205,7 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postDeleteDone = false;
         draft.postDeleteError = action.data;
         break;
+      case HASHTAG_LOAD_REQUEST:
       case POST_LOAD_REQUEST:
       case USER_POST_LOAD_REQUEST:
         draft.postLoadLoading = true;
@@ -209,6 +213,7 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postLoadError = null;
 
         break;
+      case HASHTAG_LOAD_SUCCESS:
       case POST_LOAD_SUCCESS:
       case USER_POST_LOAD_SUCCESS:
         draft.postLoadLoading = false;
@@ -219,6 +224,7 @@ const postReducer = (state = initialState, action: PostActionType) =>
         break;
       case POST_LOAD_FAILURE:
       case USER_POST_LOAD_FAILURE:
+      case HASHTAG_LOAD_FAILURE:
         draft.postLoadLoading = false;
         draft.postLoadDone = false;
         draft.postLoadError = action.data;
