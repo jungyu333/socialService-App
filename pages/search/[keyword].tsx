@@ -1,53 +1,45 @@
-import React, { useEffect } from "react";
-import Layout from "../../components/Layout";
-import tw from "tailwind-styled-components";
-import { useRouter } from "next/router";
-import wrapper from "../../store/configureStore";
-import { GetServerSideProps } from "next";
 import axios from "axios";
-import { myInfoLoadRequestAction } from "../../action/userAction";
-import { END } from "redux-saga";
-import { useDispatch } from "react-redux";
-import { hashtagLoadRequestAction } from "../../action/postActions";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
-import { RootState } from "../../reducers";
+import { useDispatch } from "react-redux";
+import { END } from "redux-saga";
+import { searchLoadRequestAction } from "../../action/postActions";
+import { myInfoLoadRequestAction } from "../../action/userAction";
+import Layout from "../../components/Layout";
 import PostCard from "../../components/PostCard";
+import { RootState } from "../../reducers";
+import wrapper from "../../store/configureStore";
+import { Header } from "../hashtag/[hashtag]";
 
-export const Header = tw.div`
-  max-w-sm
-  mx-auto
-  sm:max-w-md
-  text-2xl
-  font-bold
-  text-indigo-700
-`;
-
-function Hashtag() {
+function Search() {
+  const dispatch = useDispatch();
   const router = useRouter();
-  const { hasMorePosts, postLoadLoading, mainPosts } = useSelector(
+  const { mainPosts, postLoadLoading, hasMorePosts } = useSelector(
     (state: RootState) => state.postReducer
   );
-  const { hashtag } = router.query;
-  const dispatch = useDispatch();
-  const [ref, inView] = useInView();
+  const { keyword } = router.query;
+  const { ref, inView } = useInView();
 
   useEffect(() => {
     if (inView && hasMorePosts && !postLoadLoading) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
 
-      dispatch(hashtagLoadRequestAction({ lastId: lastId, hashtag: hashtag }));
+      dispatch(searchLoadRequestAction({ lastId: lastId, keyword: keyword }));
     }
-  }, [inView, mainPosts, hasMorePosts, postLoadLoading]);
+  }, [inView, hasMorePosts, postLoadLoading, mainPosts, keyword]);
+
   return (
     <Layout>
       <div className="relative mt-10">
-        <Header>{hashtag} 검색 결과</Header>
+        <Header>'{keyword}' 검색 결과</Header>
         {mainPosts?.map((post) => (
           <PostCard key={post?.id} {...post} />
         ))}
         <div
-          className="h-3"
+          className="h-10"
           ref={hasMorePosts && !postLoadLoading ? ref : undefined}
         />
       </div>
@@ -64,11 +56,13 @@ export const getServerSideProps: GetServerSideProps =
     }
 
     store.dispatch(myInfoLoadRequestAction());
+
     store.dispatch(END);
     await store.sagaTask.toPromise();
+
     return {
       props: {},
     };
   });
 
-export default Hashtag;
+export default Search;

@@ -28,6 +28,9 @@ import {
   POST_LOAD_SUCCESS,
   REMOVE_LIKE_REQUEST,
   REMOVE_LIKE_SUCCESS,
+  SEARCH_LOAD_FAILURE,
+  SEARCH_LOAD_REQUEST,
+  SEARCH_LOAD_SUCCESS,
   USER_POST_LOAD_FAILURE,
   USER_POST_LOAD_REQUEST,
   USER_POST_LOAD_SUCCESS,
@@ -205,14 +208,15 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.postDeleteDone = false;
         draft.postDeleteError = action.data;
         break;
+      case SEARCH_LOAD_REQUEST:
       case HASHTAG_LOAD_REQUEST:
       case POST_LOAD_REQUEST:
       case USER_POST_LOAD_REQUEST:
         draft.postLoadLoading = true;
         draft.postLoadDone = false;
         draft.postLoadError = null;
-
         break;
+      case SEARCH_LOAD_SUCCESS:
       case HASHTAG_LOAD_SUCCESS:
       case POST_LOAD_SUCCESS:
       case USER_POST_LOAD_SUCCESS:
@@ -222,6 +226,7 @@ const postReducer = (state = initialState, action: PostActionType) =>
         draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.hasMorePosts = action.data.length === 10;
         break;
+      case SEARCH_LOAD_FAILURE:
       case POST_LOAD_FAILURE:
       case USER_POST_LOAD_FAILURE:
       case HASHTAG_LOAD_FAILURE:

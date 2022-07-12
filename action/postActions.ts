@@ -27,6 +27,9 @@ import {
   REMOVE_LIKE_FAILURE,
   REMOVE_LIKE_REQUEST,
   REMOVE_LIKE_SUCCESS,
+  SEARCH_LOAD_FAILURE,
+  SEARCH_LOAD_REQUEST,
+  SEARCH_LOAD_SUCCESS,
   USER_POST_LOAD_FAILURE,
   USER_POST_LOAD_REQUEST,
   USER_POST_LOAD_SUCCESS,
@@ -249,6 +252,27 @@ export const hashtagLoadFailureAction = (data) => {
   };
 };
 
+export const searchLoadRequestAction = (data) => {
+  return {
+    type: SEARCH_LOAD_REQUEST,
+    data,
+  };
+};
+
+export const searchLoadSuccessAction = (data) => {
+  return {
+    type: SEARCH_LOAD_SUCCESS,
+    data,
+  };
+};
+
+export const searchLoadFailureAction = (data) => {
+  return {
+    type: SEARCH_LOAD_FAILURE,
+    data,
+  };
+};
+
 export type PostActionType =
   | ReturnType<typeof addPostRequestAction>
   | ReturnType<typeof addPostSuccessAction>
@@ -280,4 +304,7 @@ export type PostActionType =
   | ReturnType<typeof userPostLoadFailureAction>
   | ReturnType<typeof hashtagLoadRequestAction>
   | ReturnType<typeof hashtagLoadSuccessAction>
-  | ReturnType<typeof hashtagLoadFailureAction>;
+  | ReturnType<typeof hashtagLoadFailureAction>
+  | ReturnType<typeof searchLoadRequestAction>
+  | ReturnType<typeof searchLoadSuccessAction>
+  | ReturnType<typeof searchLoadFailureAction>;

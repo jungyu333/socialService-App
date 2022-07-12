@@ -19,6 +19,8 @@ import {
   postLoadSuccessAction,
   removeLikeFailureAction,
   removeLikeSuccessAction,
+  searchLoadFailureAction,
+  searchLoadSuccessAction,
   userPostLoadFailureAction,
   userPostLoadSuccessAction,
 } from "../action/postActions";
@@ -32,6 +34,7 @@ import {
   POST_IMAGE_UPLOAD_REQUEST,
   POST_LOAD_REQUEST,
   REMOVE_LIKE_REQUEST,
+  SEARCH_LOAD_REQUEST,
   USER_POST_LOAD_REQUEST,
 } from "../action/types";
 
@@ -177,11 +180,27 @@ function hashtagLoadAPI(data) {
 function* hashtagLoad(action) {
   try {
     const result = yield call(hashtagLoadAPI, action.data);
-    console.log(result.data);
+
     yield put(hashtagLoadSuccessAction(result.data));
   } catch (err) {
     console.error(err);
     yield put(hashtagLoadFailureAction(err.response.data));
+  }
+}
+
+function searchPostAPI(data) {
+  return axios.get(
+    `/search/${encodeURIComponent(data.keyword)}?lastId=${data.lastId || 0}`
+  );
+}
+
+function* searchPost(action) {
+  try {
+    const result = yield call(searchPostAPI, action.data);
+    yield put(searchLoadSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(searchLoadFailureAction(err.response.data));
   }
 }
 
@@ -225,6 +244,10 @@ function* watchHashtagLoad() {
   yield takeLatest(HASHTAG_LOAD_REQUEST, hashtagLoad);
 }
 
+function* watchSearchPost() {
+  yield takeLatest(SEARCH_LOAD_REQUEST, searchPost);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchAddPost),
@@ -237,5 +260,6 @@ export default function* postSaga() {
     fork(watchRemoveLike),
     fork(watchUserPostLoad),
     fork(watchHashtagLoad),
+    fork(watchSearchPost),
   ]);
 }

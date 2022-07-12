@@ -1,6 +1,8 @@
 import { TwitterOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import tw from "tailwind-styled-components";
 
@@ -40,15 +42,16 @@ const MobileButton = tw.button`
 const SearchInput = tw.input`
   hidden
   sm:flex
-  p-1
+  p-2
   bg-transparent
   placeholder:text-gray-400
   focus:outline-indigo-700
   rounded-md
+ 
 `;
 
 const MobileSearchInput = tw.input`
-  p-1
+  p-2
   bg-transparent
   placeholder:text-gray-300
   focus:outline-indigo-700
@@ -83,12 +86,19 @@ interface LogInProps {
 }
 const Layout = ({ children }) => {
   const { me } = useSelector((state: RootState) => state.userReducer);
+  const router = useRouter();
   const isLogIn = useSelector(
     (state: RootState) => state.userReducer.logInDone
   );
   const [isToggled, setIsToggled] = useState(false);
   const onClickMenu = () => {
     setIsToggled(!isToggled);
+  };
+
+  const { register, handleSubmit, reset } = useForm();
+  const onSearchValid = (data) => {
+    router.push(`/search/${data.search}`);
+    reset();
   };
 
   return (
@@ -149,7 +159,9 @@ const Layout = ({ children }) => {
             </svg>
           )}
         </MobileButton>
-        <SearchInput placeholder="search" />
+        <form onSubmit={handleSubmit(onSearchValid)}>
+          <SearchInput {...register("search")} placeholder="search" />
+        </form>
       </NavContainer>
       <MobileNavContainer $isToggled={isToggled}>
         <MobileMenuItem>
