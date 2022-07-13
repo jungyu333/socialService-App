@@ -7,14 +7,9 @@ import Input from "../components/Input";
 import { useRouter } from "next/router";
 import LogInForm from "../components/LogInForm";
 import { useDispatch } from "react-redux";
-import {
-  logInErrorInitAction,
-  logInRequestAction,
-  userInfoLoadAction,
-} from "../action/userAction";
+import { logInRequestAction } from "../action/userAction";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
-import { signUpErrorInitAction } from "../action/signUpAction";
 
 const LoginForm = tw.form`
   space-y-4

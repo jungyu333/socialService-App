@@ -26,9 +26,13 @@ const Home = () => {
 
   const dispatch = useDispatch();
   const { me } = useSelector((state: RootState) => state.userReducer);
-  const { mainPosts, postLoadLoading, hasMorePosts } = useSelector(
-    (state: RootState) => state.postReducer
-  );
+  const {
+    postDeleteDone,
+    addPostDone,
+    mainPosts,
+    postLoadLoading,
+    hasMorePosts,
+  } = useSelector((state: RootState) => state.postReducer);
 
   useEffect(() => {
     if (inView && hasMorePosts && !postLoadLoading) {
@@ -37,6 +41,15 @@ const Home = () => {
       dispatch(postLoadRequestAction(lastId));
     }
   }, [inView, mainPosts, hasMorePosts, postLoadLoading]);
+
+  useEffect(() => {
+    if (addPostDone) {
+      dispatch(myInfoLoadRequestAction());
+    }
+    if (postDeleteDone) {
+      dispatch(myInfoLoadRequestAction());
+    }
+  }, [addPostDone, postDeleteDone]);
 
   return (
     <>

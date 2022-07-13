@@ -9,6 +9,7 @@ import {
   postImageDeleteAction,
   postImageUploadRequestAction,
 } from "../action/postActions";
+import { myInfoLoadRequestAction } from "../action/userAction";
 import { RootState } from "../reducers";
 
 const Wrapper = tw.div`
