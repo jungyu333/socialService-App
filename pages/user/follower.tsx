@@ -1,21 +1,20 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { END } from "redux-saga";
 import {
-  followingLoadRequestAcion,
+  followerLoadRequestAction,
   myInfoLoadRequestAction,
 } from "../../action/userAction";
 import Layout from "../../components/Layout";
+import { RootState } from "../../reducers";
 import wrapper from "../../store/configureStore";
 import tw from "tailwind-styled-components";
-import FollowCard from "../../components/FollowCard";
-import { useDispatch } from "react-redux";
 import Head from "next/head";
-import { useSelector } from "react-redux";
-import { RootState } from "../../reducers";
-import { useInView } from "react-intersection-observer";
+import FollowCard from "../../components/FollowCard";
 
 const Wrapper = tw.div`
   max-w-sm
@@ -27,41 +26,29 @@ const Wrapper = tw.div`
   mb-2
 `;
 
-function following() {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const { FollowersList, me, hasMoreFollow, followingLoadLoading } =
-    useSelector((state: RootState) => state.userReducer);
+function follower() {
   const { ref, inView } = useInView();
-
-  useEffect(() => {
-    if (!me) {
-      router.replace("/");
-    }
-  }, []);
-
+  const dispatch = useDispatch();
+  const { hasMoreFollow, followingLoadLoading, FollowersList } = useSelector(
+    (state: RootState) => state.userReducer
+  );
   useEffect(() => {
     if (inView && hasMoreFollow && !followingLoadLoading) {
       const lastId = FollowersList[FollowersList.length - 1]?.id;
-      dispatch(followingLoadRequestAcion(lastId));
+      dispatch(followerLoadRequestAction(lastId));
     }
   }, [inView, hasMoreFollow, followingLoadLoading, FollowersList]);
+
   return (
     <>
       <Head>
         <meta charSet="UTF-8" />
-        <title>팔로잉 | Social Service</title>
+        <title>팔로워 | Social Service</title>
       </Head>
       <Layout>
         <Wrapper>
           {FollowersList.map((following) => (
-            <FollowCard
-              key={following.id}
-              id={following.id}
-              nickname={following.nickname}
-              avatar={following.avatar}
-              isFollowing={true}
-            />
+            <FollowCard key={following.id} {...following} isFollowing={false} />
           ))}
           <div
             className="h-10"
@@ -82,7 +69,7 @@ export const getServerSideProps: GetServerSideProps =
     }
 
     store.dispatch(myInfoLoadRequestAction());
-    store.dispatch(followingLoadRequestAcion(0));
+    store.dispatch(followerLoadRequestAction(0));
     store.dispatch(END);
     await store.sagaTask.toPromise();
 
@@ -91,4 +78,4 @@ export const getServerSideProps: GetServerSideProps =
     };
   });
 
-export default following;
+export default follower;

@@ -13,6 +13,9 @@ import {
   EDIT_INFO_FAILURE,
   EDIT_INFO_REQUEST,
   EDIT_INFO_SUCCESS,
+  FOLLOWER_LOAD_FAILURE,
+  FOLLOWER_LOAD_REQUEST,
+  FOLLOWER_LOAD_SUCCESS,
   FOLLOWING_LOAD_FAILURE,
   FOLLOWING_LOAD_REQUEST,
   FOLLOWING_LOAD_SUCCESS,
@@ -69,9 +72,9 @@ const initialState: UserState = {
   userUnFollowLoading: false,
   userUnFollowDone: false,
   userUnFollowError: null,
-  followingLoadLoading: false,
-  followingLoadDone: false,
-  followingLoadError: null,
+  followListLoadLoading: false,
+  followListLoadDone: false,
+  followListLoadError: null,
   hasMoreFollow: true,
   userInfo: null,
   removeFollowingLoading: false,
@@ -111,9 +114,9 @@ export interface UserState {
   userUnFollowLoading: boolean;
   userUnFollowDone: boolean;
   userUnFollowError: string;
-  followingLoadLoading: boolean;
-  followingLoadDone: boolean;
-  followingLoadError: string;
+  followListLoadLoading: boolean;
+  followListLoadDone: boolean;
+  followListLoadError: string;
   hasMoreFollow: boolean;
   removeFollowingLoading: boolean;
   removeFollowingDone: boolean;
@@ -329,23 +332,25 @@ const userReducer = (state = initialState, action: UserAction) =>
       case AVATAR_SET:
         draft.avatarPaths = action.data;
         break;
+      case FOLLOWER_LOAD_REQUEST:
       case FOLLOWING_LOAD_REQUEST:
-        draft.followingLoadLoading = true;
-        draft.followingLoadDone = false;
-        draft.followingLoadError = null;
-
+        draft.followListLoadLoading = true;
+        draft.followListLoadDone = false;
+        draft.followListLoadError = null;
         break;
+      case FOLLOWER_LOAD_SUCCESS:
       case FOLLOWING_LOAD_SUCCESS:
-        draft.followingLoadLoading = false;
-        draft.followingLoadDone = true;
-        draft.followingLoadError = null;
+        draft.followListLoadLoading = false;
+        draft.followListLoadDone = true;
+        draft.followListLoadError = null;
         draft.FollowersList = draft.FollowersList.concat(action.data);
         draft.hasMoreFollow = action.data.length === 8;
         break;
+      case FOLLOWER_LOAD_FAILURE:
       case FOLLOWING_LOAD_FAILURE:
-        draft.followingLoadLoading = false;
-        draft.followingLoadDone = false;
-        draft.followingLoadError = action.data;
+        draft.followListLoadLoading = false;
+        draft.followListLoadDone = false;
+        draft.followListLoadError = action.data;
         break;
       case REMOVE_MY_FOLLOWING_REQUEST:
         draft.removeFollowingLoading = true;

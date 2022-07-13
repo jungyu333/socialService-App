@@ -36,6 +36,9 @@ import {
   REMOVE_MY_FOLLOWING_REQUEST,
   REMOVE_MY_FOLLOWING_SUCCESS,
   REMOVE_MY_FOLLOWING_FAILURE,
+  FOLLOWER_LOAD_REQUEST,
+  FOLLOWER_LOAD_SUCCESS,
+  FOLLOWER_LOAD_FAILURE,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -299,6 +302,27 @@ export const removeMyFollowingFailureAction = (data) => {
   };
 };
 
+export const followerLoadRequestAction = (data) => {
+  return {
+    type: FOLLOWER_LOAD_REQUEST,
+    data,
+  };
+};
+
+export const followerLoadSuccessAction = (data) => {
+  return {
+    type: FOLLOWER_LOAD_SUCCESS,
+    data,
+  };
+};
+
+export const followerLoadFailureAction = (data) => {
+  return {
+    type: FOLLOWER_LOAD_FAILURE,
+    data,
+  };
+};
+
 export type UserAction =
   | ReturnType<typeof logInRequestAction>
   | ReturnType<typeof logOutRequestAction>
@@ -336,4 +360,7 @@ export type UserAction =
   | ReturnType<typeof followingLoadFailureAction>
   | ReturnType<typeof removeMyFollowingRequestAction>
   | ReturnType<typeof removeMyFollowingSuccessAction>
-  | ReturnType<typeof removeMyFollowingFailureAction>;
+  | ReturnType<typeof removeMyFollowingFailureAction>
+  | ReturnType<typeof followerLoadRequestAction>
+  | ReturnType<typeof followerLoadSuccessAction>
+  | ReturnType<typeof followerLoadFailureAction>;

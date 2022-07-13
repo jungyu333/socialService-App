@@ -29,34 +29,36 @@ const Avatar = tw.img`
 `;
 interface followerProps {
   id: number;
-
   nickname: string;
   avatar: string;
+  isFollowing: boolean;
 }
 
-function FollowCard(follower: followerProps) {
+function FollowCard({ id, nickname, avatar, isFollowing }: followerProps) {
   const dispatch = useDispatch();
   const onClickUnFollow = () => {
-    dispatch(removeMyFollowingRequestAction(follower.id));
+    dispatch(removeMyFollowingRequestAction(id));
   };
 
   return (
     <Container>
       <div className="flex space-x-3 items-center">
-        {follower.avatar === "null" ? (
+        {avatar === "null" ? (
           <Image />
         ) : (
-          <Avatar src={`http://localhost:4000/${follower?.avatar}`} />
+          <Avatar src={`http://localhost:4000/${avatar}`} />
         )}
-        <div className="text-lg font-bold">{follower.nickname}</div>
+        <div className="text-lg font-bold">{nickname}</div>
       </div>
-      <button
-        onClick={onClickUnFollow}
-        className="flex items-center text-sm text-gray-500 hover:text-indigo-700"
-      >
-        <UserAddOutlined />
-        UnFollow
-      </button>
+      {isFollowing ? (
+        <button
+          onClick={onClickUnFollow}
+          className="flex items-center text-sm text-gray-500 hover:text-indigo-700"
+        >
+          <UserAddOutlined />
+          UnFollow
+        </button>
+      ) : null}
     </Container>
   );
 }

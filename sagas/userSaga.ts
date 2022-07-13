@@ -18,9 +18,12 @@ import {
   followingLoadSuccessAction,
   removeMyFollowingFailureAction,
   removeMyFollowingSuccessAction,
+  followerLoadFailureAction,
+  followerLoadSuccessAction,
 } from "../action/userAction";
 
 import {
+  FOLLOWER_LOAD_REQUEST,
   FOLLOWING_LOAD_REQUEST,
   LOG_IN_REQUEST,
   LOG_OUT_REQUEST,
@@ -145,6 +148,20 @@ function* removeMyFollowing(action) {
   }
 }
 
+function followerLoadAPI(data) {
+  return axios.get(`/user/followerlist?lastId=${data || 0}`);
+}
+
+function* followerLoad(action) {
+  try {
+    const result = yield call(followerLoadAPI, action.data);
+    yield put(followerLoadSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(followerLoadFailureAction(err.response?.data));
+  }
+}
+
 function* watchUserLoad() {
   yield takeLatest(USER_LOAD_REQUEST, userLoad);
 }
@@ -177,6 +194,10 @@ function* watchMyFollowingRemove() {
   yield takeLatest(REMOVE_MY_FOLLOWING_REQUEST, removeMyFollowing);
 }
 
+function* watchFollowerLoad() {
+  yield takeLatest(FOLLOWER_LOAD_REQUEST, followerLoad);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchLogin),
@@ -186,6 +207,7 @@ export default function* userSaga() {
     fork(watchFollow),
     fork(watchUnFollow),
     fork(watchFollowingLoad),
+    fork(watchFollowerLoad),
     fork(watchMyFollowingRemove),
   ]);
 }
