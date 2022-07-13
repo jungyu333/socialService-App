@@ -49,7 +49,7 @@ export const addPostSuccessAction = (data) => {
   };
 };
 
-export const addPostFailureAction = (data: string) => {
+export const addPostFailureAction = (data) => {
   return {
     type: ADD_POST_FAILURE,
     data,
@@ -98,7 +98,7 @@ export const addCommentSuccessAction = (data) => {
   };
 };
 
-export const addCommentFailureAction = (data: string) => {
+export const addCommentFailureAction = (data) => {
   return {
     type: ADD_COMMENT_FAILURE,
     data,

@@ -123,7 +123,7 @@ function editinfo() {
     formData.append("nickname", nickname);
 
     formData.append("avatar", avatarPaths);
-    console.log(formData.get("avatar"));
+
     dispatch(editInfoRequestAction(formData));
   };
 

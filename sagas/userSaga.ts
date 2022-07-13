@@ -14,12 +14,18 @@ import {
   userFollowSuccessAction,
   userUnFollowFailureAction,
   userUnFollowSuccessAction,
+  followingLoadFailureAction,
+  followingLoadSuccessAction,
+  removeMyFollowingFailureAction,
+  removeMyFollowingSuccessAction,
 } from "../action/userAction";
 
 import {
+  FOLLOWING_LOAD_REQUEST,
   LOG_IN_REQUEST,
   LOG_OUT_REQUEST,
   MY_INFO_LOAD_REQUEST,
+  REMOVE_MY_FOLLOWING_REQUEST,
   USER_FOLLOW_REQUEST,
   USER_LOAD_REQUEST,
   USER_UNFOLLOW_REQUEST,
@@ -114,6 +120,31 @@ function* userUnFollow(action) {
   }
 }
 
+function followingLoadAPI(data) {
+  return axios.get(`/user/followinglist?lastId=${data || 0}`);
+}
+
+function* followingLoad(action) {
+  try {
+    const result = yield call(followingLoadAPI, action.data);
+
+    yield put(followingLoadSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(followingLoadFailureAction(err.response?.data));
+  }
+}
+
+function* removeMyFollowing(action) {
+  try {
+    const result = yield call(unFollowAPI, action.data);
+    yield put(removeMyFollowingSuccessAction(result.data));
+  } catch (err) {
+    console.error(err);
+    yield put(removeMyFollowingFailureAction(err.response?.data));
+  }
+}
+
 function* watchUserLoad() {
   yield takeLatest(USER_LOAD_REQUEST, userLoad);
 }
@@ -138,6 +169,14 @@ function* watchUnFollow() {
   yield takeLatest(USER_UNFOLLOW_REQUEST, userUnFollow);
 }
 
+function* watchFollowingLoad() {
+  yield takeLatest(FOLLOWING_LOAD_REQUEST, followingLoad);
+}
+
+function* watchMyFollowingRemove() {
+  yield takeLatest(REMOVE_MY_FOLLOWING_REQUEST, removeMyFollowing);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchLogin),
@@ -146,5 +185,7 @@ export default function* userSaga() {
     fork(watchUserLoad),
     fork(watchFollow),
     fork(watchUnFollow),
+    fork(watchFollowingLoad),
+    fork(watchMyFollowingRemove),
   ]);
 }

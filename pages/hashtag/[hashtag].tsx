@@ -42,7 +42,7 @@ function Hashtag() {
   return (
     <Layout>
       <div className="relative mt-10">
-        <Header>{hashtag} 검색 결과</Header>
+        <Header>'{hashtag}' 검색 결과</Header>
         {mainPosts?.map((post) => (
           <PostCard key={post?.id} {...post} />
         ))}

@@ -142,10 +142,10 @@ const Profile = () => {
               <CircleItem text="내 게시물" link={`/user/${me?.id}`}>
                 <TwitterOutlined style={{ color: "white", fontSize: "24px" }} />
               </CircleItem>
-              <CircleItem text="팔로잉" link={`/profile/following`}>
+              <CircleItem text="팔로잉" link={`/user/following`}>
                 <UserAddOutlined style={{ color: "white", fontSize: "24px" }} />
               </CircleItem>
-              <CircleItem text="팔로워" link={`/profile/follower`}>
+              <CircleItem text="팔로워" link={`/user/follower`}>
                 <StarOutlined style={{ color: "white", fontSize: "24px" }} />
               </CircleItem>
             </CommunicateWrapper>

@@ -13,6 +13,9 @@ import {
   EDIT_INFO_FAILURE,
   EDIT_INFO_REQUEST,
   EDIT_INFO_SUCCESS,
+  FOLLOWING_LOAD_FAILURE,
+  FOLLOWING_LOAD_REQUEST,
+  FOLLOWING_LOAD_SUCCESS,
   LOG_IN_ERROR_INIT,
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
@@ -23,6 +26,9 @@ import {
   MY_INFO_LOAD_FAILURE,
   MY_INFO_LOAD_REQUEST,
   MY_INFO_LOAD_SUCCESS,
+  REMOVE_MY_FOLLOWING_FAILURE,
+  REMOVE_MY_FOLLOWING_REQUEST,
+  REMOVE_MY_FOLLOWING_SUCCESS,
   USER_FOLLOW_FAILURE,
   USER_FOLLOW_REQUEST,
   USER_FOLLOW_SUCCESS,
@@ -33,6 +39,7 @@ import {
   USER_UNFOLLOW_REQUEST,
   USER_UNFOLLOW_SUCCESS,
 } from "../action/types";
+import { UserAction } from "../action/userAction";
 
 const initialState: UserState = {
   logInDone: false,
@@ -62,7 +69,15 @@ const initialState: UserState = {
   userUnFollowLoading: false,
   userUnFollowDone: false,
   userUnFollowError: null,
+  followingLoadLoading: false,
+  followingLoadDone: false,
+  followingLoadError: null,
+  hasMoreFollow: true,
   userInfo: null,
+  removeFollowingLoading: false,
+  removeFollowingDone: false,
+  removeFollowingError: null,
+  FollowersList: [],
   me: null,
   avatarPaths: "null",
 };
@@ -96,6 +111,18 @@ export interface UserState {
   userUnFollowLoading: boolean;
   userUnFollowDone: boolean;
   userUnFollowError: string;
+  followingLoadLoading: boolean;
+  followingLoadDone: boolean;
+  followingLoadError: string;
+  hasMoreFollow: boolean;
+  removeFollowingLoading: boolean;
+  removeFollowingDone: boolean;
+  removeFollowingError: string;
+  FollowersList: {
+    id: number;
+    nickname: string;
+    avatar: string;
+  }[];
   userInfo: {
     id: number;
     nickname: string;
@@ -122,7 +149,7 @@ export interface UserState {
   };
 }
 
-const userReducer = (state = initialState, action) =>
+const userReducer = (state = initialState, action: UserAction) =>
   produce(state, (draft) => {
     switch (action.type) {
       case LOG_IN_REQUEST:
@@ -289,6 +316,7 @@ const userReducer = (state = initialState, action) =>
         draft.me.Followings = draft.me.Followings.filter(
           (user) => user.id !== action.userId
         );
+
         draft.userInfo.Followers = draft.userInfo.Followers.filter(
           (user) => user.id !== action.myId
         );
@@ -301,6 +329,41 @@ const userReducer = (state = initialState, action) =>
       case AVATAR_SET:
         draft.avatarPaths = action.data;
         break;
+      case FOLLOWING_LOAD_REQUEST:
+        draft.followingLoadLoading = true;
+        draft.followingLoadDone = false;
+        draft.followingLoadError = null;
+
+        break;
+      case FOLLOWING_LOAD_SUCCESS:
+        draft.followingLoadLoading = false;
+        draft.followingLoadDone = true;
+        draft.followingLoadError = null;
+        draft.FollowersList = draft.FollowersList.concat(action.data);
+        draft.hasMoreFollow = action.data.length === 8;
+        break;
+      case FOLLOWING_LOAD_FAILURE:
+        draft.followingLoadLoading = false;
+        draft.followingLoadDone = false;
+        draft.followingLoadError = action.data;
+        break;
+      case REMOVE_MY_FOLLOWING_REQUEST:
+        draft.removeFollowingLoading = true;
+        draft.removeFollowingDone = false;
+        draft.removeFollowingError = null;
+        break;
+      case REMOVE_MY_FOLLOWING_SUCCESS:
+        draft.removeFollowingLoading = false;
+        draft.removeFollowingDone = true;
+        draft.removeFollowingError = null;
+        draft.FollowersList = draft.FollowersList.filter(
+          (following) => following.id !== action.data.userId
+        );
+        break;
+      case REMOVE_MY_FOLLOWING_FAILURE:
+        draft.removeFollowingLoading = false;
+        draft.removeFollowingDone = false;
+        draft.removeFollowingError = action.data;
       default:
         break;
     }

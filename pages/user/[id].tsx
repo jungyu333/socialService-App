@@ -7,17 +7,18 @@ import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { END } from "redux-saga";
+
 import { userPostLoadRequestAcion } from "../../action/postActions";
 import {
   myInfoLoadRequestAction,
   userLoadRequestAction,
 } from "../../action/userAction";
-import MyProfile from "../../components/MyProfile";
 import Layout from "../../components/Layout";
+import MyProfile from "../../components/MyProfile";
 import PostCard from "../../components/PostCard";
+import UserProfile from "../../components/UserProfile";
 import { RootState } from "../../reducers";
 import wrapper from "../../store/configureStore";
-import UserProfile from "../../components/UserProfile";
 
 function User() {
   const [ref, inView] = useInView();

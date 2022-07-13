@@ -30,6 +30,12 @@ import {
   USER_UNFOLLOW_SUCCESS,
   USER_UNFOLLOW_FAILURE,
   AVATAR_SET,
+  FOLLOWING_LOAD_REQUEST,
+  FOLLOWING_LOAD_SUCCESS,
+  FOLLOWING_LOAD_FAILURE,
+  REMOVE_MY_FOLLOWING_REQUEST,
+  REMOVE_MY_FOLLOWING_SUCCESS,
+  REMOVE_MY_FOLLOWING_FAILURE,
 } from "./types";
 
 export const logInRequestAction = (data) => {
@@ -39,14 +45,14 @@ export const logInRequestAction = (data) => {
   };
 };
 
-export const logInSuccessAction = (data: LogInData) => {
+export const logInSuccessAction = (data) => {
   return {
     type: LOG_IN_SUCCESS,
     data,
   };
 };
 
-export const logInFailureAction = (data: string) => {
+export const logInFailureAction = (data) => {
   return {
     type: LOG_IN_FAILURE,
     data,
@@ -67,7 +73,7 @@ export const logOutSuccessAction = () => {
   };
 };
 
-export const logOutFailureAction = (data: string) => {
+export const logOutFailureAction = (data) => {
   return {
     type: LOG_OUT_FAILURE,
     data,
@@ -95,24 +101,12 @@ export const editInfoSuccessAction = (data) => {
   };
 };
 
-export const editInfoFailureAction = (data: string) => {
+export const editInfoFailureAction = (data) => {
   return {
     type: EDIT_INFO_FAILURE,
     data,
   };
 };
-
-export interface LogInData {
-  id: number;
-  nickname: string;
-  email: string;
-  avatar: string;
-  Posts: {}[];
-  Followers: {}[];
-  Followings: {}[];
-  updatedAt: string;
-  createdAt: string;
-}
 
 export const avatarUploadRequestAction = (data) => {
   return {
@@ -263,6 +257,48 @@ export const userUnFollowFailureAction = (data) => {
   };
 };
 
+export const followingLoadRequestAcion = (data) => {
+  return {
+    type: FOLLOWING_LOAD_REQUEST,
+    data,
+  };
+};
+
+export const followingLoadSuccessAction = (data) => {
+  return {
+    type: FOLLOWING_LOAD_SUCCESS,
+    data,
+  };
+};
+
+export const followingLoadFailureAction = (data) => {
+  return {
+    type: FOLLOWING_LOAD_FAILURE,
+    data,
+  };
+};
+
+export const removeMyFollowingRequestAction = (data) => {
+  return {
+    type: REMOVE_MY_FOLLOWING_REQUEST,
+    data,
+  };
+};
+
+export const removeMyFollowingSuccessAction = (data) => {
+  return {
+    type: REMOVE_MY_FOLLOWING_SUCCESS,
+    data,
+  };
+};
+
+export const removeMyFollowingFailureAction = (data) => {
+  return {
+    type: REMOVE_MY_FOLLOWING_FAILURE,
+    data,
+  };
+};
+
 export type UserAction =
   | ReturnType<typeof logInRequestAction>
   | ReturnType<typeof logOutRequestAction>
@@ -294,4 +330,10 @@ export type UserAction =
   | ReturnType<typeof userUnFollowRequestAction>
   | ReturnType<typeof userUnFollowSuccessAction>
   | ReturnType<typeof userUnFollowFailureAction>
-  | ReturnType<typeof avatarSetAction>;
+  | ReturnType<typeof avatarSetAction>
+  | ReturnType<typeof followingLoadRequestAcion>
+  | ReturnType<typeof followingLoadSuccessAction>
+  | ReturnType<typeof followingLoadFailureAction>
+  | ReturnType<typeof removeMyFollowingRequestAction>
+  | ReturnType<typeof removeMyFollowingSuccessAction>
+  | ReturnType<typeof removeMyFollowingFailureAction>;

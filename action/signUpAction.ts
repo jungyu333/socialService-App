@@ -19,22 +19,14 @@ export const signUpSuccessAction = () => {
   };
 };
 
-export const signUpFailureAction = (data: string) => {
+export const signUpFailureAction = (data) => {
   return {
     type: SIGN_UP_FAILURE,
     data,
   };
 };
 
-export const signUpErrorInitAction = () => {
-  return {
-    type: SIGN_UP_ERROR_INIT,
-    data: null,
-  };
-};
-
 export type SignUpAction =
   | ReturnType<typeof signUpRequestAction>
   | ReturnType<typeof signUpSuccessAction>
-  | ReturnType<typeof signUpFailureAction>
-  | ReturnType<typeof signUpErrorInitAction>;
+  | ReturnType<typeof signUpFailureAction>;

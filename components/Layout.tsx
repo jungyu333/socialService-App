@@ -166,7 +166,7 @@ const Layout = ({ children }) => {
         </MobileButton>
         <form onSubmit={handleSubmit(onSearchValid)}>
           <SearchInput
-            autocomplete="off"
+            autoComplete="off"
             {...register("search")}
             placeholder="search"
           />
@@ -194,7 +194,7 @@ const Layout = ({ children }) => {
         ) : null}
         <form onSubmit={handleSubmit(onSearchMobileValid)}>
           <MobileSearchInput
-            autocomplete="off"
+            autoComplete="off"
             {...register("searchMobile")}
             placeholder="search"
           />

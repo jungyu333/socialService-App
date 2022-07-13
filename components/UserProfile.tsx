@@ -53,10 +53,9 @@ const Image = tw.div`
 `;
 
 const UserInfo = tw.div`
-  
   flex
   items-center
-  w-full
+  w-64
   justify-between
 `;
 

@@ -107,7 +107,7 @@ function* postLoad(action) {
     yield put(postLoadSuccessAction(result.data));
   } catch (err) {
     console.error(err);
-    yield put(postLoadFailureAction(err.response.data));
+    yield put(postLoadFailureAction(err.response?.data));
   }
 }
 
