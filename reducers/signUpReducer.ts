@@ -37,11 +37,7 @@ const signUpReducer = (state = initialState, action: SignUpAction) =>
         draft.signUpLoading = false;
         draft.signUpError = action.data;
         break;
-      case SIGN_UP_ERROR_INIT:
-        draft.signUpDone = false;
-        draft.signUpLoading = false;
-        draft.signUpError = null;
-        break;
+
       default:
         break;
     }

@@ -31,7 +31,7 @@ function avatarUploadAPI(data) {
   return axios.post("/avatar", data);
 }
 
-function* avatarUpload(action: UserAction) {
+function* avatarUpload(action) {
   try {
     const result = yield call(avatarUploadAPI, action.data);
 
